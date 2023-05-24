@@ -6,7 +6,7 @@
 #    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/05/24 15:38:55 by apayen           ###   ########.fr        #
+#    Updated: 2023/05/24 16:15:48 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,4 +44,4 @@ fclean : clean
 re : fclean
 		make all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean
