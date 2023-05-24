@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 14:36:20 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/24 12:53:38 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:29:30 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,6 @@ void	ft_lstdelone(struct s_lst *lst)
 			tmp->id = 0;
 			tmp->ms->lsthead = tmp;
 		}
-	}
-	else
-	{
-		tmp = lst->ms->lsthead;
-		while (tmp->next != NULL && tmp->next != lst)
-			tmp = tmp->next;
-		tmp->next = lst->next;
 	}
 	lst->flag = UNSET;
 }

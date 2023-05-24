@@ -6,47 +6,42 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/24 15:38:42 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/24 16:48:51 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_cdenv(struct s_shell *ms, char *pwd)
+// Actualise le env de PWD et OLDPWD.
+int	ft_cdenv(struct s_shell *ms, char *pwd, char *str)
 {
+	char *ret;
+
 	if (pwd == NULL)
 	{
 		perror("minishell: cd: getcwd");
 		return (1);
 	}
-	while (ms->env != NULL && ft_strnstr(ms->env->line, "OLDPWD", 0) == NULL)
+	while (ms->env != NULL && ft_strnstr(ms->env->line, str, 0) == NULL)
 		ms->env = ms->env->next;
 	if (ms->env == NULL)
 	{
 		ms->env = ms->lsthead;
 		return (1);
 	}
-	pwd = ft_strjoin("OLDPWD=", pwd);
-	if (pwd == NULL)
-
-	ms->env->line = pwd;
-	ms->env->flag = NEW;
-	ms->env = ms->lsthead;
-	pwd = getcwd(pwd, 0);
-	while (ms->env != NULL && ft_strnstr(ms->env->line, "PWD", 0) == NULL)
-		ms->env = ms->env->next;
-	if (ms->env == NULL)
+	ret = ft_strjoin(str, pwd);
+	if (ret == NULL)
 	{
-		ms->env = ms->lsthead;
+		printf("minishell: malloc: %s\n", strerror(errno));
 		return (1);
 	}
-	ms->env->line = pwd;
+	ms->env->line = ret;
 	ms->env->flag = NEW;
 	ms->env = ms->lsthead;
 	return (0);
 }
 
-// Probleme avec l'ordre de print des msg.
+// Va au home.
 int	ft_cdhome(struct s_shell *ms, char *pwd)
 {
 	while (ms->env != NULL && ft_strnstr(ms->env->line, "HOME", 0) == NULL)
@@ -71,24 +66,29 @@ int	ft_cdhome(struct s_shell *ms, char *pwd)
 // Si on ne donne aucun chemin, il faut aller au home.
 int ft_cd(struct s_shell *ms, char *str)
 {
-	char	*pwd;
+	char	*tmp;
 
-	pwd = NULL;
-	pwd = getcwd(pwd, 0);
+	tmp = NULL;
+	tmp = getcwd(tmp, 0);
 	if (str == NULL)
 	{
-		if (ft_cdhome(ms, pwd) == 1)
+		if (ft_cdhome(ms, tmp) == 1)
 			return (1);
 	}
 	else
 	{
 		if (chdir(str) == -1)
 		{
+			free(tmp);
 			printf("minishell: cd: %s: %s\n", str, strerror(errno));
 			return (0);
 		}
 	}
-	if (ft_cdenv(ms, pwd) == 1)
+	if (ft_cdenv(ms, tmp, "OLDPWD") == 1)
+		return (1);
+	tmp = NULL;
+	tmp = getcwd(tmp, 0);
+	if (ft_cdenv(ms, tmp, "PWD") == 1)
 		return (1);
 	return (0);
 }
