@@ -19,9 +19,9 @@ SRC = $(addprefix $(OBJDIR)/,	\
 		utils.c					\
 		ft_split.c				\
 		parsing.c				\
-		builtins.c				\
+		builtins.c        \
 		frees.c)
-		
+    
 OBJ = $(SRC:.c=.o)
 
 OBJDIR	=	obj
