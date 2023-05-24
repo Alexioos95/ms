@@ -6,7 +6,7 @@
 #    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/05/23 14:40:34 by apayen           ###   ########.fr        #
+#    Updated: 2023/05/24 15:38:55 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC = minishell.c	\
 		ft_split.c	\
 		parsing.c	\
 		builtins.c	\
+		builtins_cd.c	\
 		frees.c
 OBJ = $(SRC:.c=.o)
 

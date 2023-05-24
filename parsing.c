@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/24 10:28:07 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/24 13:20:38 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ int	parser(struct s_shell *ms)
 	ms->split = ft_split(ms->line, ' ');
 	if (ft_strncmp(ms->line, "echo", 4) == 0)
 		ft_echo(ms->line + 5, NULL);
+	else if (ft_strncmp(ms->line, "pwd", 3) == 0)
+		ft_pwd();
+	else if (ft_strncmp(ms->line, "cd", 2) == 0)
+		ft_cd(ms, ms->split[1]);
 	else if (ft_strncmp(ms->line, "exit", 4) == 0)
 		ft_exit(ms, ms->split[1]);
 	else if (ft_strncmp(ms->line, "env", 3) == 0)

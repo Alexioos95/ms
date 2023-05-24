@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/24 10:19:07 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/24 13:28:28 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,12 @@ struct s_lst	*ft_lstnew(struct s_shell *ms, char **envp, int i)
 	new = malloc(sizeof(struct s_lst));
 	if (new == NULL)
 		return (NULL);
-	new->line = envp[i];
+	if (envp != NULL)
+		new->line = envp[i];
+	else
+		new->line = NULL;
 	new->id = i;
+	new->flag = CONST;
 	new->next = NULL;
 	new->ms = ms;
 	if (i == 0)

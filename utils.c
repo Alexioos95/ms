@@ -6,11 +6,51 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:18:09 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/24 10:43:31 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/24 15:26:43 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str == NULL)
+		return (0);
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	int		i;
+	int		j;
+	char	*strmalloc;
+	int		len;
+
+	i = 0;
+	j = 0;
+	len = ft_strlen(s1) + ft_strlen(s2);
+	strmalloc = malloc(sizeof(char) * len + 1);
+	if (strmalloc == NULL)
+		return (NULL);
+	while (s1[i] != '\0')
+	{
+		strmalloc[i] = s1[i];
+		i++;
+	}
+	while (s2[j] != '\0')
+	{
+		strmalloc[i + j] = s2[j];
+		j++;
+	}
+	strmalloc[i + j] = '\0';
+	free(s2);
+	return (strmalloc);
+}
 
 int	ft_atoi(char *nptr)
 {
