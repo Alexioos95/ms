@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/24 09:50:11 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/26 13:24:56 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	init(&ms, envp);
 	loop(&ms);
-	frees(&ms);
+	frees(&ms, 0);
+	return (1);
 }

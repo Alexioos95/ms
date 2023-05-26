@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/24 13:28:28 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/26 12:32:35 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ struct s_lst	*ft_lstnew(struct s_shell *ms, char **envp, int i)
 		new->line = envp[i];
 	else
 		new->line = NULL;
-	new->id = i;
+	new->print = 1;
 	new->flag = CONST;
 	new->next = NULL;
 	new->ms = ms;
@@ -67,7 +67,7 @@ int	ft_setenv(struct s_shell *ms, char **envp)
 	return (0);
 }
 
-// Set les variables, et construire la liste chainee.
+// Set les variables, et construit la liste chainee du env.
 int	init(struct s_shell *ms, char **envp)
 {
 	ms->line = NULL;
