@@ -6,74 +6,72 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/24 16:48:51 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/26 13:29:34 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 // Actualise le env de PWD et OLDPWD.
-int	ft_cdenv(struct s_shell *ms, char *pwd, char *str)
+int	ft_cdenv(struct s_shell *ms, char *tmp, char *str)
 {
-	char *ret;
+	char			*ret;
+	struct s_lst	*node;
 
-	if (pwd == NULL)
+	if (tmp == NULL)
 	{
 		perror("minishell: cd: getcwd");
-		return (1);
+		frees(ms, 1);
 	}
-	while (ms->env != NULL && ft_strnstr(ms->env->line, str, 0) == NULL)
-		ms->env = ms->env->next;
-	if (ms->env == NULL)
+	node = ft_getenv(ms, str);
+	if (node == NULL)
 	{
-		ms->env = ms->lsthead;
+		free(tmp);
 		return (1);
 	}
-	ret = ft_strjoin(str, pwd);
+	ret = ft_strjoinenv(str, '=', tmp);
 	if (ret == NULL)
 	{
 		printf("minishell: malloc: %s\n", strerror(errno));
-		return (1);
+		frees(ms, 1);
 	}
-	ms->env->line = ret;
-	ms->env->flag = NEW;
-	ms->env = ms->lsthead;
+	if (node->flag == NEW)
+		free(node->line);
+	node->line = ret;
+	node->flag = NEW;
 	return (0);
 }
 
 // Va au home.
-int	ft_cdhome(struct s_shell *ms, char *pwd)
+int	ft_cdhome(struct s_shell *ms)
 {
-	while (ms->env != NULL && ft_strnstr(ms->env->line, "HOME", 0) == NULL)
-		ms->env = ms->env->next;
-	if (ms->env == NULL)
+	struct s_lst	*node;
+
+	node = ft_getenv(ms, "HOME");
+	if (node == NULL)
 	{
-		ms->env = ms->lsthead;
 		printf("minishell: cd: HOME not set\n");
-		free(pwd);
 		return (1);
 	}
-	if (chdir(&ms->env->line[5]) == -1)
+	if (node->line != NULL && chdir(&node->line[5]) == -1)
 	{
-		free(pwd);
-		printf("minishell: chdir: %s: %s\n", &ms->env->line[5], strerror(errno));
+		printf("minishell: chdir: %s: %s\n", &node->line[5], strerror(errno));
+		frees(ms, 1);
 		return (1);
 	}
 	return (0);
 }
 
 // Change le chemin actuel, et actualise le env.
-// Si on ne donne aucun chemin, il faut aller au home.
-int ft_cd(struct s_shell *ms, char *str)
+int	ft_cd(struct s_shell *ms, char *str)
 {
 	char	*tmp;
 
-	tmp = NULL;
-	tmp = getcwd(tmp, 0);
+	tmp = getcwd(NULL, 0);
 	if (str == NULL)
 	{
-		if (ft_cdhome(ms, tmp) == 1)
-			return (1);
+		if (ft_cdhome(ms) == 1)
+			return ((void)free(tmp), 1);
 	}
 	else
 	{
@@ -81,16 +79,15 @@ int ft_cd(struct s_shell *ms, char *str)
 		{
 			free(tmp);
 			printf("minishell: cd: %s: %s\n", str, strerror(errno));
-			return (0);
+			frees(ms, 1);
 		}
 	}
 	if (ft_cdenv(ms, tmp, "OLDPWD") == 1)
 		return (1);
-	tmp = NULL;
-	tmp = getcwd(tmp, 0);
+	free(tmp);
+	tmp = getcwd(NULL, 0);
 	if (ft_cdenv(ms, tmp, "PWD") == 1)
 		return (1);
+	free(tmp);
 	return (0);
 }
-
-// check chmod dir.

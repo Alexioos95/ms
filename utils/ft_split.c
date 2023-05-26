@@ -6,11 +6,11 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 10:19:13 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/24 10:30:44 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/26 13:11:40 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	ft_countstr(char *s, char c)
 {

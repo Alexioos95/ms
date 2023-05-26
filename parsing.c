@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/24 13:20:38 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/26 13:14:28 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	isspecial(char c)
 	return (0);
 }
 
-int	checkorphanquote(char *line, int i, int j)
+int	checkorphan(char *line, int i, int j)
 {
 	while (line[i] != '\0')
 	{
@@ -58,18 +58,18 @@ int	parser(struct s_shell *ms)
 	}
 	if (ms->line == NULL)
 		return (0);
-	ms->orphan = checkorphanquote(ms->line, 0, 0);
+	ms->orphan = checkorphan(ms->line, 0, 0);
 	if (ms ->orphan != -1)
 	{
 		printf("minishell: syntax error near unexpected token '%c'\n", \
 			ms->line[ms->orphan]);
-		return (0);
+		return (2);
 	}
 	ms->split = ft_split(ms->line, ' ');
 	if (ft_strncmp(ms->line, "echo", 4) == 0)
-		ft_echo(ms->line + 5, NULL);
+		ft_echo(ms->split[1], ms->split[2]);
 	else if (ft_strncmp(ms->line, "pwd", 3) == 0)
-		ft_pwd();
+		ft_pwd(ms);
 	else if (ft_strncmp(ms->line, "cd", 2) == 0)
 		ft_cd(ms, ms->split[1]);
 	else if (ft_strncmp(ms->line, "exit", 4) == 0)
@@ -78,5 +78,7 @@ int	parser(struct s_shell *ms)
 		ft_env(ms, ms->split[1]);
 	else if (ft_strncmp(ms->line, "unset", 5) == 0)
 		ft_unset(ms, ms->split[1], ms->split[2]);
+	else if (ft_strncmp(ms->line, "export", 6) == 0)
+		ft_export(ms, ms->split[1]);
 	return (0);
 }
