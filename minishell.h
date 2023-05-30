@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:06:58 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/30 11:36:17 by eewu             ###   ########.fr       */
+/*   Updated: 2023/05/30 15:09:22 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ struct				s_shell
 };
 
 // init.c
-int					init(struct s_shell *ms, char **envp);
-int					ft_setenv(struct s_shell *ms, char **envp);
+void				init(struct s_shell *ms, char **envp);
+void				ft_setenv(struct s_shell *ms, char **envp);
 struct s_lst		*ft_lstnew(struct s_shell *ms, char *str);
 void				ft_lstadd_back(struct s_lst **lst, struct s_lst *new);
 // parsing.c
@@ -60,7 +60,7 @@ int					checkorphan(char *line, int i, int j);
 int					isspecial(char c);
 // ft_split.c
 char				**ft_split(char *s, char c);
-void				ft_free(char **strmalloc);
+void				freesplit(char **strmalloc);
 // frees.c
 void				frees(struct s_shell *ms, int code);
 void				ft_lstclear(struct s_shell *ms, struct s_lst *lst);
@@ -88,6 +88,6 @@ int					ft_cdenv(struct s_shell *ms, char *tmp, char *str);
 // builtins_export.c
 int					ft_export(struct s_shell *ms, char *str);
 int					searchequal(char *str);
-int					newnode(struct s_shell *ms, struct s_lst *node, char *str);
+int					newnode(struct s_shell *ms, char *str);
 
 #endif

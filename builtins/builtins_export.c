@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:03:43 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/30 11:54:46 by eewu             ###   ########.fr       */
+/*   Updated: 2023/05/30 15:18:21 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,23 @@ int	oldnode(struct s_lst *node, char *str)
 	return (0);
 }
 
-int	newnode(struct s_shell *ms, struct s_lst *node, char *str)
+int	newnode(struct s_shell *ms, char *str)
 {
 	struct s_lst	*new;
 
-	if (node != NULL)
-		node->print = 0;
 	new = ft_lstnew(ms, NULL);
 	if (new == NULL)
 	{
-		ft_lstclear(ms, ms->env);
 		printf("minishell: malloc: %s\n", strerror(errno));
-		frees(ms, 1);
+		return (1);
 	}
-	new->line = ft_substr(str, 0, ft_strlen(str));
+	new->line = ft_strdup(str);
 	if (new->line == NULL)
 	{
 		printf("minishell: malloc: %s\n", strerror(errno));
-		frees(ms, 1);
+		free(new);
+		return (1);
 	}
-	new->flag = ALLOC;
 	ft_lstadd_back(&ms->env, new);
 	return (0);
 }
@@ -84,8 +81,8 @@ int	ft_export(struct s_shell *ms, char *str)
 	node = ft_getenv(ms, new);
 	if (node == NULL)
 	{
-		if (newnode(ms, node, str) == 1)
-			return ((void)free(new), 1);
+		if (newnode(ms, str) == 1)
+			return ((void)free(new), frees(ms, 1), 1);
 	}
 	else
 	{

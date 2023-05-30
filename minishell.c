@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/30 12:07:50 by eewu             ###   ########.fr       */
+/*   Updated: 2023/05/30 14:35:53 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // Boucle du shell.
-// Lire une ligne, l'ajouter a l'historique si readline n'a pas foire, et que la ligne n'est pas vide.
-// puis parser > executer.
+// Lire une ligne > l'ajouter a l'historique > parser > executer.
 static void	loop(struct s_shell *ms)
 {
 	while (1)
@@ -23,9 +22,8 @@ static void	loop(struct s_shell *ms)
 			free(ms->line);
 		ms->line = readline(ms->prompt);
 		if (ms->line != NULL && ms->line[0] != '\0')
-			add_history( ms->line);
-		if (parser(ms) != 0)
-			return ;
+			add_history(ms->line);
+		(void)parser(ms);
 	}
 }
 

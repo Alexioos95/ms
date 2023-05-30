@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/30 12:12:24 by eewu             ###   ########.fr       */
+/*   Updated: 2023/05/30 14:37:32 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_pwd(struct s_shell *ms)
 	return (0);
 }
 
-// Supprimer une variable du env, sans argument.
+// Supprimer une variable du env.
 int	ft_unset(struct s_shell *ms, char *str, char *opt)
 {
 	int				i;
@@ -36,7 +36,7 @@ int	ft_unset(struct s_shell *ms, char *str, char *opt)
 	return (0);
 }
 
-// Afficher l'env, sans prendre d'argument.
+// Afficher l'env.
 int	ft_env(struct s_shell *ms, char *opt)
 {
 	struct s_lst	*tmp;
@@ -76,7 +76,7 @@ int	ft_echo(char *str, char *opt)
 }
 
 // Quitter proprement le shell.
-// Exit avec le status code de la derniere commande si l'argument n'est pas entre 0 et 255 !
+// Exit avec le status code de la derniere commande si l'argument n'est pas entre 0 et 255.
 void	ft_exit(struct s_shell *ms, char *opt)
 {
 	int	i;

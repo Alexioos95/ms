@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 10:19:13 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/26 13:11:40 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/30 13:52:01 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,6 @@ static char	*ft_strdupsplit(char *s, char c, int j)
 	return (s1);
 }
 
-void	ft_free(char **strmalloc)
-{
-	int	i;
-
-	i = 0;
-	if (strmalloc == NULL)
-		return ;
-	while (strmalloc[i] != NULL)
-	{
-		free(strmalloc[i]);
-		i++;
-	}
-	free(strmalloc);
-}
-
 static	char	*ft_loop(char *s, char c, int i)
 {
 	char	*str;
@@ -112,7 +97,7 @@ char	**ft_split(char *s, char c)
 	{
 		strmalloc[i] = ft_loop(s, c, i);
 		if (strmalloc[i] == NULL)
-			return ((void)ft_free(strmalloc), NULL);
+			return ((void)freesplit(strmalloc), NULL);
 		i++;
 	}
 	strmalloc[i] = NULL;
