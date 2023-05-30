@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:06:58 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/30 10:29:56 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/30 11:36:17 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 enum				e_enum
 {
 	CONST,
-	NEW
+	ALLOC
 };
 
 struct				s_lst
@@ -52,7 +52,7 @@ struct				s_shell
 // init.c
 int					init(struct s_shell *ms, char **envp);
 int					ft_setenv(struct s_shell *ms, char **envp);
-struct s_lst		*ft_lstnew(struct s_shell *ms, char **envp, int i);
+struct s_lst		*ft_lstnew(struct s_shell *ms, char *str);
 void				ft_lstadd_back(struct s_lst **lst, struct s_lst *new);
 // parsing.c
 int					parser(struct s_shell *ms);

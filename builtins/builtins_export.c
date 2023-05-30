@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:03:43 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/30 10:12:30 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/30 11:54:46 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	oldnode(struct s_lst *node, char *str)
 {
-	if (node->flag == NEW)
+	if (node->flag == ALLOC)
 		free(node->line);
 	node->line = ft_substr(str, 0, ft_strlen(str));
 	if (node->line == NULL)
@@ -22,18 +22,18 @@ int	oldnode(struct s_lst *node, char *str)
 		printf("minishell: malloc: %s\n", strerror(errno));
 		return (1);
 	}
-	node->flag = NEW;
+	node->flag = ALLOC;
 	node->print = 1;
 	return (0);
 }
 
 int	newnode(struct s_shell *ms, struct s_lst *node, char *str)
 {
-	struct s_lst *new;
+	struct s_lst	*new;
 
 	if (node != NULL)
 		node->print = 0;
-	new = ft_lstnew(ms, NULL, 1);
+	new = ft_lstnew(ms, NULL);
 	if (new == NULL)
 	{
 		ft_lstclear(ms, ms->env);
@@ -46,7 +46,7 @@ int	newnode(struct s_shell *ms, struct s_lst *node, char *str)
 		printf("minishell: malloc: %s\n", strerror(errno));
 		frees(ms, 1);
 	}
-	new->flag = NEW;
+	new->flag = ALLOC;
 	ft_lstadd_back(&ms->env, new);
 	return (0);
 }

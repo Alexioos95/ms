@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/30 10:44:07 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/30 12:12:24 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ int	ft_env(struct s_shell *ms, char *opt)
 
 // Print la str.
 // Si l'argument est "-n", ne pas print le \n a la fin.
-int	ft_echo(char *opt, char *str)
+int	ft_echo(char *str, char *opt)
 {
 	char	*option;
 
 	option = "-n";
-	if (opt != NULL && ft_strncmp(opt, option, 4) == 0)
+	if (opt != NULL && ft_strncmp(opt, option, 3) == 0)
 	{
 		if (str != NULL)
 			printf("%s", str);

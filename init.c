@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/30 10:31:33 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/30 11:52:03 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,31 @@
 
 void	ft_lstadd_back(struct s_lst **lst, struct s_lst *new)
 {
-	struct s_lst	*tmp;
+	struct s_lst	*last;
 
-	tmp = *lst;
-	while (tmp->next != NULL)
-		tmp = tmp->next;
-	tmp->next = new;
+	if ((*lst) == NULL)
+	{
+		(*lst) = new;
+		return ;
+	}
+	last = *lst;
+	while (last->next != NULL)
+		last = last->next;
+	last->next = new;
 }
 
-struct s_lst	*ft_lstnew(struct s_shell *ms, char **envp, int i)
+struct s_lst	*ft_lstnew(struct s_shell *ms, char *str)
 {
 	struct s_lst	*new;
 
 	new = malloc(sizeof(struct s_lst));
 	if (new == NULL)
 		return (NULL);
-	if (envp != NULL)
-		new->line = envp[i];
-	else
-		new->line = NULL;
 	new->print = 1;
-	new->flag = CONST;
+	new->line = str;
+	new->flag = ALLOC;
 	new->next = NULL;
 	new->ms = ms;
-	if (i == 0)
-		ms->lsthead = new;
 	return (new);
 }
 
@@ -47,23 +47,18 @@ int	ft_setenv(struct s_shell *ms, char **envp)
 	int				i;
 	struct s_lst	*tmp;
 
-	i = 1;
+	i = 0;
 	if (envp == NULL)
 		return (0);
-	ms->env = ft_lstnew(ms, envp, 0);
-	if (ms->env == NULL)
-		return (1);
 	while (envp[i] != NULL)
+		ft_lstadd_back(&ms->env, ft_lstnew(ms, envp[i++]));
+	tmp = ms->env;
+	while (tmp != NULL)
 	{
-		tmp = ft_lstnew(ms, envp, i);
-		if (tmp == NULL)
-		{
-			ft_lstclear(ms, ms->env);
-			return (1);
-		}
-		ft_lstadd_back(&ms->env, tmp);
-		i++;
+		tmp->flag = CONST;
+		tmp = tmp->next;
 	}
+	ms->lsthead = ms->env;
 	return (0);
 }
 
@@ -71,6 +66,7 @@ int	ft_setenv(struct s_shell *ms, char **envp)
 int	init(struct s_shell *ms, char **envp)
 {
 	struct s_lst	*tmp;
+
 	ms->pwdpath = NULL;
 	ms->oldpwdpath = NULL;
 	ms->line = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/30 10:46:05 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/30 11:52:40 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ int	ft_cdenv(struct s_shell *ms, char *tmp, char *str)
 		printf("minishell: malloc: %s\n", strerror(errno));
 		frees(ms, 1);
 	}
-	if (node->flag == NEW)
+	if (node->flag == ALLOC)
 		free(node->line);
 	node->line = ret;
-	node->flag = NEW;
+	node->flag = ALLOC;
 	return (0);
 }
 
