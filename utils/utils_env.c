@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:05:22 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/26 13:11:46 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/30 10:46:41 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ struct s_lst	*ft_getenv(struct s_shell *ms, char *str)
 	tmp = ms->env;
 	while (tmp != NULL && tmp->line != NULL)
 	{
-		if (ft_strnstr(tmp->line, str, 0) != NULL && tmp->print == 1)
+		if (ft_strnstr(tmp->line, str, 0) != NULL)
 			break ;
 		tmp = tmp->next;
 	}
