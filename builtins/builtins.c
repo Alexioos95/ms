@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/26 13:03:37 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/30 10:44:07 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,8 @@
 // Afficher le chemin actuel.
 int	ft_pwd(struct s_shell *ms)
 {
-	struct s_lst	*tmp;
-
-	tmp = ms->env;
-	while (tmp != NULL && tmp->line != NULL \
-		&& ft_strnstr(tmp->line, "PWD", 0) == NULL)
-		tmp = tmp->next;
-	if (tmp == NULL)
-		return (1);
-	if (tmp->line != NULL)
-		printf("%s\n", &tmp->line[4]);
+	if (ms->pwdpath != NULL)
+		printf("%s\n", &ms->pwdpath[4]);
 	return (0);
 }
 
@@ -39,7 +31,7 @@ int	ft_unset(struct s_shell *ms, char *str, char *opt)
 		return (1);
 	tmp = ft_getenv(ms, str);
 	if (tmp == NULL)
-		return (1);
+		return (0);
 	tmp->print = 0;
 	return (0);
 }

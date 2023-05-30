@@ -6,11 +6,13 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/26 13:29:34 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/30 10:46:05 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// Modifie le env pour PWD et OLDPWD.
 
 // Actualise le env de PWD et OLDPWD.
 int	ft_cdenv(struct s_shell *ms, char *tmp, char *str)
@@ -24,10 +26,10 @@ int	ft_cdenv(struct s_shell *ms, char *tmp, char *str)
 		frees(ms, 1);
 	}
 	node = ft_getenv(ms, str);
-	if (node == NULL)
+	if (node == NULL || node->print == 0)
 	{
 		free(tmp);
-		return (1);
+		return (0);
 	}
 	ret = ft_strjoinenv(str, '=', tmp);
 	if (ret == NULL)
@@ -48,7 +50,7 @@ int	ft_cdhome(struct s_shell *ms)
 	struct s_lst	*node;
 
 	node = ft_getenv(ms, "HOME");
-	if (node == NULL)
+	if (node == NULL || node->print == 0)
 	{
 		printf("minishell: cd: HOME not set\n");
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/26 12:32:35 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/30 10:31:33 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ int	ft_setenv(struct s_shell *ms, char **envp)
 // Set les variables, et construit la liste chainee du env.
 int	init(struct s_shell *ms, char **envp)
 {
+	struct s_lst	*tmp;
+	ms->pwdpath = NULL;
+	ms->oldpwdpath = NULL;
 	ms->line = NULL;
 	ms->split = NULL;
 	ms->prompt = "apayen&eewu@minishell$ ";
@@ -78,5 +81,11 @@ int	init(struct s_shell *ms, char **envp)
 	ms->lsthead = NULL;
 	if (ft_setenv(ms, envp) == 1)
 		return (1);
+	tmp = ft_getenv(ms, "PWD");
+	if (tmp != NULL)
+		ms->pwdpath = ft_strdup(tmp->line);
+	tmp = ft_getenv(ms, "OLDPWD");
+	if (tmp != NULL)
+		ms->oldpwdpath = ft_strdup(tmp->line);
 	return (0);
 }

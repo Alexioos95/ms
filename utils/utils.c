@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:18:09 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/26 13:11:43 by apayen           ###   ########.fr       */
+/*   Updated: 2023/05/30 10:28:07 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,28 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	strmalloc[i + j] = '\0';
 	return (strmalloc);
+}
+
+char	*ft_strdup(char *s)
+{
+	int		i;
+	size_t	len;
+	char	*s1;
+
+	i = 0;
+	len = ft_strlen(s);
+	s1 = malloc(sizeof(char) * (len + 1));
+	if (s1 == NULL)
+	{
+		return (NULL);
+	}
+	while (s[i] != '\0')
+	{
+		s1[i] = s[i];
+		i++;
+	}
+	s1[i] = '\0';
+	return (s1);
 }
 
 int	ft_atoi(char *nptr)
