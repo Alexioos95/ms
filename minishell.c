@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/30 15:32:02 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/01 11:36:38 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,19 @@ static void	loop(struct s_shell *ms)
 	{
 		if (ms->line != NULL)
 			free(ms->line);
+		if (sigaction(SIGINT, &ms->sigact[0], NULL) == -1 \
+			|| sigaction(SIGQUIT, &ms->sigact[1], NULL) == -1)
+		{
+			printf("minishell: sigaction: %s\n", strerror(errno));
+			frees(ms, 1);
+		}
 		ms->line = readline(ms->prompt);
-		if (ms->line != NULL && ms->line[0] != '\0')
+		if (ms->line == NULL)
+		{
+			printf("exit\n");
+			frees(ms, 0);
+		}
+		if (ms->line[0] != '\0')
 			add_history(ms->line);
 		(void)parser(ms);
 	}

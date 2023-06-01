@@ -6,7 +6,7 @@
 #    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/05/26 13:08:13 by apayen           ###   ########.fr        #
+#    Updated: 2023/06/01 10:50:48 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ HEADER = minishell.h
 SRC = $(addprefix $(OBJDIR)/,		\
 		minishell.c					\
 		init.c						\
+		signals.c					\
 		parsing.c					\
 		builtins/builtins.c			\
 		builtins/builtins_cd.c		\
