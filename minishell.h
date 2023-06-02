@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:06:58 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/02 10:09:12 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/02 10:19:54 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ struct					s_shell
 	char				**split;
 	int					orphan;
 	struct s_lst		*env;
-	struct sigaction	sigact[2];
+	struct sigaction	sigact[3];
 	void				*lsthead;
 };
 

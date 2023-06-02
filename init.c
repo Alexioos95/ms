@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/02 09:38:55 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/02 10:21:00 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,10 @@ void	init(struct s_shell *ms, char **envp)
 	ms->env = NULL;
 	ms->lsthead = NULL;
 	ft_memset(&ms->sigact[0], 0, sizeof(ms->sigact[0]));
-	ms->sigact[0].sa_handler = &ft_sigint;
-	ft_memset(&ms->sigact[1], 0, sizeof(ms->sigact[1]));
-	ms->sigact[1].sa_handler = SIG_IGN;
+	ms->sigact[0].sa_handler = SIG_DFL;
+	ft_memset(&ms->sigact[1], 0, sizeof(ms->sigact[0]));
+	ms->sigact[1].sa_handler = &ft_sigint;
+	ft_memset(&ms->sigact[2], 0, sizeof(ms->sigact[1]));
+	ms->sigact[2].sa_handler = SIG_IGN;
 	ft_setenv(ms, envp);
 }

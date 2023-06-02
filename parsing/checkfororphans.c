@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:07:37 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/02 10:10:34 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/02 10:25:16 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	isspecial(char c)
 // Chercher une quote orpheline, ou des characteres speciaux qui ne sont pas entre quotes.
 int	checkorphanquote(char *line)
 {
-	int i;
-	char c;
+	int		i;
+	char	c;
 
 	i = 0;
 	while (line[i] != '\0')
@@ -53,9 +53,9 @@ int	checkorphanquote(char *line)
 }
 
 // Chercher un '[' qui n'est pas ferme.
-int checkorphanbracket(char *line)
+int	checkorphanbracket(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i] != '\0')
