@@ -6,7 +6,7 @@
 #    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/06/01 10:50:48 by apayen           ###   ########.fr        #
+#    Updated: 2023/06/02 10:16:25 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ SRC = $(addprefix $(OBJDIR)/,		\
 		minishell.c					\
 		init.c						\
 		signals.c					\
-		parsing.c					\
+		parsing/parsing.c			\
+		parsing/checkfororphans.c	\
 		builtins/builtins.c			\
 		builtins/builtins_cd.c		\
 		builtins/builtins_export.c	\
@@ -30,8 +31,8 @@ OBJ = $(SRC:.c=.o)
 
 OBJDIR	=	obj
 
-CC =	cc
-FLAGS =	-Wall -Wextra -Werror -g3
+CC =	 cc
+FLAGS = -Wall -Wextra -Werror -g3
 RM =	rm -rf
 
 all : $(NAME)
@@ -49,7 +50,7 @@ clean :
 fclean : clean
 		$(RM) $(NAME)
 
-re : fclean
+re :	fclean
 		make all
 
 .PHONY: all clean fclean re

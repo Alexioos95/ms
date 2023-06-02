@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/05/30 14:37:32 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/02 10:14:41 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,8 @@ int	ft_pwd(struct s_shell *ms)
 // Supprimer une variable du env.
 int	ft_unset(struct s_shell *ms, char *str, char *opt)
 {
-	int				i;
 	struct s_lst	*tmp;
 
-	i = 0;
 	if (str == NULL || opt != NULL || ms->env == NULL || ms->env->line == NULL)
 		return (1);
 	tmp = ft_getenv(ms, str);

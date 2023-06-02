@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:43:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/01 11:26:24 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/02 10:11:10 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	ft_sigint(int sig)
 {
 	(void)sig;
 	printf("\n");
-	rl_replace_line("", 0);
 	rl_on_new_line();
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 

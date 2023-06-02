@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 13:06:58 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/01 11:12:31 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/02 10:09:12 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ struct					s_lst
 
 struct					s_shell
 {
-	char				*prompt;
 	char				*line;
 	char				*pwdpath;
 	char				*oldpwdpath;
@@ -60,9 +59,11 @@ void					ft_lstadd_back(struct s_lst **lst, struct s_lst *new);
 void					*ft_memset(void *s, int c, size_t n);
 void					ft_sigint(int sig);
 void					ft_sigquit(int sig);
-// parsing.c
+// parsing/parsing.c
 int						parser(struct s_shell *ms);
-int						checkorphan(char *line, int i, int j);
+// parsing/checkfororphans.c
+int						checkorphanbracket(char *line);
+int						checkorphanquote(char *line);
 int						isspecial(char c);
 // ft_split.c
 char					**ft_split(char *s, char c);
@@ -81,17 +82,17 @@ char					*ft_strnstr(char *big, char *little, int equal);
 char					*ft_strjoinenv(char *s1, char c, char *s2);
 char					*ft_substr(char *s, int start, int len);
 struct s_lst			*ft_getenv(struct s_shell *ms, char *str);
-// builtins.c
+// builtins/builtins.c
 void					ft_exit(struct s_shell *ms, char *opt);
 int						ft_echo(char *opt, char *str);
 int						ft_env(struct s_shell *ms, char *opt);
 int						ft_unset(struct s_shell *ms, char *str, char *opt);
 int						ft_pwd(struct s_shell *ms);
-// builtins_cd.c
+// builtins/builtins_cd.c
 int						ft_cd(struct s_shell *ms, char *str);
 int						ft_cdhome(struct s_shell *ms);
 int						ft_cdenv(struct s_shell *ms, char *tmp, char *str);
-// builtins_export.c
+// builtins/builtins_export.c
 int						ft_export(struct s_shell *ms, char *str);
 int						searchequal(char *str);
 int						newnode(struct s_shell *ms, char *str);

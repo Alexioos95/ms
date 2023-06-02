@@ -6,15 +6,24 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/01 11:36:38 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/02 10:14:10 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	nullonreadline(struct s_shell *ms)
+{
+	if (errno == ENOMEM)
+		printf("minishell: malloc: %s\n", strerror(errno));
+	else
+		printf("exit\n");
+	frees(ms, 0);
+}
+
 // Boucle du shell.
 // Lire une ligne > l'ajouter a l'historique > parser > executer.
-static void	loop(struct s_shell *ms)
+_Noreturn static void	loop(struct s_shell *ms)
 {
 	while (1)
 	{
@@ -26,15 +35,12 @@ static void	loop(struct s_shell *ms)
 			printf("minishell: sigaction: %s\n", strerror(errno));
 			frees(ms, 1);
 		}
-		ms->line = readline(ms->prompt);
+		ms->line = readline("apayen&eewu@minishell$ ");
 		if (ms->line == NULL)
-		{
-			printf("exit\n");
-			frees(ms, 0);
-		}
+			nullonreadline(ms);
 		if (ms->line[0] != '\0')
 			add_history(ms->line);
-		(void)parser(ms);
+		parser(ms);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/01 11:20:05 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/02 09:38:55 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ void	init(struct s_shell *ms, char **envp)
 	ms->oldpwdpath = NULL;
 	ms->line = NULL;
 	ms->split = NULL;
-	ms->prompt = "apayen&eewu@minishell$ ";
 	ms->orphan = -1;
 	ms->env = NULL;
 	ms->lsthead = NULL;
