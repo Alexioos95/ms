@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
+#    By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/06/02 10:16:25 by apayen           ###   ########.fr        #
+#    Updated: 2023/06/13 11:17:34 by eewu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-HEADER = minishell.h
+HEADER = header.h
 
 SRC = $(addprefix $(OBJDIR)/,		\
 		minishell.c					\

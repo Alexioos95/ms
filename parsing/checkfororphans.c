@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   checkfororphans.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:07:37 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/02 10:25:16 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/13 11:17:34 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../header.h"
 
 int	isspecial(char c)
 {
