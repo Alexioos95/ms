@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_splitline.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 10:19:13 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/13 11:57:24 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/13 12:17:29 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-static int	ft_countstr(char *s, char c)
+static int	ft_countstrline(char *s, char c)
 {
-	int	i;
-	int	count;
+	int		i;
+	char	d;
+	int		count;
 
 	i = 0;
 	count = 0;
@@ -24,7 +25,15 @@ static int	ft_countstr(char *s, char c)
 	while (s[i] != '\0')
 	{
 		while (s[i] != '\0' && s[i] != c)
+		{
+			if (s[i] == '\'' || s[i] == '"')
+			{
+				d = s[i++];
+				while (s[i] != '\0' && s[i] != d)
+					i++;
+			}
 			i++;
+		}
 		count++;
 		while (s[i] != '\0' && s[i] == c)
 			i++;
@@ -32,7 +41,30 @@ static int	ft_countstr(char *s, char c)
 	return (count);
 }
 
-static char	*ft_strdupsplit(char *s, char c, int j)
+static	int	movepointer(char *s, char c, int j)
+{
+	char	d;
+
+	while (s[j] != '\0' && s[j] != c)
+	{
+		while (s[j] != '\0' && s[j] != c)
+		{
+			if (s[j] == '\'' || s[j] == '"')
+			{
+				d = s[j];
+				j++;
+				while (s[j] != '\0' && s[j] != d)
+					j++;
+			}
+			j++;
+		}
+	}
+	while (s[j] != '\0' && s[j] == c)
+		j++;
+	return (j);
+}
+
+static char	*ft_strdupsplitline(char *s, char c, int j)
 {
 	int		i;
 	int		len;
@@ -40,8 +72,7 @@ static char	*ft_strdupsplit(char *s, char c, int j)
 
 	i = 0;
 	len = j;
-	while (s[len] != '\0' && s[len] != c)
-		len++;
+	len = movepointer(s, c, len);
 	len = len - j;
 	s1 = malloc(sizeof(char) * ((unsigned int)len + 1));
 	if (s1 == NULL)
@@ -56,7 +87,7 @@ static char	*ft_strdupsplit(char *s, char c, int j)
 	return (s1);
 }
 
-static	char	*ft_loop(char *s, char c, int i)
+static	char	*ft_loopline(char *s, char c, int i)
 {
 	char	*str;
 	int		j;
@@ -68,19 +99,16 @@ static	char	*ft_loop(char *s, char c, int i)
 		j++;
 	while (loop < i)
 	{
-		while (s[j] != '\0' && s[j] != c)
-			j++;
-		while (s[j] != '\0' && s[j] == c)
-			j++;
+		j = movepointer(s, c, j);
 		loop++;
 	}
-	str = ft_strdupsplit(s, c, j);
+	str = ft_strdupsplitline(s, c, j);
 	if (str == NULL)
 		return (NULL);
 	return (str);
 }
 
-char	**ft_split(char *s, char c)
+char	**ft_splitline(char *s, char c)
 {
 	int		i;
 	int		len;
@@ -89,13 +117,13 @@ char	**ft_split(char *s, char c)
 	i = 0;
 	if (s == NULL)
 		return (NULL);
-	len = ft_countstr(s, c);
+	len = ft_countstrline(s, c);
 	strmalloc = malloc(sizeof(char *) * ((unsigned int)len + 1));
 	if (strmalloc == NULL)
 		return (NULL);
 	while (i < len)
 	{
-		strmalloc[i] = ft_loop(s, c, i);
+		strmalloc[i] = ft_loopline(s, c, i);
 		if (strmalloc[i] == NULL)
 			return ((void)freesplit(strmalloc), NULL);
 		i++;

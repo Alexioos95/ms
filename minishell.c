@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/13 11:17:34 by eewu             ###   ########.fr       */
+/*   Updated: 2023/06/13 11:29:42 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,15 @@ static void	setsigaction(struct s_shell *ms, int b)
 static void	nullonreadline(struct s_shell *ms)
 {
 	if (errno == ENOMEM)
+	{
 		printf("minishell: malloc: %s\n", strerror(errno));
+		frees(ms, 1);
+	}
 	else
+	{
 		printf("exit\n");
-	frees(ms, 0);
+		frees(ms, 0);
+	}
 }
 
 // Boucle du shell.

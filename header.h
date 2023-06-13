@@ -67,9 +67,11 @@ int						checkorphanquote(char *line);
 int						isspecial(char c);
 // ft_split.c
 char					**ft_split(char *s, char c);
-void					freesplit(char **strmalloc);
+// ft_splitline.c
+char					**ft_splitline(char *s, char c);
 // frees.c
 void					frees(struct s_shell *ms, int code);
+void					freesplit(char **strmalloc);
 void					ft_lstclear(struct s_shell *ms, struct s_lst *lst);
 // utils.c
 int						ft_strncmp(char *s1, char *s2, size_t n);

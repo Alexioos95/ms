@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+         #
+#    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/06/13 11:17:34 by eewu             ###   ########.fr        #
+#    Updated: 2023/06/13 12:05:17 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC = $(addprefix $(OBJDIR)/,		\
 		builtins/builtins_export.c	\
 		utils/utils.c				\
 		utils/ft_split.c			\
+		utils/ft_splitline.c			\
 		utils/utils_env.c			\
 		utils/frees.c)
 
