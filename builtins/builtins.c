@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/13 11:17:34 by eewu             ###   ########.fr       */
+/*   Updated: 2023/06/14 11:37:37 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,6 @@ int	ft_env(struct s_shell *ms, char *opt)
 		if (tmp->print == 1 && tmp->line != NULL)
 			printf("%s\n", tmp->line);
 		tmp = tmp->next;
-	}
-	return (0);
-}
-
-// Print la str.
-// Si l'argument est "-n", ne pas print le \n a la fin.
-int	ft_echo(char *str, char *opt)
-{
-	char	*option;
-
-	option = "-n";
-	if (opt != NULL && ft_strncmp(opt, option, 3) == 0)
-	{
-		if (str != NULL)
-			printf("%s", str);
-	}
-	else
-	{
-		if (str != NULL)
-			printf("%s\n", str);
-		else
-			printf("\n");
 	}
 	return (0);
 }

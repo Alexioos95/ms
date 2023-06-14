@@ -86,10 +86,11 @@ char					*ft_substr(char *s, int start, int len);
 struct s_lst			*ft_getenv(struct s_shell *ms, char *str);
 // builtins/builtins.c
 void					ft_exit(struct s_shell *ms, char *opt);
-int						ft_echo(char *opt, char *str);
 int						ft_env(struct s_shell *ms, char *opt);
 int						ft_unset(struct s_shell *ms, char *str, char *opt);
 int						ft_pwd(struct s_shell *ms);
+// builtins/builtins_echo.c
+int						ft_echo(char **tab);
 // builtins/builtins_cd.c
 int						ft_cd(struct s_shell *ms, char *str);
 int						ft_cdhome(struct s_shell *ms);

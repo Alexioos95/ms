@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 10:19:13 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/13 12:17:29 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/14 11:49:03 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ static	int	movepointer(char *s, char c, int j)
 			j++;
 		}
 	}
-	while (s[j] != '\0' && s[j] == c)
-		j++;
 	return (j);
 }
 
@@ -71,8 +69,7 @@ static char	*ft_strdupsplitline(char *s, char c, int j)
 	char	*s1;
 
 	i = 0;
-	len = j;
-	len = movepointer(s, c, len);
+	len = movepointer(s, c, j);
 	len = len - j;
 	s1 = malloc(sizeof(char) * ((unsigned int)len + 1));
 	if (s1 == NULL)
@@ -100,6 +97,8 @@ static	char	*ft_loopline(char *s, char c, int i)
 	while (loop < i)
 	{
 		j = movepointer(s, c, j);
+		while (s[j] != '\0' && s[j] == c)
+			j++;
 		loop++;
 	}
 	str = ft_strdupsplitline(s, c, j);
