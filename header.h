@@ -92,9 +92,11 @@ int						ft_pwd(struct s_shell *ms);
 // builtins/builtins_echo.c
 int						ft_echo(char **tab);
 // builtins/builtins_cd.c
-int						ft_cd(struct s_shell *ms, char *str);
-int						ft_cdhome(struct s_shell *ms);
-int						ft_cdenv(struct s_shell *ms, char *tmp, char *str);
+int						ft_cd(struct s_shell *ms, char **tab);
+int						ft_cdhome(struct s_shell *ms, char *tmp);
+void					cdenv(struct s_shell *ms, char *tmp, char *str);
+void					actualizepwd(struct s_shell *ms);
+void					actualizeenv(struct s_shell *ms, char *tmp);
 // builtins/builtins_export.c
 int						ft_export(struct s_shell *ms, char *str);
 int						searchequal(char *str);

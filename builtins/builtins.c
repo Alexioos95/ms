@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/14 11:37:37 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/14 14:15:47 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ int	ft_unset(struct s_shell *ms, char *str, char *opt)
 	tmp = ft_getenv(ms, str);
 	if (tmp == NULL)
 		return (0);
+	if (ft_strncmp(tmp->line, "OLDPWD=", 7) == 0)
+	{
+		if (ms->oldpwdpath != NULL)
+		{
+			free(ms->oldpwdpath);
+			ms->oldpwdpath = NULL;
+		}
+	}
 	tmp->print = 0;
 	return (0);
 }

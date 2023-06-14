@@ -6,7 +6,7 @@
 #    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/06/14 11:40:21 by apayen           ###   ########.fr        #
+#    Updated: 2023/06/14 15:20:37 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC = $(addprefix $(OBJDIR)/,		\
 		parsing/checkfororphans.c	\
 		builtins/builtins.c			\
 		builtins/builtins_cd.c		\
+		builtins/builtins_cd2.c		\
 		builtins/builtins_echo.c	\
 		builtins/builtins_export.c	\
 		utils/utils.c				\
