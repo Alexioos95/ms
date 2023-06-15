@@ -6,13 +6,13 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/14 15:55:45 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/15 11:41:34 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-// Va au home.
+// cd au chemin set dans le HOME du env.
 int	cdhome(struct s_shell *ms, char *tmp)
 {
 	struct s_lst	*node;
@@ -38,7 +38,7 @@ int	cdhome(struct s_shell *ms, char *tmp)
 	return (0);
 }
 
-// Va au OLDPWD.
+// cd au chemin set dans le OLDPWD du env.
 int	cdoldpwd(struct s_shell *ms, char *tmp)
 {
 	if (ms->oldpwdpath == NULL)
@@ -62,6 +62,7 @@ int	cdoldpwd(struct s_shell *ms, char *tmp)
 	return (0);
 }
 
+// cd au chemin donnee en parametre.
 int	cdnothome(struct s_shell *ms, char *str, char *tmp)
 {
 	if (chdir(str) == -1)

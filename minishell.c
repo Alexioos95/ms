@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/13 11:29:42 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/15 09:56:42 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static void	setsigaction(struct s_shell *ms, int b)
 	if (b == 1)
 	{
 		if (sigaction(SIGINT, &ms->sigact[1], NULL) == -1 \
-			|| sigaction(SIGQUIT, &ms->sigact[2], NULL) == -1)
+			|| sigaction(SIGQUIT, &ms->sigact[2], NULL) == -1
+			|| sigaction(SIGTSTP, &ms->sigact[2], NULL) == -1)
 		{
 			printf("minishell: sigaction: %s\n", strerror(errno));
 			frees(ms, 1);
@@ -26,7 +27,8 @@ static void	setsigaction(struct s_shell *ms, int b)
 	else
 	{
 		if (sigaction(SIGINT, &ms->sigact[0], NULL) == -1 \
-			|| sigaction(SIGQUIT, &ms->sigact[0], NULL) == -1)
+			|| sigaction(SIGQUIT, &ms->sigact[0], NULL) == -1
+			|| sigaction(SIGTSTP, &ms->sigact[0], NULL) == -1)
 		{
 			printf("minishell: sigaction: %s\n", strerror(errno));
 			frees(ms, 1);

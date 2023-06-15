@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:03:43 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/13 11:17:34 by eewu             ###   ########.fr       */
+/*   Updated: 2023/06/15 13:59:59 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	oldnode(struct s_lst *node, char *str)
 	if (node->line == NULL)
 	{
 		printf("minishell: malloc: %s\n", strerror(errno));
-		return (1);
+		frees(node->ms, 1);
 	}
 	node->flag = ALLOC;
 	node->print = 1;
@@ -35,43 +35,24 @@ int	newnode(struct s_shell *ms, char *str)
 	if (new == NULL)
 	{
 		printf("minishell: malloc: %s\n", strerror(errno));
-		return (1);
+		frees(ms, 1);
 	}
 	new->line = ft_strdup(str);
 	if (new->line == NULL)
 	{
 		printf("minishell: malloc: %s\n", strerror(errno));
 		free(new);
-		return (1);
+		frees(ms, 1);
 	}
 	ft_lstadd_back(&ms->env, new);
 	return (0);
 }
 
-int	searchequal(char *str)
+int	actualizeenv_export(struct s_shell *ms, char *str, int equal)
 {
-	int	i;
-
-	i = 0;
-	if (str == NULL)
-		return (1);
-	while (str[i] != '\0' && str[i] != '=')
-		i++;
-	if (str[i] == '\0')
-		return (-1);
-	return (i);
-}
-
-// Ajoute la str au env.
-int	ft_export(struct s_shell *ms, char *str)
-{
-	int				equal;
 	char			*new;
 	struct s_lst	*node;
 
-	equal = searchequal(str);
-	if (equal < 1)
-		return (1);
 	new = ft_substr(str, 0, equal);
 	if (new == NULL)
 	{
@@ -79,15 +60,32 @@ int	ft_export(struct s_shell *ms, char *str)
 		frees(ms, 1);
 	}
 	node = ft_getenv(ms, new);
+	free(new);
 	if (node == NULL)
-	{
-		if (newnode(ms, str) == 1)
-			return ((void)free(new), frees(ms, 1), 1);
-	}
+		newnode(ms, str);
 	else
+		oldnode(node, str);
+	return (0);
+}
+
+// Ajoute la str au env.
+int	ft_export(struct s_shell *ms, char **tab)
+{
+	int				i;
+	int				isvalid;
+
+	i = 1;
+	while (tab[i] != NULL)
 	{
-		if (oldnode(node, str) == 1)
-			return ((void)free(new), 1);
+		i++;
+		isvalid = parsingexport(tab[i - 1]);
+		if (isvalid == 0)
+		{
+			if (tab[i] == NULL)
+				return (1);
+			continue ;
+		}
+		actualizeenv_export(ms, tab[i - 1], isvalid);
 	}
-	return ((void)free(new), 0);
+	return (0);
 }

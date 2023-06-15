@@ -6,7 +6,7 @@
 #    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/06/14 15:20:37 by apayen           ###   ########.fr        #
+#    Updated: 2023/06/15 13:52:11 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRC = $(addprefix $(OBJDIR)/,		\
 		builtins/builtins_cd2.c		\
 		builtins/builtins_echo.c	\
 		builtins/builtins_export.c	\
+		builtins/builtins_export2.c	\
 		utils/utils.c				\
 		utils/ft_split.c			\
 		utils/ft_splitline.c		\

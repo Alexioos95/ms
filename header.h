@@ -85,9 +85,9 @@ char					*ft_strjoinenv(char *s1, char c, char *s2);
 char					*ft_substr(char *s, int start, int len);
 struct s_lst			*ft_getenv(struct s_shell *ms, char *str);
 // builtins/builtins.c
-void					ft_exit(struct s_shell *ms, char *opt);
-int						ft_env(struct s_shell *ms, char *opt);
-int						ft_unset(struct s_shell *ms, char *str, char *opt);
+void					ft_exit(struct s_shell *ms, char **tab);
+int						ft_env(struct s_shell *ms, char **tab);
+int						ft_unset(struct s_shell *ms, char **tab);
 int						ft_pwd(struct s_shell *ms);
 // builtins/builtins_echo.c
 int						ft_echo(char **tab);
@@ -98,8 +98,10 @@ void					cdenv(struct s_shell *ms, char *tmp, char *str);
 void					actualizepwd(struct s_shell *ms);
 void					actualizeenv(struct s_shell *ms, char *tmp);
 // builtins/builtins_export.c
-int						ft_export(struct s_shell *ms, char *str);
+int						ft_export(struct s_shell *ms, char **tab);
 int						searchequal(char *str);
 int						newnode(struct s_shell *ms, char *str);
+// builtins/builtins_export2.c
+int						parsingexport(char *str);
 
 #endif
