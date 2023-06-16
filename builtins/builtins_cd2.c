@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/15 09:26:20 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/16 15:58:19 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	cdenv(struct s_shell *ms, char *tmp, char *str)
 	node = ft_getenv(ms, str);
 	if (node == NULL)
 		return ;
+	if (node->print == 2)
+		node->print = 1;
 	ret = ft_strjoinenv(str, '=', tmp);
 	if (ret == NULL)
 	{
@@ -64,12 +66,46 @@ void	cdenv(struct s_shell *ms, char *tmp, char *str)
 	return ;
 }
 
+// Modifie le tmp pour avoir le symlink.
+char	*actualizetmp(struct s_shell *ms, char *tmp, char *str)
+{
+	int				i;
+	char			*new;
+	struct s_lst	*node;
+
+	node = ft_getenv(ms, str);
+	if (node == NULL)
+		return (tmp);
+	i = 0;
+	if (tmp[0] == '/')
+		i++;
+	while (tmp[i] != '\0' && tmp[i] != '/')
+		i++;
+	new = ft_substr(tmp, 0, i);
+	free(tmp);
+	if (new == NULL)
+	{
+		printf("minishell: malloc: %s\n", strerror(errno));
+		frees(ms, 1);
+	}
+	tmp = ft_strjoin(&node->line[ft_strlen(str + 1)], new);
+	if (tmp == NULL)
+	{
+		printf("minishell: malloc: %s\n", strerror(errno));
+		frees(ms, 1);
+	}
+	free(new);
+	return (tmp);
+}
+
 // Actualise le env de PWD et OLDPWD.
 void	actualizeenv(struct s_shell *ms, char *tmp)
 {
 	cdenv(ms, tmp, "OLDPWD");
 	free(tmp);
 	tmp = getcwd(NULL, 0);
+	if (ms->symlink == 1)
+		tmp = actualizetmp(ms, tmp, "PWD=");
 	if (tmp == NULL)
 	{
 		printf("minishell: getcwd: %s\n", strerror(errno));

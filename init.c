@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/13 11:17:34 by eewu             ###   ########.fr       */
+/*   Updated: 2023/06/16 14:02:01 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,25 @@ void	ft_setpwd(struct s_shell *ms)
 	}
 }
 
+void	createminienv(struct s_shell *ms)
+{
+	char			*tabcd[3];
+	char			*tabexport[4];
+	struct s_lst	*node;
+
+	tabexport[0] = "export";
+	tabexport[1] = "OLDPWD=";
+	tabexport[2] = "PWD=";
+	tabexport[3] = NULL;
+	ft_export(ms, tabexport);
+	tabcd[0] = "cd";
+	tabcd[1] = "./";
+	tabcd[2] = NULL;
+	ft_cd(ms, tabcd);
+	node = ft_getenv(ms, "OLDPWD");
+	node->print = 2;
+}
+
 void	ft_setenv(struct s_shell *ms, char **envp)
 {
 	int				i;
@@ -92,6 +111,8 @@ void	ft_setenv(struct s_shell *ms, char **envp)
 		tmp->flag = CONST;
 		tmp = tmp->next;
 	}
+	if (ms->env == NULL)
+		createminienv(ms);
 	ms->lsthead = ms->env;
 	ft_setpwd(ms);
 }
@@ -99,10 +120,10 @@ void	ft_setenv(struct s_shell *ms, char **envp)
 // Set les variables, et construit la liste chainee du env.
 void	init(struct s_shell *ms, char **envp)
 {
-	ms->pwdpath = NULL;
-	ms->oldpwdpath = NULL;
 	ms->line = NULL;
 	ms->split = NULL;
+	ms->pwdpath = NULL;
+	ms->oldpwdpath = NULL;
 	ms->orphan = -1;
 	ms->env = NULL;
 	ms->lsthead = NULL;

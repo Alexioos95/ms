@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/15 12:20:09 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/16 14:00:49 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	ft_env(struct s_shell *ms, char **tab)
 }
 
 // Quitter proprement le shell.
-// Exit avec le status code de la derniere commande si l'argument n'est pas entre 0 et 255.
 void	ft_exit(struct s_shell *ms, char **tab)
 {
 	int	i;

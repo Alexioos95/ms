@@ -21,6 +21,8 @@
 # include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <unistd.h>
 
 enum					e_enum
@@ -45,8 +47,10 @@ struct					s_shell
 	char				*oldpwdpath;
 	char				**split;
 	int					orphan;
+	int					symlink;
 	struct s_lst		*env;
 	struct sigaction	sigact[3];
+	struct stat			stat;
 	void				*lsthead;
 };
 
@@ -97,6 +101,7 @@ int						ft_cdhome(struct s_shell *ms, char *tmp);
 void					cdenv(struct s_shell *ms, char *tmp, char *str);
 void					actualizepwd(struct s_shell *ms);
 void					actualizeenv(struct s_shell *ms, char *tmp);
+char					*actualizetmp(struct s_shell *ms, char *tmp, char *str);
 // builtins/builtins_export.c
 int						ft_export(struct s_shell *ms, char **tab);
 int						searchequal(char *str);

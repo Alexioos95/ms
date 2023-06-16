@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:03:43 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/15 13:59:59 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/16 13:50:26 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ int	actualizeenv_export(struct s_shell *ms, char *str, int equal)
 		newnode(ms, str);
 	else
 		oldnode(node, str);
+	if (ft_strncmp(str, "OLDPWD=", 8) == 0 && ms->oldpwdpath != NULL)
+	{
+		free(ms->oldpwdpath);
+		ms->oldpwdpath = NULL;
+	}
 	return (0);
 }
 
