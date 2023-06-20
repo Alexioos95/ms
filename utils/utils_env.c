@@ -6,12 +6,42 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:05:22 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/16 13:56:16 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/20 15:25:29 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
+char	**listtotab(struct s_shell *ms)
+{
+	int				i;
+	int				len;
+	struct s_lst	*node;
+	char			**tab;
+
+	i = 0;
+	len = 0;
+	node = ms->env;
+	while (node != NULL)
+	{
+		len++;
+		node = node->next;
+	}
+	tab = malloc(sizeof(char *) * (len + 1));
+	if (tab == NULL)
+		throwerror(ms, "malloc");
+	node = ms->env;
+	while (node != NULL)
+	{
+		tab[i] = node->line;
+		node = node->next;
+		i++;
+	}
+	tab[i] = NULL;
+	return (tab);
+}
+
+// Parcours la liste chainee, et return le node qui correspond a la str.
 struct s_lst	*ft_getenv(struct s_shell *ms, char *str)
 {
 	struct s_lst	*tmp;
@@ -40,7 +70,7 @@ char	*ft_substr(char *s, int start, int len)
 	}
 	if (len > ft_strlen(&s[start]))
 		len = ft_strlen(&s[start]);
-	strmalloc = malloc(sizeof(char) * len + 1);
+	strmalloc = malloc(sizeof(char) * (unsigned long)len + 1);
 	if (strmalloc == NULL)
 		return (NULL);
 	while (s[i] != '\0' && i < len)
@@ -53,6 +83,7 @@ char	*ft_substr(char *s, int start, int len)
 	return (strmalloc);
 }
 
+// Strjoin legerement modifie pour include le char c entre les 2 str.
 char	*ft_strjoinenv(char *s1, char c, char *s2)
 {
 	int		i;
@@ -61,7 +92,8 @@ char	*ft_strjoinenv(char *s1, char c, char *s2)
 
 	i = 0;
 	j = 0;
-	strmalloc = malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 2);
+	strmalloc = malloc(sizeof(char) * (unsigned long)ft_strlen(s1) \
+		+ (unsigned long)ft_strlen(s2) + 2);
 	if (strmalloc == NULL)
 		return (NULL);
 	while (s1[i] != '\0')
@@ -80,6 +112,7 @@ char	*ft_strjoinenv(char *s1, char c, char *s2)
 	return (strmalloc);
 }
 
+// strnstr legerement modifie, qui return l'adresse de la str au int equal.
 char	*ft_strnstr(char *big, char *little, int equal)
 {
 	size_t	i;
@@ -98,7 +131,7 @@ char	*ft_strnstr(char *big, char *little, int equal)
 		{
 			j++;
 			if (little[j] == '\0' && i == 0 && big[i + j] == '=')
-				return ((char *)&big[i + equal]);
+				return ((char *)&big[i + (unsigned long)equal]);
 		}
 		i++;
 	}

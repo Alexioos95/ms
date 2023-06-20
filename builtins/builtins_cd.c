@@ -6,14 +6,14 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/16 16:43:51 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/20 14:45:50 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
 // cd au chemin set dans le HOME du env.
-int	cdhome(struct s_shell *ms, char *tmp)
+int	ft_cd_home(struct s_shell *ms, char *tmp)
 {
 	struct s_lst	*node;
 
@@ -28,10 +28,7 @@ int	cdhome(struct s_shell *ms, char *tmp)
 	{
 		free(tmp);
 		if (errno == ENOMEM)
-		{
-			printf("minishell: chdir: %s\n", strerror(errno));
-			frees(ms, 1);
-		}
+			throwerror(ms, "cd");
 		printf("minishell: chdir: %s: %s\n", &node->line[5], strerror(errno));
 		return (1);
 	}
@@ -41,7 +38,7 @@ int	cdhome(struct s_shell *ms, char *tmp)
 }
 
 // cd au chemin set dans le OLDPWD du env.
-int	cdoldpwd(struct s_shell *ms, char *tmp)
+int	ft_cd_oldpwd(struct s_shell *ms, char *tmp)
 {
 	struct s_lst	*node;
 
@@ -57,10 +54,7 @@ int	cdoldpwd(struct s_shell *ms, char *tmp)
 	{
 		free(tmp);
 		if (errno == ENOMEM)
-		{
-			printf("minishell: cd: %s\n", strerror(errno));
-			frees(ms, 1);
-		}
+			throwerror(ms, "cd");
 		printf("minishell: cd: %s: %s\n", &ms->oldpwdpath[7], strerror(errno));
 		return (1);
 	}
@@ -71,19 +65,13 @@ int	cdoldpwd(struct s_shell *ms, char *tmp)
 }
 
 // cd au chemin donnee en parametre.
-int	cdnothome(struct s_shell *ms, char *str, char *tmp)
+int	ft_cd_nothome(struct s_shell *ms, char *str, char *tmp)
 {
-	int	i;
-
-	i = 0;
 	if (lstat(str, &ms->stat) == -1 || chdir(str) == -1)
 	{
 		free(tmp);
 		if (errno == ENOMEM)
-		{
-			printf("minishell: cd: %s\n", strerror(errno));
-			frees(ms, 1);
-		}
+			throwerror(ms, "cd");
 		printf("minishell: cd: %s: %s\n", str, strerror(errno));
 		return (1);
 	}
@@ -92,35 +80,32 @@ int	cdnothome(struct s_shell *ms, char *str, char *tmp)
 	return (0);
 }
 
-// Change le chemin actuel, et actualise le env.
+// Change le working directory, et actualise le env.
 int	ft_cd(struct s_shell *ms, char **tab)
 {
 	char	*tmp;
 
 	ms->symlink = 0;
+	ms->stat.st_mode = 0;
 	if (tab[1] != NULL && tab[2] != NULL)
 	{
 		printf("minishell: cd: too many arguments\n");
 		return (1);
 	}
 	tmp = getcwd(NULL, 0);
-	ms->stat.st_mode = 0;
 	if (lstat(&ms->pwdpath[5], &ms->stat) == -1 && errno == ENOMEM)
-	{
-		printf("minishell: cd: %s\n", strerror(errno));
-		frees(ms, 1);
-	}
+		throwerror(ms, "cd");
 	if (ms->stat.st_mode & S_IFLNK)
-		tmp = actualizetmp(ms, tmp, "OLDPWD=");
-	if (tab[1] == NULL && cdhome(ms, tmp) == 1)
+		tmp = ft_cd_symlink(ms, tmp, "OLDPWD=");
+	if (tab[1] == NULL && ft_cd_home(ms, tmp) == 1)
 		return (1);
 	else if (tab[1] != NULL && ft_strncmp(tab[1], "-", 2) == 0 \
-		&& cdoldpwd(ms, tmp) == 1)
+		&& ft_cd_oldpwd(ms, tmp) == 1)
 		return (1);
 	else if (tab[1] != NULL && ft_strncmp(tab[1], "-", 2) != 0 \
-		&& cdnothome(ms, tab[1], tmp) == 1)
+		&& ft_cd_nothome(ms, tab[1], tmp) == 1)
 		return (1);
-	actualizeenv(ms, tmp);
-	actualizepwd(ms);
+	ft_echo_actualizeenv(ms, tmp);
+	ft_echo_actualizepwd(ms);
 	return (0);
 }

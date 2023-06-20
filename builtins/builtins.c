@@ -6,13 +6,13 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/16 14:00:49 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/20 13:23:50 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-// Afficher le chemin actuel.
+// Affiche le chemin actuel.
 int	ft_pwd(struct s_shell *ms)
 {
 	if (ms->pwdpath != NULL)
@@ -21,6 +21,7 @@ int	ft_pwd(struct s_shell *ms)
 }
 
 // Supprimer une variable du env.
+// Ne supprime pas la node de la liste chainee, mais met un flag dessus.
 int	ft_unset(struct s_shell *ms, char **tab)
 {
 	int				i;
@@ -34,7 +35,7 @@ int	ft_unset(struct s_shell *ms, char **tab)
 		i++;
 		tmp = ft_getenv(ms, tab[i - 1]);
 		if (tmp == NULL)
-			continue;
+			continue ;
 		if (ft_strncmp(tmp->line, "OLDPWD=", 7) == 0)
 		{
 			if (ms->oldpwdpath != NULL)
@@ -48,7 +49,7 @@ int	ft_unset(struct s_shell *ms, char **tab)
 	return (0);
 }
 
-// Afficher l'env.
+// Print l'env, en ignorant les nodes flagge par unset.
 int	ft_env(struct s_shell *ms, char **tab)
 {
 	struct s_lst	*tmp;
@@ -68,7 +69,7 @@ int	ft_env(struct s_shell *ms, char **tab)
 	return (0);
 }
 
-// Quitter proprement le shell.
+// Quitter proprement le programme.
 void	ft_exit(struct s_shell *ms, char **tab)
 {
 	int	i;

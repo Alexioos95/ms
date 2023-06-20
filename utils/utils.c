@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:18:09 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/15 12:12:58 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/20 15:26:25 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	strmalloc = malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	strmalloc = malloc(sizeof(char) * (unsigned long)ft_strlen(s1) \
+		+ (unsigned long)ft_strlen(s2) + 1);
 	if (strmalloc == NULL)
 		return (NULL);
 	while (s1[i] != '\0')
@@ -56,12 +59,10 @@ char	*ft_strdup(char *s)
 	char	*s1;
 
 	i = 0;
-	len = ft_strlen(s);
+	len = (size_t)ft_strlen(s);
 	s1 = malloc(sizeof(char) * (len + 1));
 	if (s1 == NULL)
-	{
 		return (NULL);
-	}
 	while (s[i] != '\0')
 	{
 		s1[i] = s[i];

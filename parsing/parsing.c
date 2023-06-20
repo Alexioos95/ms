@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/16 12:28:39 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/20 13:47:45 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	parser(struct s_shell *ms)
 		return (0);
 	if (checkorphanbracket(ms->line) == 1 || checkorphanquote(ms->line) == 1)
 		return (2);
-	ms->split = ft_splitline(ms->line, ' ');
+	ms->split = ft_split(ms->line, ' ');
 	if (ms->split[0] != NULL && ft_strncmp(ms->split[0], "echo", 5) == 0)
 		ft_echo(ms->split);
 	else if (ms->split[0] != NULL && ft_strncmp(ms->split[0], "pwd", 4) == 0)

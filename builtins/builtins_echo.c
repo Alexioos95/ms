@@ -6,13 +6,14 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:37:39 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/16 14:26:31 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/20 13:38:17 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-int	isfulln(char *str)
+// Regarde si la str envoyee est compose que de n apres le -n initial.
+int	ft_echo_isfulln(char *str)
 {
 	int	i;
 
@@ -26,8 +27,8 @@ int	isfulln(char *str)
 	return (1);
 }
 
-// Print la str.
-// Si l'argument est "-n", ne pas print le \n a la fin.
+// Print les str.
+// Si la 1ere str est "-n", ne print pas le \n a la fin du resultat.
 int	ft_echo(char **tab)
 {
 	int	i;
@@ -37,8 +38,8 @@ int	ft_echo(char **tab)
 	n = 0;
 	while (tab[i] != NULL && ft_strncmp(tab[i], "-n", 2) == 0)
 	{
-		if (isfulln(tab[i]) == 0)
-			break;
+		if (ft_echo_isfulln(tab[i]) == 0)
+			break ;
 		n = 1;
 		i++;
 	}

@@ -6,37 +6,35 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:03:43 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/16 13:50:26 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/20 14:42:39 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-int	oldnode(struct s_lst *node, char *str)
+// Remplace la str de la node correspondant a la variable,
+// et change son flag d'unset.
+int	ft_export_oldnode(struct s_lst *node, char *str)
 {
-	if (node->flag == ALLOC)
-		free(node->line);
+	free(node->line);
 	node->line = ft_substr(str, 0, ft_strlen(str));
 	if (node->line == NULL)
 	{
 		printf("minishell: malloc: %s\n", strerror(errno));
 		frees(node->ms, 1);
 	}
-	node->flag = ALLOC;
 	node->print = 1;
 	return (0);
 }
 
-int	newnode(struct s_shell *ms, char *str)
+// Creer une nouvelle node, l'ajoute a la liste, et set sa str.
+int	ft_export_newnode(struct s_shell *ms, char *str)
 {
 	struct s_lst	*new;
 
 	new = ft_lstnew(ms, NULL);
 	if (new == NULL)
-	{
-		printf("minishell: malloc: %s\n", strerror(errno));
-		frees(ms, 1);
-	}
+		throwerror(ms, "malloc");
 	new->line = ft_strdup(str);
 	if (new->line == NULL)
 	{
@@ -48,23 +46,22 @@ int	newnode(struct s_shell *ms, char *str)
 	return (0);
 }
 
-int	actualizeenv_export(struct s_shell *ms, char *str, int equal)
+// Cherche une node correspondant a la variable.
+// Si elle existe, modifie la str, sinon, la creer.
+int	ft_export_refreshenv(struct s_shell *ms, char *str, int equal)
 {
 	char			*new;
 	struct s_lst	*node;
 
 	new = ft_substr(str, 0, equal);
 	if (new == NULL)
-	{
-		printf("minishell: malloc: %s\n", strerror(errno));
-		frees(ms, 1);
-	}
+		throwerror(ms, "malloc");
 	node = ft_getenv(ms, new);
 	free(new);
 	if (node == NULL)
-		newnode(ms, str);
+		ft_export_newnode(ms, str);
 	else
-		oldnode(node, str);
+		ft_export_oldnode(node, str);
 	if (ft_strncmp(str, "OLDPWD=", 8) == 0 && ms->oldpwdpath != NULL)
 	{
 		free(ms->oldpwdpath);
@@ -73,7 +70,9 @@ int	actualizeenv_export(struct s_shell *ms, char *str, int equal)
 	return (0);
 }
 
-// Ajoute la str au env.
+// Ajoute la str a la liste chainee d'env.
+// Si une node correspond au nom de la variable,
+// je remplace la str de la node plutot que d'en creer une nouvelle.
 int	ft_export(struct s_shell *ms, char **tab)
 {
 	int				i;
@@ -83,14 +82,14 @@ int	ft_export(struct s_shell *ms, char **tab)
 	while (tab[i] != NULL)
 	{
 		i++;
-		isvalid = parsingexport(tab[i - 1]);
+		isvalid = ft_export_parsing(tab[i - 1]);
 		if (isvalid == 0)
 		{
 			if (tab[i] == NULL)
 				return (1);
 			continue ;
 		}
-		actualizeenv_export(ms, tab[i - 1], isvalid);
+		ft_export_refreshenv(ms, tab[i - 1], isvalid);
 	}
 	return (0);
 }

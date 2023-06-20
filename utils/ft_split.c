@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 10:19:13 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/14 11:03:24 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/20 14:30:58 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static int	ft_countstr(char *s, char c)
 {
-	int	i;
-	int	count;
+	int		i;
+	char	d;
+	int		count;
 
 	i = 0;
 	count = 0;
@@ -24,12 +25,41 @@ static int	ft_countstr(char *s, char c)
 	while (s[i] != '\0')
 	{
 		while (s[i] != '\0' && s[i] != c)
+		{
+			if (s[i] == '\'' || s[i] == '"')
+			{
+				d = s[i++];
+				while (s[i] != '\0' && s[i] != d)
+					i++;
+			}
 			i++;
+		}
 		count++;
 		while (s[i] != '\0' && s[i] == c)
 			i++;
 	}
 	return (count);
+}
+
+static	int	movepointer(char *s, char c, int j)
+{
+	char	d;
+
+	while (s[j] != '\0' && s[j] != c)
+	{
+		while (s[j] != '\0' && s[j] != c)
+		{
+			if (s[j] == '\'' || s[j] == '"')
+			{
+				d = s[j];
+				j++;
+				while (s[j] != '\0' && s[j] != d)
+					j++;
+			}
+			j++;
+		}
+	}
+	return (j);
 }
 
 static char	*ft_strdupsplit(char *s, char c, int j)
@@ -39,9 +69,7 @@ static char	*ft_strdupsplit(char *s, char c, int j)
 	char	*s1;
 
 	i = 0;
-	len = j;
-	while (s[len] != '\0' && s[len] != c)
-		len++;
+	len = movepointer(s, c, j);
 	len = len - j;
 	s1 = malloc(sizeof(char) * ((unsigned int)len + 1));
 	if (s1 == NULL)
@@ -68,8 +96,7 @@ static	char	*ft_loop(char *s, char c, int i)
 		j++;
 	while (loop < i)
 	{
-		while (s[j] != '\0' && s[j] != c)
-			j++;
+		j = movepointer(s, c, j);
 		while (s[j] != '\0' && s[j] == c)
 			j++;
 		loop++;
@@ -80,6 +107,8 @@ static	char	*ft_loop(char *s, char c, int i)
 	return (str);
 }
 
+// Split legerement modifie, qui continue d'avancer
+// s'il voit un c entre quote ou double quotes.
 char	**ft_split(char *s, char c)
 {
 	int		i;
