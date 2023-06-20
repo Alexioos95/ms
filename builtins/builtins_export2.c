@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 13:35:18 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/20 13:31:21 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/20 15:47:37 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_export_parsing(char *str)
 	int	equal;
 
 	equal = searchequal(str);
-	if (equal < 1)
+	if (equal < 1 || ft_strncmp(str, "_=", 2) == 0)
 		return (0);
 	i = equal;
 	while (i > -1)

@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/20 15:23:00 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/20 15:43:32 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ _Noreturn static void	loop(struct s_shell *ms)
 		if (ms->line != NULL)
 			free(ms->line);
 		setsigaction(ms, 1);
-		listtotab(ms);
 		ms->line = readline("apayen&eewu@minishell$ ");
 		if (ms->line == NULL)
 			nullonreadline(ms);

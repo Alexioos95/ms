@@ -123,6 +123,8 @@ char					*ft_strjoinenv(char *s1, char c, char *s2);
 char					*ft_substr(char *s, int start, int len);
 struct s_lst			*ft_getenv(struct s_shell *ms, char *str);
 char					**listtotab(struct s_shell *ms);
+// utils/utils_env2.c
+char					*ft_itoa(int nb);
 // utils/ft_split.c
 char					**ft_split(char *s, char c);
 // utils/frees.c

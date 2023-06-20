@@ -6,11 +6,43 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:04:45 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/20 14:42:44 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/20 16:37:27 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
+// Augmente la valeur de SHLVL de 1.
+// S'il a ete modifie a une valeur qui n'est pas entre 1 et INT_MAX
+// avant le lancement de minishell, elle devient 2 par defaut.
+void	increaseshlvl(struct s_shell *ms)
+{
+	int				nb;
+	char			*itoa;
+	char			*result;
+	struct s_lst	*node;
+	char			*tab[3];
+
+	tab[0] = "export";
+	tab[0] = "SHLVL=2";
+	tab[0] = NULL;
+	node = ft_getenv(ms, "SHLVL");
+	if (node == NULL)
+		return ((void)ft_export(ms, tab));
+	nb = ft_atoi(&node->line[6]);
+	if (nb < 1 || nb == 2147483647)
+		ft_export(ms, tab);
+	itoa = ft_itoa(nb + 1);
+	if (itoa == NULL)
+		throwerror(ms, "malloc");
+	result = ft_strjoinenv("SHLVL", '=', itoa);
+	free(itoa);
+	if (result == NULL)
+		throwerror(ms, "malloc");
+	free(node->line);
+	node->line = result;
+	ft_setpwd(ms);
+}
 
 // Init mes backups de PWD et OLDPWD en dehors du env.
 void	ft_setpwd(struct s_shell *ms)
@@ -103,5 +135,5 @@ void	ft_setenv(struct s_shell *ms, char **envp)
 		createminienv(ms);
 	else
 		recreatepwd(ms);
-	ft_setpwd(ms);
+	increaseshlvl(ms);
 }
