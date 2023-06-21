@@ -3,124 +3,109 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/13 11:17:34 by eewu             ###   ########.fr       */
+/*   Updated: 2023/06/21 09:45:32 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-void	actualizepwd(struct s_shell *ms)
-{
-	struct s_lst	*tmp;
-
-	tmp = ft_getenv(ms, "PWD");
-	if (tmp != NULL && tmp->line != NULL)
-	{
-		free(ms->pwdpath);
-		ms->pwdpath = ft_strdup(tmp->line);
-		if (ms->pwdpath == NULL)
-		{
-			printf("minishell: malloc: %s\n", strerror(errno));
-			frees(ms, 1);
-		}
-	}
-	tmp = ft_getenv(ms, "OLDPWD");
-	if (tmp != NULL && tmp->line != NULL)
-	{
-		free(ms->oldpwdpath);
-		ms->oldpwdpath = ft_strdup(tmp->line);
-		if (ms->oldpwdpath == NULL)
-		{
-			printf("minishell: malloc: %s\n", strerror(errno));
-			frees(ms, 1);
-		}
-	}
-}
-
-// Actualise le env de PWD et OLDPWD.
-void	cdenv(struct s_shell *ms, char *tmp, char *str)
-{
-	char			*ret;
-	struct s_lst	*node;
-
-	if (tmp == NULL)
-	{
-		printf("minishell: getcwd: %s\n", strerror(errno));
-		frees(ms, 1);
-	}
-	node = ft_getenv(ms, str);
-	if (node == NULL)
-		return ;
-	ret = ft_strjoinenv(str, '=', tmp);
-	if (ret == NULL)
-	{
-		printf("minishell: malloc: %s\n", strerror(errno));
-		frees(ms, 1);
-	}
-	if (node->flag == ALLOC)
-		free(node->line);
-	node->line = ret;
-	node->flag = ALLOC;
-	return ;
-}
-
-// Va au home.
-int	cdhome(struct s_shell *ms)
+// cd au chemin set dans le HOME du env.
+int	ft_cd_home(struct s_shell *ms, char *tmp)
 {
 	struct s_lst	*node;
 
 	node = ft_getenv(ms, "HOME");
 	if (node == NULL || node->print == 0 || node->line == NULL)
 	{
+		free(tmp);
 		printf("minishell: cd: HOME not set\n");
 		return (1);
 	}
-	if (chdir(&node->line[5]) == -1)
+	if (lstat(&node->line[5], &ms->stat) == -1 || chdir(&node->line[5]) == -1)
 	{
+		free(tmp);
+		if (errno == ENOMEM)
+			throwerror(ms, "cd");
 		printf("minishell: chdir: %s: %s\n", &node->line[5], strerror(errno));
-		if (errno == ENOMEM)
-			frees(ms, 1);
 		return (1);
 	}
+	if (ms->stat.st_mode & S_IFLNK)
+		ms->symlink = 1;
 	return (0);
 }
 
-int	cdnothome(struct s_shell *ms, char *str)
+// cd au chemin set dans le OLDPWD du env.
+int	ft_cd_oldpwd(struct s_shell *ms, char *tmp)
 {
-	if (chdir(str) == -1)
+	struct s_lst	*node;
+
+	node = ft_getenv(ms, "OLDPWD");
+	if (node == NULL || node->print != 1 || node->line[7] == '\0')
 	{
-		printf("minishell: cd: %s: %s\n", str, strerror(errno));
-		if (errno == ENOMEM)
-			frees(ms, 1);
+		free(tmp);
+		printf("minishell: cd: OLDPWD not set\n");
 		return (1);
 	}
+	if (lstat(&ms->oldpwdpath[7], &ms->stat) == -1 \
+		|| chdir(&ms->oldpwdpath[7]) == -1)
+	{
+		free(tmp);
+		if (errno == ENOMEM)
+			throwerror(ms, "cd");
+		printf("minishell: cd: %s: %s\n", &ms->oldpwdpath[7], strerror(errno));
+		return (1);
+	}
+	printf("%s\n", &ms->oldpwdpath[7]);
+	if (ms->stat.st_mode & S_IFLNK)
+		ms->symlink = 1;
 	return (0);
 }
 
-// Change le chemin actuel, et actualise le env.
-int	ft_cd(struct s_shell *ms, char *str)
+// cd au chemin donnee en parametre.
+int	ft_cd_nothome(struct s_shell *ms, char *str, char *tmp)
+{
+	if (lstat(str, &ms->stat) == -1 || chdir(str) == -1)
+	{
+		free(tmp);
+		if (errno == ENOMEM)
+			throwerror(ms, "cd");
+		printf("minishell: cd: %s: %s\n", str, strerror(errno));
+		return (1);
+	}
+	if (ms->stat.st_mode & S_IFLNK)
+		ms->symlink = 1;
+	return (0);
+}
+
+// Change le working directory, et actualise le env.
+int	ft_cd(struct s_shell *ms, char **tab)
 {
 	char	*tmp;
 
-	tmp = getcwd(NULL, 0);
-	if (str == NULL)
+	ms->symlink = 0;
+	ms->stat.st_mode = 0;
+	if (tab[1] != NULL && tab[2] != NULL)
 	{
-		if (cdhome(ms) == 1)
-			return ((void)free(tmp), 1);
+		printf("minishell: cd: too many arguments\n");
+		return (1);
 	}
-	else
-	{
-		if (cdnothome(ms, str) == 1)
-			return ((void)free(tmp), 0);
-	}
-	cdenv(ms, tmp, "OLDPWD");
-	free(tmp);
 	tmp = getcwd(NULL, 0);
-	cdenv(ms, tmp, "PWD");
-	free(tmp);
-	actualizepwd(ms);
+	if (lstat(&ms->pwdpath[5], &ms->stat) == -1 && errno == ENOMEM)
+		throwerror(ms, "cd");
+	if (ms->stat.st_mode & S_IFLNK)
+		tmp = ft_cd_symlink(ms, tmp, "OLDPWD=");
+	if (tab[1] == NULL && ft_cd_home(ms, tmp) == 1)
+		return (1);
+	else if (tab[1] != NULL && ft_strncmp(tab[1], "-", 2) == 0 \
+		&& ft_cd_oldpwd(ms, tmp) == 1)
+		return (1);
+	else if (tab[1] != NULL && ft_strncmp(tab[1], "-", 2) != 0 \
+		&& ft_cd_nothome(ms, tab[1], tmp) == 1)
+		return (1);
+	ft_echo_actualizeenv(ms, tmp);
+	ft_echo_actualizepwd(ms);
 	return (0);
 }

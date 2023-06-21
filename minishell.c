@@ -17,30 +17,23 @@ static void	setsigaction(struct s_shell *ms, int b)
 	if (b == 1)
 	{
 		if (sigaction(SIGINT, &ms->sigact[1], NULL) == -1 \
-			|| sigaction(SIGQUIT, &ms->sigact[2], NULL) == -1)
-		{
-			printf("minishell: sigaction: %s\n", strerror(errno));
-			frees(ms, 1);
-		}
+			|| sigaction(SIGQUIT, &ms->sigact[2], NULL) == -1 \
+			|| sigaction(SIGTSTP, &ms->sigact[2], NULL) == -1)
+			throwerror(ms, "sigaction");
 	}
 	else
 	{
 		if (sigaction(SIGINT, &ms->sigact[0], NULL) == -1 \
-			|| sigaction(SIGQUIT, &ms->sigact[0], NULL) == -1)
-		{
-			printf("minishell: sigaction: %s\n", strerror(errno));
-			frees(ms, 1);
-		}
+			|| sigaction(SIGQUIT, &ms->sigact[0], NULL) == -1 \
+			|| sigaction(SIGTSTP, &ms->sigact[0], NULL) == -1)
+			throwerror(ms, "sigaction");
 	}
 }
 
 static void	nullonreadline(struct s_shell *ms)
 {
 	if (errno == ENOMEM)
-	{
-		printf("minishell: malloc: %s\n", strerror(errno));
-		frees(ms, 1);
-	}
+		throwerror(ms, "readline");
 	else
 	{
 		printf("exit\n");
@@ -49,7 +42,7 @@ static void	nullonreadline(struct s_shell *ms)
 }
 
 // Boucle du shell.
-// Lire une ligne > l'ajouter a l'historique > parser > executer.
+// Lire une ligne > parser > executer.
 _Noreturn static void	loop(struct s_shell *ms)
 {
 	while (1)
@@ -75,6 +68,4 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	init(&ms, envp);
 	loop(&ms);
-	frees(&ms, 0);
-	return (1);
 }

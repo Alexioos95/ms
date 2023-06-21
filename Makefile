@@ -10,19 +10,23 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
-HEADER = header.h
+NAME =		minishell
+HEADER =	header.h
 
 SRC = $(addprefix $(OBJDIR)/,				\
 		minishell.c							\
-		init.c								\
 		signals.c							\
+    init/init.c					\
+		init/init_env.c				\
 		parsing/parsing.c					\
 		parsing/checkfororphans.c			\
 		parsing/separator.c					\
-		builtins/builtins.c					\
-		builtins/builtins_cd.c				\
-		builtins/builtins_export.c			\
+		builtins/builtins.c			\
+		builtins/builtins_cd.c		\
+		builtins/builtins_cd2.c		\
+		builtins/builtins_echo.c	\
+		builtins/builtins_export.c	\
+		builtins/builtins_export2.c	\
 		utils/pipex/pipex.c					\
 		utils/pipex/pipex_minilib.c			\
 		utils/pipex/pipex_util.c			\
@@ -31,23 +35,24 @@ SRC = $(addprefix $(OBJDIR)/,				\
 		utils/pipex/pipex_gnl.c				\
 		utils/pipex/pipex_lst.c				\
 		utils/pipex/pipex_init.c			\
-		utils/utils.c						\
+		utils/utils.c				\
+		utils/utils_env.c			\
+		utils/utils_env2.c			\
 		utils/lst.c							\
 		utils/minilib.c						\
 		utils/ft_split.c					\
-		utils/ft_splitline.c				\
 		utils/utils_env.c					\
 		utils/frees.c)
 
-OBJ = $(SRC:.c=.o)
+OBJ =	$(SRC:.c=.o)
 
 OBJDIR	=	obj
 
-CC =	 cc
-FLAGS = -Wall -Wextra -Werror -g3
+CC =	cc
+FLAGS =	-Wall -Wextra -Werror -g3
 RM =	rm -rf
 
-all : $(NAME)
+all :	$(NAME)
 
 $(NAME) : $(OBJ) $(HEADER)
 		$(CC) $(FLAGS) $(OBJ) -lreadline -o $(NAME)

@@ -13,7 +13,7 @@
 #include "../header.h"
 
 
-static int	ft_countstrline(char *s, char c)
+static int	ft_countstr(char *s, char c)
 {
 	int		i;
 	char	d;
@@ -63,7 +63,7 @@ static	int	movepointer(char *s, char c, int j)
 	return (j);
 }
 
-static char	*ft_strdupsplitline(char *s, char c, int j)
+static char	*ft_strdupsplit(char *s, char c, int j)
 {
 	int		i;
 	int		len;
@@ -102,12 +102,14 @@ static	char	*ft_loopline(char *s, char c, int i)
 			j++;
 		loop++;
 	}
-	str = ft_strdupsplitline(s, c, j);
+	str = ft_strdupsplit(s, c, j);
 	if (str == NULL)
 		return (NULL);
 	return (str);
 }
 
+// Split legerement modifie, qui continue d'avancer
+// s'il voit un c entre quote ou double quotes.
 char	**ft_split(char *s, char c)
 {
 	int		i;
@@ -117,7 +119,7 @@ char	**ft_split(char *s, char c)
 	i = 0;
 	if (s == NULL)
 		return (NULL);
-	len = ft_countstrline(s, c);
+	len = ft_countstr(s, c);
 	strmalloc = malloc(sizeof(char *) * ((unsigned int)len + 1));
 	if (strmalloc == NULL)
 		return (NULL);
@@ -131,29 +133,3 @@ char	**ft_split(char *s, char c)
 	strmalloc[i] = NULL;
 	return (strmalloc);
 }
-		// while (s[i] && s[i] == c)
-		// 	i++;
-		// while (s[i] && !(s[i] == c))
-		// 	i++;
-		// nb += 1;
-
-		//   abc " def" suy
-
-// char	**ft_split(char *s, char c)
-// {
-// 	char	**split;
-// 	int		i;
-// 	int		nb;
-
-// 	nb = 0;
-// 	i = 0;
-// 	ft_choose_separator(s, c);
-// 	if (s == NULL)
-// 		return (0);
-// 	split = ft_calloc(sizeof(char *), (nb + 1));
-// 	if (!split)
-// 		return (freesplit(split), NULL);
-// 	if (ft_tab(nb, (char *)s, c, split))
-// 		return (split);
-// 	return (0);
-// }

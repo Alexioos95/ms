@@ -3,28 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:43:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/13 11:17:34 by eewu             ###   ########.fr       */
+/*   Updated: 2023/06/21 09:36:12 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-void	*ft_memset(void *s, int c, size_t n)
+void	ft_sigquit(int sig)
 {
-	size_t			i;
-	unsigned char	*s2;
-
-	i = 0;
-	s2 = s;
-	while (i < n)
-	{
-		s2[i] = c;
-		i++;
-	}
-	return (s);
+	(void)sig;
 }
 
 void	ft_sigint(int sig)
@@ -36,7 +26,17 @@ void	ft_sigint(int sig)
 	rl_redisplay();
 }
 
-void	ft_sigquit(int sig)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	(void)sig;
+	size_t			i;
+	unsigned char	*s2;
+
+	i = 0;
+	s2 = s;
+	while (i < n)
+	{
+		s2[i] = (unsigned char)c;
+		i++;
+	}
+	return (s);
 }
