@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/13 11:17:34 by eewu             ###   ########.fr       */
+/*   Updated: 2023/06/14 15:57:14 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_echo(char *str, char *opt)
 	char	*option;
 
 	option = "-n";
-	if (opt != NULL && ft_strncmp(opt, option, 3) == 0)
+	if (opt != NULL && ft_strcmp(opt, option) == 0)
 	{
 		if (str != NULL)
 			printf("%s", str);
