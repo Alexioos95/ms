@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 10:19:13 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/20 14:30:58 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/16 14:00:41 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
 
 static int	ft_countstr(char *s, char c)
 {
@@ -84,7 +85,7 @@ static char	*ft_strdupsplit(char *s, char c, int j)
 	return (s1);
 }
 
-static	char	*ft_loop(char *s, char c, int i)
+static	char	*ft_loopline(char *s, char c, int i)
 {
 	char	*str;
 	int		j;
@@ -124,7 +125,7 @@ char	**ft_split(char *s, char c)
 		return (NULL);
 	while (i < len)
 	{
-		strmalloc[i] = ft_loop(s, c, i);
+		strmalloc[i] = ft_loopline(s, c, i);
 		if (strmalloc[i] == NULL)
 			return ((void)freesplit(strmalloc), NULL);
 		i++;

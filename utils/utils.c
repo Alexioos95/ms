@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:18:09 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/21 09:41:50 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/14 15:59:03 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@ int	ft_strlen(char *str)
 	if (str == NULL)
 		return (0);
 	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+int	ft_tablen(char **str)
+{
+	int	i;
+
+	i = 0;
+	if (str == NULL)
+		return (0);
+	while (str[i])
 		i++;
 	return (i);
 }
@@ -95,20 +107,4 @@ int	ft_atoi(char *nptr)
 		i++;
 	}
 	return (sign * result);
-}
-
-int	ft_strncmp(char *s1, char *s2, size_t n)
-{
-	size_t			i;
-	unsigned char	*s3;
-	unsigned char	*s4;
-
-	s3 = (unsigned char *)s1;
-	s4 = (unsigned char *)s2;
-	i = 0;
-	if (n == 0)
-		return (0);
-	while (s3[i] != '\0' && s4[i] != '\0' && s3[i] == s4[i] && i < n - 1)
-		i++;
-	return (s3[i] - s4[i]);
 }
