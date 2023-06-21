@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/20 14:47:42 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/21 09:41:07 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	ft_echo_changeenv(struct s_shell *ms, char *tmp, char *str)
 	}
 	free(node->line);
 	node->line = ret;
-	return ;
 }
 
 // Modifie le tmp pour avoir le symlink.

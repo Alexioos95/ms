@@ -6,14 +6,14 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:04:45 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/20 16:37:27 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/21 09:23:51 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
 // Augmente la valeur de SHLVL de 1.
-// S'il a ete modifie a une valeur qui n'est pas entre 1 et INT_MAX
+// S'il est a une valeur qui n'est pas entre 1 et INT_MAX
 // avant le lancement de minishell, elle devient 2 par defaut.
 void	increaseshlvl(struct s_shell *ms)
 {
@@ -91,13 +91,14 @@ void	recreatepwd(struct s_shell *ms)
 void	createminienv(struct s_shell *ms)
 {
 	char			*tabcd[3];
-	char			*tabexport[4];
+	char			*tabexport[5];
 	struct s_lst	*node;
 
 	tabexport[0] = "export";
 	tabexport[1] = "PWD=";
 	tabexport[2] = "OLDPWD=";
-	tabexport[3] = NULL;
+	tabexport[3] = "SHLVL=2";
+	tabexport[4] = NULL;
 	ft_export(ms, tabexport);
 	tabcd[0] = "cd";
 	tabcd[1] = "./";

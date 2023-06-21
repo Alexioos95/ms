@@ -27,7 +27,6 @@
 
 struct					s_lst
 {
-	int					pad;
 	int					print;
 	char				*line;
 	struct s_lst		*next;
@@ -51,14 +50,15 @@ struct					s_shell
 // ************************** INIT ************************** \\
 
 // init/init.c
-void					init(struct s_shell *ms, char **envp);
-struct s_lst			*ft_lstnew(struct s_shell *ms, char *str);
 void					ft_lstadd_back(struct s_lst **lst, struct s_lst *new);
+struct s_lst			*ft_lstnew(struct s_shell *ms, char *str);
+void					init(struct s_shell *ms, char **envp);
 // init/init_env.c
-void					ft_setenv(struct s_shell *ms, char **envp);
-void					createminienv(struct s_shell *ms);
-void					recreatepwd(struct s_shell *ms);
+void					increaseshlvl(struct s_shell *ms);
 void					ft_setpwd(struct s_shell *ms);
+void					recreatepwd(struct s_shell *ms);
+void					createminienv(struct s_shell *ms);
+void					ft_setenv(struct s_shell *ms, char **envp);
 
 // ************************** PROG ************************** \\
 
@@ -72,65 +72,67 @@ void					*ft_memset(void *s, int c, size_t n);
 // parsing/parsing.c
 int						parser(struct s_shell *ms);
 // parsing/checkorphans
-int						checkorphanbracket(char *line);
-int						checkorphanquote(char *line);
 int						isspecial(char c);
+int						checkorphanquote(char *line);
+int						checkorphanbracket(char *line);
 
 // ************************ BUILT-INS ************************ \\
 
 // builtins/builtins.c
 void					ft_exit(struct s_shell *ms, char **tab);
-int						ft_env(struct s_shell *ms, char **tab);
-int						ft_unset(struct s_shell *ms, char **tab);
 int						ft_pwd(struct s_shell *ms);
+int						ft_unset(struct s_shell *ms, char **tab);
+int						ft_env(struct s_shell *ms, char **tab);
 // builtins/builtins_echo.c
-int						ft_echo(char **tab);
 int						ft_echo_isfulln(char *str);
+int						ft_echo(char **tab);
 // builtins/builtins_export.c
-int						ft_export(struct s_shell *ms, char **tab);
-int						ft_export_refreshenv(struct s_shell *ms, char *str,
-							int equal);
 int						ft_export_newnode(struct s_shell *ms, char *str);
 int						ft_export_oldnode(struct s_lst *node, char *str);
+int						ft_export_refreshenv(struct s_shell *ms, char *str,
+							int equal);
+int						ft_export(struct s_shell *ms, char **tab);
 // builtins/builtins_export2.c
-int						ft_export_parsing(char *str);
-int						searchequal(char *str);
 int						ft_export_isvalid(char c, int i);
+int						ft_export_searchequal(char *str);
+int						ft_export_parsing(char *str);
 // builtins/builtins_cd.c
-int						ft_cd(struct s_shell *ms, char **tab);
-int						ft_cd_nothome(struct s_shell *ms, char *str, char *tmp);
-int						ft_cd_oldpwd(struct s_shell *ms, char *tmp);
 int						ft_cd_home(struct s_shell *ms, char *tmp);
+int						ft_cd_oldpwd(struct s_shell *ms, char *tmp);
+int						ft_cd_nothome(struct s_shell *ms, char *str, char *tmp);
+int						ft_cd(struct s_shell *ms, char **tab);
 // builtins/builtins_cd2.c
-void					ft_echo_actualizeenv(struct s_shell *ms, char *tmp);
-char					*ft_cd_symlink(struct s_shell *ms, char *tmp,
-							char *str);
+void					ft_echo_actualizepwd(struct s_shell *ms);
 void					ft_echo_changeenv(struct s_shell *ms, char *tmp,
 							char *str);
-void					ft_echo_actualizepwd(struct s_shell *ms);
+char					*ft_cd_symlink(struct s_shell *ms, char *tmp,
+							char *str);
+void					ft_echo_actualizeenv(struct s_shell *ms, char *tmp);
 
 // ************************* UTILS ************************* \\
 
 // utils/utils.c
-int						ft_strncmp(char *s1, char *s2, size_t n);
-int						ft_atoi(char *nptr);
-char					*ft_strdup(char *s);
-char					*ft_strjoin(char *s1, char *s2);
 int						ft_strlen(char *str);
+char					*ft_strjoin(char *s1, char *s2);
+char					*ft_strdup(char *s);
+int						ft_atoi(char *nptr);
+int						ft_strncmp(char *s1, char *s2, size_t n);
 // utils/utils_env.c
-char					*ft_strnstr(char *big, char *little, int equal);
 char					*ft_strjoinenv(char *s1, char c, char *s2);
 char					*ft_substr(char *s, int start, int len);
+char					*ft_strnstr(char *big, char *little, int equal);
 struct s_lst			*ft_getenv(struct s_shell *ms, char *str);
-char					**listtotab(struct s_shell *ms);
-// utils/utils_env2.c
 char					*ft_itoa(int nb);
+
+// utils/utils_env2.c
+int						countvalablenodes(struct s_lst *lst);
+char					**listtotab(struct s_shell *ms);
 // utils/ft_split.c
 char					**ft_split(char *s, char c);
 // utils/frees.c
-void					throwerror(struct s_shell *ms, char *str);
-void					frees(struct s_shell *ms, int code);
-void					freesplit(char **strmalloc);
 void					ft_lstclear(struct s_lst *lst);
+void					freesplit(char **strmalloc);
+void					frees(struct s_shell *ms, int code);
+void					throwerror(struct s_shell *ms, char *str);
 
 #endif

@@ -6,26 +6,11 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:03:43 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/20 15:52:04 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/21 09:39:05 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
-
-// Remplace la str de la node correspondant a la variable,
-// et change son flag d'unset.
-int	ft_export_oldnode(struct s_lst *node, char *str)
-{
-	free(node->line);
-	node->line = ft_substr(str, 0, ft_strlen(str));
-	if (node->line == NULL)
-	{
-		printf("minishell: malloc: %s\n", strerror(errno));
-		frees(node->ms, 1);
-	}
-	node->print = 1;
-	return (0);
-}
 
 // Creer une nouvelle node, l'ajoute a la liste, et set sa str.
 int	ft_export_newnode(struct s_shell *ms, char *str)
@@ -43,6 +28,21 @@ int	ft_export_newnode(struct s_shell *ms, char *str)
 		frees(ms, 1);
 	}
 	ft_lstadd_back(&ms->env, new);
+	return (0);
+}
+
+// Remplace la str de la node correspondant a la variable,
+// et change son flag d'unset.
+int	ft_export_oldnode(struct s_lst *node, char *str)
+{
+	free(node->line);
+	node->line = ft_substr(str, 0, ft_strlen(str));
+	if (node->line == NULL)
+	{
+		printf("minishell: malloc: %s\n", strerror(errno));
+		frees(node->ms, 1);
+	}
+	node->print = 1;
 	return (0);
 }
 

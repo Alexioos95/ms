@@ -6,34 +6,50 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:32:20 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/20 16:32:32 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/21 09:45:30 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-char	*ft_itoa(int nb)
+int	countvalablenodes(struct s_lst *lst)
 {
-	int				tmp;
-	int				len;
-	char			*str;
+	int				i;
+	struct s_lst	*tmp;
 
-	len = 1;
-	tmp = nb;
-	while (tmp > 9)
+	i = 0;
+	tmp = lst;
+	while (tmp != NULL)
 	{
-		tmp = tmp / 10;
-		len++;
+		if (tmp->print == 1)
+			i++;
+		tmp = tmp->next;
 	}
-	str = malloc(sizeof(char) * (len + 1));
-	if (str == NULL)
-		return (NULL);
-	str[len] = '\0';
-	while (len > 0)
+	return (i);
+}
+
+char	**listtotab(struct s_shell *ms)
+{
+	int				i;
+	int				len;
+	struct s_lst	*tmp;
+	char			**tab;
+
+	i = 0;
+	len = countvalablenodes(ms->env);
+	tab = malloc(sizeof(char *) * (len + 1));
+	if (tab == NULL)
+		throwerror(ms, "malloc");
+	tmp = ms->env;
+	while (tmp != NULL)
 	{
-		str[len - 1] = nb % 10 + '0';
-		nb = nb / 10;
-		len--;
+		if (tmp->print == 1)
+		{
+			tab[i] = tmp->line;
+			i++;
+		}
+		tmp = tmp->next;
 	}
-	return (str);
+	tab[i] = NULL;
+	return (tab);
 }
