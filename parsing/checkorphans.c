@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   checkorphans.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:07:37 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/20 15:02:11 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
 
 // Regarde si le char envoye est un charactere special qu'il ne faut pas gere.
 int	isspecial(char c)

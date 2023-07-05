@@ -6,11 +6,12 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:10:13 by eewu              #+#    #+#             */
-/*   Updated: 2023/06/14 16:06:18 by eewu             ###   ########.fr       */
+/*   Updated: 2023/06/28 13:16:08 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
@@ -49,4 +50,42 @@ int	ft_strcmp(char *s1, char *s2)
 	if ((int)ft_strlen(s1) != i)
 		return (0);
 	return (1);
+}
+
+
+int	ft_tabcmp(char *str, char **tab)
+{
+	int	i;
+	int	cmp;
+
+	i = 0;
+	cmp = 0;
+	if (!tab)
+		return (0);
+	while (tab[i] && cmp == 0)
+		cmp = ft_strcmp(str, tab[i++]);
+	return (cmp);
+}
+
+char	*ft_strnstr_cmp(char *big, char *little, int len)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	if (!little[j])
+		return ((char *)big);
+	while (big[i] && i < len)
+	{	
+		j = 0;
+		while (i + j < len && (big[i + j] == little[j]))
+		{
+			j++;
+			if (!little[j])
+				return ((char *)&big[i]);
+		}
+		i++;
+	}
+	return (0);
 }

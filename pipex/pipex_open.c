@@ -6,15 +6,19 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/06/20 16:58:21 by eewu             ###   ########.fr       */
+/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header.h"
+#include "../header.h"
+
 
 void	ft_openin(t_struct *m, char *in)
 {
-	m->in[0] = open(in, O_RDONLY);
+	if (!in)
+		m->in[0] = open("/dev/stdin", O_RDONLY);
+	else
+		m->in[0] = open(in, O_RDONLY);
 	if (m->in[0] >= 0)
 		m->in_rok = 0;
 	else
@@ -49,9 +53,9 @@ int	ft_error(char *ft, char *error, int pid, t_struct *m)
 	else
 	{
 		if (m->cmd->i == 13)
-			ft_printf("zsh: permission denied: %s\n", ft);
+			printf("zsh: permission denied: %s\n", ft);
 		else
-			ft_printf("zsh: %s: %s\n", error, ft);
+			printf("zsh: %s: %s\n", error, ft);
 		return (0);
 	}
 }

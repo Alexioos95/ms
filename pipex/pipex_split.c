@@ -6,11 +6,12 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:16:12 by eewu              #+#    #+#             */
-/*   Updated: 2023/06/20 16:58:21 by eewu             ###   ########.fr       */
+/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../header.h"
+// #include "../header.h"
+
 
 // static int	ft_nbword(char *s, char c)
 // {

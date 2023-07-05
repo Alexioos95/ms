@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_export2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 13:35:18 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/21 09:39:44 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
 
 int	ft_export_isvalid(char c, int i)
 {

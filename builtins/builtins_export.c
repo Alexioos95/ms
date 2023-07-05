@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_export.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:03:43 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/21 09:39:05 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
 
 // Creer une nouvelle node, l'ajoute a la liste, et set sa str.
 int	ft_export_newnode(struct s_shell *ms, char *str)

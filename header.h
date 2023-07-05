@@ -10,9 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #ifndef HEADER_H
 # define HEADER_H
 
+# include "pipex.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdint.h>
@@ -20,9 +22,9 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stddef.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <stddef.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <unistd.h>
@@ -41,52 +43,42 @@ typedef struct s_cmd
 	struct s_shell		*ms;
 }						t_cmd;
 
-struct					s_lst
+typedef struct s_builtins
+{
+	int					cd;
+	int					pwd;
+	int					exit;
+	int					unset;
+	int					env;
+	int					echo;
+	int					export;
+}						t_builtins;
+
+typedef struct s_tokens
+{
+	char				*token;
+	char				*arg;
+}						t_tokens;
+
+typedef struct s_lexer
+{
+	char				*str;
+	t_tokens			token;
+	int					i;
+	int					len;
+	struct s_lexer		*next;
+	struct s_lexer		*back;
+}						t_lexer;
+
+typedef struct s_lst
 {
 	int					print;
 	char				*line;
 	struct s_lst		*next;
 	struct s_shell		*ms;
-};
+}						t_lst;
 
-typedef struct s_list
-{
-	char			**tab;
-	struct s_list	*next;
-	int				i;
-	char			pad[4];
-}					t_list;
-
-typedef struct s_struct
-{
-	int				count;
-	int				i;
-	int				eror;
-	int				in[2];
-	int				out;
-	int				bhole;
-	int				status;
-	int				in_rok;
-	int				pipe;
-	int				cmd_i;
-	char			pad3[4];
-	int				**fds;
-	int				fd[2];
-	int				nb_cmd;
-	int				hdoc;
-	int				ac;
-	char			pad[4];
-	pid_t			*pids;
-	char			*limit;
-	char			*cmd_join;
-	char			**s_ev;
-	char			**ev;
-	char			**av;
-	t_list			*head;
-	struct s_list	*cmd;
-}					t_struct;
-
-struct					s_shell
+typedef struct s_shell
 {
 	char				*line;
 	char				*pwdpath;
@@ -95,134 +87,136 @@ struct					s_shell
 	char				*tmp;
 	int					orphan;
 	int					symlink;
+	int					nb_pipe;
+	struct s_tokens		token;
 	struct s_lst		*env;
-	struct s_struct		*pex;
+	struct s_cmd		*cmd;
+	struct s_pipex		*pex;
+	struct s_lexer		*lexer;
+	struct s_cmd_lst	*cmd_lst;
 	struct sigaction	sigact[3];
 	struct stat			stat;
-};
+}						t_shell;
 
 // ************************** INIT ************************** \\
 
 // init/init.c
-void					ft_lstadd_back(struct s_lst **lst, struct s_lst *new);
-struct s_lst			*ft_lstnew(struct s_shell *ms, char *str);
-void					init(struct s_shell *ms, char **envp);
+void				ft_lstadd_back(struct s_lst **lst, struct s_lst *new);
+struct s_lst		*ft_lstnew(struct s_shell *ms, char *str);
+void				init(struct s_shell *ms, char **envp);
 // init/init_env.c
-void					increaseshlvl(struct s_shell *ms);
-void					ft_setpwd(struct s_shell *ms);
-void					recreatepwd(struct s_shell *ms);
-void					createminienv(struct s_shell *ms);
-void					ft_setenv(struct s_shell *ms, char **envp);
+void				increaseshlvl(struct s_shell *ms);
+void				ft_setpwd(struct s_shell *ms);
+void				recreatepwd(struct s_shell *ms);
+void				createminienv(struct s_shell *ms);
+void				ft_setenv(struct s_shell *ms, char **envp);
 
 // ************************** PROG ************************** \\
 
 // signals.c
-void					ft_sigquit(int sig);
-void					ft_sigint(int sig);
-void					*ft_memset(void *s, int c, size_t n);
+void				ft_sigquit(int sig);
+void				ft_sigint(int sig);
+void				*ft_memset(void *s, int c, size_t n);
 
 // ************************ PARSING ************************ \\
 
 // parsing/parsing.c
-int						parser(struct s_shell *ms);
+int					parser(struct s_shell *ms);
 // parsing/checkorphans
-int						isspecial(char c);
+int					isspecial(char c);
 // parsing/separator.c
-t_cmd					*split_pipe(char *str);
+t_lexer				*split_pipe(char *str, t_shell *ms);
 // utils/lst.c
-void					ft_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
-struct s_cmd			*ft_lstnew_cmd(char **str, char **redir, char **built);
-int						checkorphanquote(char *line);
-int						checkorphanbracket(char *line);
+void				ft_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
+t_cmd				*ft_lstnew_cmd(char **str, char **redir, char **built);
+int					checkorphanquote(char *line);
+int					checkorphanbracket(char *line);
+void				ft_print_lexerlst(t_lexer *lst);
+
+
+
+t_tokens			ft_newtoken(char *token, char *arg);
+t_lexer				*ft_lexer(char **tab, t_lexer *new);
+t_lexer				*ft_lstnew_lexer(char *str, t_tokens token);
+t_lexer				*ft_lstlast_lexer(t_lexer *head);
+int					ft_is_arg(char *str, int state);
+int					ft_is_goodtoken(char *curr_token);
+char				*ft_istoken(char *str, int state);
+int					ft_isword(char *str, int state);
+void				ft_lstaddback_lexer(t_lexer **head, t_lexer *new);
+void				ft_lstresetindex_lexer(t_lexer *head);
+void				ft_parcour(t_shell *ms);
+int					ft_token_or_word(char *line, int state, t_lexer **l, int i);
+int					ft_findword(char *line, int state, t_lexer **lexer, int i);
+int					ft_instate(char *line, int state, t_lexer **lexer, int i);
+int					ft_state(char *str, int state);
+
 
 // ************************ BUILT-INS ************************ \\
 
 // builtins/builtins.c
-void					ft_exit(struct s_shell *ms, char **tab);
-int						ft_pwd(struct s_shell *ms);
-int						ft_unset(struct s_shell *ms, char **tab);
-int						ft_env(struct s_shell *ms, char **tab);
+void				ft_exit(struct s_shell *ms, char **tab);
+int					ft_pwd(struct s_shell *ms);
+int					ft_unset(struct s_shell *ms, char **tab);
+int					ft_env(struct s_shell *ms, char **tab);
 // builtins/builtins_echo.c
-int						ft_echo_isfulln(char *str);
-int						ft_echo(char **tab);
+int					ft_echo_isfulln(char *str);
+int					ft_echo(char **tab);
 // builtins/builtins_export.c
-int						ft_export_newnode(struct s_shell *ms, char *str);
-int						ft_export_oldnode(struct s_lst *node, char *str);
-int						ft_export_refreshenv(struct s_shell *ms, char *str,
-							int equal);
-int						ft_export(struct s_shell *ms, char **tab);
+int					ft_export_newnode(struct s_shell *ms, char *str);
+int					ft_export_oldnode(struct s_lst *node, char *str);
+int					ft_export_refreshenv(struct s_shell *ms, char *str,
+						int equal);
+int					ft_export(struct s_shell *ms, char **tab);
 // builtins/builtins_export2.c
-int						ft_export_isvalid(char c, int i);
-int						ft_export_searchequal(char *str);
-int						ft_export_parsing(char *str);
+int					ft_export_isvalid(char c, int i);
+int					ft_export_searchequal(char *str);
+int					ft_export_parsing(char *str);
 // builtins/builtins_cd.c
-int						ft_cd_home(struct s_shell *ms, char *tmp);
-int						ft_cd_oldpwd(struct s_shell *ms, char *tmp);
-int						ft_cd_nothome(struct s_shell *ms, char *str, char *tmp);
-int						ft_cd(struct s_shell *ms, char **tab);
+int					ft_cd_home(struct s_shell *ms, char *tmp);
+int					ft_cd_oldpwd(struct s_shell *ms, char *tmp);
+int					ft_cd_nothome(struct s_shell *ms, char *str, char *tmp);
+int					ft_cd(struct s_shell *ms, char **tab);
 // builtins/builtins_cd2.c
-void					ft_echo_actualizepwd(struct s_shell *ms);
-void					ft_echo_changeenv(struct s_shell *ms, char *tmp,
-							char *str);
-char					*ft_cd_symlink(struct s_shell *ms, char *tmp,
-							char *str);
-void					ft_echo_actualizeenv(struct s_shell *ms, char *tmp);
+void				ft_echo_actualizepwd(struct s_shell *ms);
+void				ft_echo_changeenv(struct s_shell *ms, char *tmp,
+						char *str);
+char				*ft_cd_symlink(struct s_shell *ms, char *tmp,
+						char *str);
+void				ft_echo_actualizeenv(struct s_shell *ms, char *tmp);
 
 // ************************* UTILS ************************* \\
 
 // utils/utils.c
-int						ft_strlen(char *str);
-char					*ft_strjoin(char *s1, char *s2);
-char					*ft_strdup(char *s);
-int						ft_atoi(char *nptr);
-int						ft_strncmp(char *s1, char *s2, size_t n);
+int					ft_strlen(char *str);
+char				*ft_strjoin(char *s1, char *s2);
+char				*ft_strdup(char *s);
+int					ft_atoi(char *nptr);
+int					ft_tablen(char **str);
+int					ft_strncmp(char *s1, char *s2, size_t n);
 // utils/utils_env.c
-char					*ft_strjoinenv(char *s1, char c, char *s2);
-char					*ft_substr(char *s, int start, int len);
-char					*ft_strnstr(char *big, char *little, int equal);
-struct s_lst			*ft_getenv(struct s_shell *ms, char *str);
-char					*ft_itoa(int nb);
+char				*ft_strjoinenv(char *s1, char c, char *s2);
+char				*ft_substr(char *s, int start, int len);
+char				*ft_strnstr(char *big, char *little, int equal);
+struct s_lst		*ft_getenv(struct s_shell *ms, char *str);
+char				*ft_itoa(int nb);
 // utils/utils_env2.c
-int						countvalablenodes(struct s_lst *lst);
-char					**listtotab(struct s_shell *ms);
+int					countvalablenodes(struct s_lst *lst);
+char				**listtotab(struct s_shell *ms);
 // utils/ft_split.c
-char					**ft_split(char *s, char c);
+char				**ft_split(char *s, char c);
 // utils/frees.c
-void					ft_lstclear(struct s_lst *lst);
-void					freesplit(char **strmalloc);
-void					frees(struct s_shell *ms, int code);
-void					throwerror(struct s_shell *ms, char *str);
+void				ft_lstclear(struct s_lst *lst);
+void				freesplit(char **strmalloc);
+void				frees(struct s_shell *ms, int code);
+void				throwerror(struct s_shell *ms, char *str);
 // utils/minilib.c
-void					*ft_calloc(size_t nmemb, size_t size);
-void					ft_bzero(void *s, size_t n);
-int						ft_strcmp(char *s1, char *s2);
-// utils/pipex/pipex.c
-void					ft_process(t_struct *main, char *out);
-void					ft_pipex(t_struct *main, char *out, char *in);
-// utils/pipex/pipex_util.c
-void					ft_pipe(t_struct *m);
-int						ft_fdspipe(t_struct *m);
-void					ft_fork(t_struct *m);
-void					ft_childprocess(t_struct *m, char *out)
-						__attribute__((noreturn));
-void					ft_cmdex(char **cmd, char **ev, t_struct *main)
-						__attribute__((noreturn));
-// utils/pipex/pipex_open.c
-void					ft_openin(t_struct *main, char *in);
-void					ft_openout(t_struct *main, char *out);
-void					ft_dupcheck(int fd, int stdfd, t_struct *m);
-int						ft_error(char *ft, char *error, int pid, t_struct *m);
-// utils/pipex/pipex_init.c
-void					ft_printheredoc(t_struct *m);
-void					ft_mallocpipe(t_struct *m);
-void					ft_forkex(t_struct	*m, int in, int out);
-t_struct				*ft_init(t_struct *main, int ac, char **av, char **ev);
-// utils/pipex/pipex_close.c
-void					ft_free_process(t_struct *main, int r)
-						__attribute__((noreturn));
-void					ft_free_tab(char **tab);
-void					ft_closeoutin(t_struct *m);
-void					ft_closefds(t_struct *m);
-void					ft_freefds(t_struct *m);
+void				*ft_calloc(size_t nmemb, size_t size);
+void				ft_bzero(void *s, size_t n);
+int					ft_strcmp(char *s1, char *s2);
+int					ft_tabcmp(char *str, char **tab);
+char				*ft_strnstr_cmp(char *big, char *little, int len);
+//errors/errors_1-5.c
+int					ft_errors_1_5(int error, char *str);
 
 #endif

@@ -1,49 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pipex_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/06/20 16:58:21 by eewu             ###   ########.fr       */
+/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../header.h"
+#include "../header.h"
 
-static int	ft_heredoc(char *in)
-{
-	size_t		i;
-	char		*tab;
 
-	tab = "here_doc";
-	i = 0;
-	if (ft_strlen(in) != ft_strlen(tab))
-		return (0);
-	else
-	{
-		while (in[i])
-		{
-			if (in[i] != tab[i])
-				break ;
-			i++;
-		}
-	}
-	if (i == ft_strlen(tab))
-		return (1);
-	return (0);
-}
+// static int	ft_heredoc(char *in)
+// {
+// 	size_t		i;
+// 	char		*tab;
 
-void	ft_printheredoc(t_struct *m)
-{
-	int	tmp;
+// 	tab = "here_doc";
+// 	i = 0;
+// 	if (ft_strlen(in) != ft_strlen(tab))
+// 		return (0);
+// 	else
+// 	{
+// 		while (in[i])
+// 		{
+// 			if (in[i] != tab[i])
+// 				break ;
+// 			i++;
+// 		}
+// 	}
+// 	if (i == (size_t)ft_strlen(tab))
+// 		return (1);
+// 	return (0);
+// }
 
-	tmp = m->nb_cmd;
-	while (tmp-- >= 2)
-		ft_printf("pipe ");
-	ft_printf("heredoc> ");
-}
+// void	ft_printheredoc(t_struct *m)
+// {
+// 	int	tmp;
+
+// 	tmp = m->nb_cmd;
+// 	while (tmp-- >= 2)
+// 		printf("pipe ");
+// 	printf("heredoc> ");
+// }
 
 void	ft_mallocpipe(t_struct *m)
 {
@@ -60,16 +61,14 @@ void	ft_mallocpipe(t_struct *m)
 			ft_free_process(m, errno);
 		i++;
 	}
-	// m->pids = malloc (sizeof(pid_t) * (unsigned long)m->nb_cmd);
-	// if (!m->pids)
-	// 	ft_free_process(m, errno);
 }
 
-void	ft_forkex(t_struct	*m, int in, int out)
+void	ft_forkex(t_struct	*m, char *in, char *out)
 {
 	int	i;
 
 	i = 0;
+	(void)in;
 	ft_fork(m);
 	if (m->pids[m->count] == 0)
 	{
@@ -88,7 +87,7 @@ void	ft_forkex(t_struct	*m, int in, int out)
 		i++;
 }
 
-t_struct	*ft_init(t_struct *m, int nb_cmd, char **av, char **ev)
+t_struct	*ft_init(t_struct *m, int nb_cmd, t_list *pars_lst, char **ev)
 {
 	m = malloc(sizeof(t_struct));
 	if (!m)
@@ -105,17 +104,19 @@ t_struct	*ft_init(t_struct *m, int nb_cmd, char **av, char **ev)
 	m->hdoc = 0;
 	m->ac = nb_cmd;
 	m->cmd_join = NULL;
-	m->limit = av[2];
+	m->limit = NULL;
 	m->ev = ev;
 	m->s_ev = NULL;
-	m->av = av;
+	m->av = NULL;
 	m->cmd = NULL;
 	m->nb_cmd = nb_cmd;
+	(void)pars_lst;
 	m->pids = malloc (sizeof(pid_t) * (unsigned long)m->nb_cmd);
 	if (!m->pids)
 		ft_free_process(m, errno);
 	return (m);
 }
 
+	// m->limit = av[2];
 	// in = av[1];
 	// out = av[nb_cmd - 1];

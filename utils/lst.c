@@ -6,15 +6,16 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:35:46 by eewu              #+#    #+#             */
-/*   Updated: 2023/06/14 16:00:05 by eewu             ###   ########.fr       */
+/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-void	ft_lstadd_back_cmd(struct s_cmd **lst, struct s_cmd *new)
+
+void	ft_lstadd_back_cmd(t_cmd **lst, t_cmd *new)
 {
-	struct s_cmd	*last;
+	t_cmd	*last;
 
 	if (new == NULL)
 	{
@@ -33,7 +34,7 @@ void	ft_lstadd_back_cmd(struct s_cmd **lst, struct s_cmd *new)
 	new->back = last;
 }
 
-struct s_cmd	*ft_lstnew_cmd(char **str, char **redir, char **built)
+t_cmd	*ft_lstnew_cmd(char **str, char **redir, char **built)
 {
 	struct s_cmd	*new;
 

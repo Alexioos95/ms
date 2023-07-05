@@ -6,11 +6,12 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 12:01:20 by eewu              #+#    #+#             */
-/*   Updated: 2023/06/20 17:14:21 by eewu             ###   ########.fr       */
+/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../../header.h"
+// #include "../header.h"
+
 
 // void	ft_clear_buf(char *buf, char *bsn_i, int after)
 // {

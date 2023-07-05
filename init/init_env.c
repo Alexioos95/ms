@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:04:45 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/21 09:23:51 by apayen           ###   ########.fr       */
+/*   Updated: 2023/06/27 11:42:55 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
 
 // Augmente la valeur de SHLVL de 1.
 // S'il est a une valeur qui n'est pas entre 1 et INT_MAX
@@ -24,8 +25,8 @@ void	increaseshlvl(struct s_shell *ms)
 	char			*tab[3];
 
 	tab[0] = "export";
-	tab[0] = "SHLVL=2";
-	tab[0] = NULL;
+	tab[1] = "SHLVL=2";
+	tab[2] = NULL;
 	node = ft_getenv(ms, "SHLVL");
 	if (node == NULL)
 		return ((void)ft_export(ms, tab));

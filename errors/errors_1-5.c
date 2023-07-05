@@ -1,43 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   errors_1-5.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/01 10:43:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/22 11:47:01 by eewu             ###   ########.fr       */
+/*   Created: 2023/06/26 11:25:41 by eewu              #+#    #+#             */
+/*   Updated: 2023/06/26 12:08:54 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "../header.h"
 
-
-void	ft_sigquit(int sig)
+int	ft_errors_1_5(int error, char *str)
 {
-	(void)sig;
-}
-
-void	ft_sigint(int sig)
-{
-	(void)sig;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-void	*ft_memset(void *s, int c, size_t n)
-{
-	size_t			i;
-	unsigned char	*s2;
-
-	i = 0;
-	s2 = s;
-	while (i < n)
+	if (error == 0)
 	{
-		s2[i] = (unsigned char)c;
-		i++;
+		printf ("bash: syntax error near unexpected token `%s'\n", str);
+		return (-2);
 	}
-	return (s);
+	else if (error == 1)
+	{
+		printf ("%s\n", str);
+		return (-2);
+	}
+	else if (error == 2)
+	{
+		printf ("%s\n", str);
+		return (-2);
+	}
+	else if (error == 3)
+	{
+		printf ("%s\n", str);
+		return (-2);
+	}
+	else
+	{
+		printf ("%s\n", str);
+		return (-2);
+	}
 }
