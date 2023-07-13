@@ -6,7 +6,7 @@
 #    By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/06/26 11:27:40 by eewu             ###   ########.fr        #
+#    Updated: 2023/07/13 14:21:55 by eewu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			init/init_env.c						\
 			parsing/parsing.c					\
 			parsing/checkorphans.c				\
-			parsing/separator.c					\
+			parsing/lst_lexer.c					\
 			builtins/builtins.c					\
 			builtins/builtins_cd.c				\
 			builtins/builtins_cd2.c				\
@@ -38,6 +38,7 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			pipex/pipex_lst.c					\
 			pipex/pipex_init.c					\
 			utils/utils.c						\
+			utils/test.c						\
 			utils/utils_env.c					\
 			utils/utils_env2.c					\
 			utils/lst.c							\

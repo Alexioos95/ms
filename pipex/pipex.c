@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/13 14:12:25 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,26 @@ void	ft_pipex(t_struct *m, char *out, char *in)
 	ft_closefds(m);
 	while (waitpid(m->pids[i], &m->status, 0) > 0 && i < m->count - 1)
 		i++;
+}
+
+int	ft_start(int nb_cmd, t_list *pars_lst, char **ev)
+{
+	char		*in;
+	char		*out;
+	t_struct	*m;
+
+	m = NULL;
+	m = ft_init(m, nb_cmd, pars_lst, ev);
+	if (!m)
+		return (1);
+	in = NULL;
+	out = NULL;
+	m->bhole = open("/dev/null", O_WRONLY);
+	ft_openin(m, in);
+	if (nb_cmd >= 2 && ev)
+		ft_pipex(m, out, in);
+	else if (nb_cmd == 1 && ev)
+		ft_forkex(m, in, out);
+	ft_free_process(m, errno);
+	return (1);
 }

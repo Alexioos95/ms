@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:32:20 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/22 13:46:54 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/10 15:28:18 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,31 @@ int	ft_strncmp(char *s1, char *s2, size_t n)
 	while (s3[i] != '\0' && s4[i] != '\0' && s3[i] == s4[i] && i < n - 1)
 		i++;
 	return (s3[i] - s4[i]);
+}
+
+char	*ft_subnstr(char *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	size_t	n;
+	char	*str;
+
+	i = 0;
+	if (!s || ((size_t)start == len))
+		return (0);
+	if ((int)start >= ft_strlen(s))
+		n = 0;
+	else
+		n = ft_strlen(&s[start]);
+	if (n > len)
+		n = len;
+	str = malloc(sizeof(char) * (n + 1));
+	if (!str)
+		return (0);
+	while (i < n)
+	{
+		str[i] = s[start + i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }

@@ -58,6 +58,7 @@ typedef struct s_tokens
 {
 	char				*token;
 	char				*arg;
+	char				*pipe;
 }						t_tokens;
 
 typedef struct s_lexer
@@ -122,35 +123,24 @@ void				*ft_memset(void *s, int c, size_t n);
 
 // parsing/parsing.c
 int					parser(struct s_shell *ms);
+int					ft_state(char c, int state);
+int					ft_istoken(char c);
+int					ft_isthereatoken(char *line, t_lexer **lexer);
+void				ft_browse(t_shell *ms);
 // parsing/checkorphans
 int					isspecial(char c);
-// parsing/separator.c
-t_lexer				*split_pipe(char *str, t_shell *ms);
+// parsing/lst_lexer.c
+t_tokens			ft_newtoken(char *token, char *arg);
+t_lexer				*ft_lexer_new(char *str, t_tokens token);
+t_lexer				*ft_lstlast_lexer(t_lexer *head);
+void				ft_lexer_addback(t_lexer **head, t_lexer *new);
+void				ft_lstresetindex_lexer(t_lexer *head);
 // utils/lst.c
 void				ft_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
 t_cmd				*ft_lstnew_cmd(char **str, char **redir, char **built);
 int					checkorphanquote(char *line);
 int					checkorphanbracket(char *line);
 void				ft_print_lexerlst(t_lexer *lst);
-
-
-
-t_tokens			ft_newtoken(char *token, char *arg);
-t_lexer				*ft_lexer(char **tab, t_lexer *new);
-t_lexer				*ft_lstnew_lexer(char *str, t_tokens token);
-t_lexer				*ft_lstlast_lexer(t_lexer *head);
-int					ft_is_arg(char *str, int state);
-int					ft_is_goodtoken(char *curr_token);
-char				*ft_istoken(char *str, int state);
-int					ft_isword(char *str, int state);
-void				ft_lstaddback_lexer(t_lexer **head, t_lexer *new);
-void				ft_lstresetindex_lexer(t_lexer *head);
-void				ft_parcour(t_shell *ms);
-int					ft_token_or_word(char *line, int state, t_lexer **l, int i);
-int					ft_findword(char *line, int state, t_lexer **lexer, int i);
-int					ft_instate(char *line, int state, t_lexer **lexer, int i);
-int					ft_state(char *str, int state);
-
 
 // ************************ BUILT-INS ************************ \\
 
@@ -203,10 +193,12 @@ char				*ft_itoa(int nb);
 // utils/utils_env2.c
 int					countvalablenodes(struct s_lst *lst);
 char				**listtotab(struct s_shell *ms);
+char				*ft_subnstr(char *s, unsigned int start, size_t len);
 // utils/ft_split.c
 char				**ft_split(char *s, char c);
 // utils/frees.c
 void				ft_lstclear(struct s_lst *lst);
+void				ft_lexerclear(t_lexer *lexer);
 void				freesplit(char **strmalloc);
 void				frees(struct s_shell *ms, int code);
 void				throwerror(struct s_shell *ms, char *str);
