@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/13 14:12:25 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/18 18:26:58 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_process(t_struct *m, char *out)
 	ft_fork(m);
 	if (m->pids[m->count] == 0)
 	{
+		ft_openin(m, NULL);
 		if (m->in_rok != 0 || m->cmd->i != 0)
 			ft_dupcheck(m->bhole, STDIN_FILENO, m);
 		ft_childprocess(m, out);
@@ -40,63 +41,7 @@ void	ft_process(t_struct *m, char *out)
 	}
 }
 
-// static size_t	ft_gnllen(char *line)
-// {
-// 	size_t	i;
 
-// 	i = 0;
-// 	while (line[i] != '\n')
-// 		i++;
-// 	return (i);
-// }
-
-// static int	ft_limiter(t_struct *m, char *line)
-// {
-// 	size_t		i;
-
-// 	i = 0;
-// 	if (ft_gnllen(line) != ft_strlen(m->limit))
-// 		return (0);
-// 	while (line[i] != '\n')
-// 	{
-// 		if (line[i] != m->limit[i])
-// 			break ;
-// 		i++;
-// 	}
-// 	if (i == ft_strlen(m->limit))
-// 		return (1);
-// 	else
-// 		return (0);
-// }
-
-// static void	ft_gnl(t_struct *m)
-// {
-// 	char	*line;
-// 	int		i;
-
-// 	if (pipe(m->in) == -1)
-// 	{
-// 		perror("pipe");
-// 		ft_free_process(m, errno);
-// 	}
-// 	m->hdoc = 0;
-// 	while (1)
-// 	{
-// 		i = 0;
-// 		ft_printheredoc(m);
-// 		line = get_next_line(0);
-// 		if (line == NULL || ft_limiter(m, line))
-// 		{
-// 			free(line);
-// 			break ;
-// 		}
-// 		while (line[i])
-// 			write(m->in[1], &line[i++], 1);
-// 		free(line);
-// 	}
-// 	close(m->in[1]);
-// 	m->in_rok = 0;
-// }
 
 void	ft_pipex(t_struct *m, char *out, char *in)
 {
@@ -104,11 +49,7 @@ void	ft_pipex(t_struct *m, char *out, char *in)
 
 	i = 0;
 	ft_mallocpipe(m);
-	// if (m->hdoc && m->ac >= 6)
-	// 	ft_gnl(m);
 	(void)in;
-	if (m->in[0] >= 0)
-		ft_dupcheck(m->in[0], STDIN_FILENO, m);
 	ft_pipe(m);
 	while (m->nb_cmd >= 1)
 		ft_process(m, out);
@@ -117,24 +58,29 @@ void	ft_pipex(t_struct *m, char *out, char *in)
 		i++;
 }
 
-int	ft_start(int nb_cmd, t_list *pars_lst, char **ev)
+int	ft_start(t_lexer *lexer, t_shell *ms)
 {
-	char		*in;
-	char		*out;
+	int			nb_cmd;
+	char		**env;
 	t_struct	*m;
 
+	(void)lexer;
+	env = listtotab(ms);
 	m = NULL;
-	m = ft_init(m, nb_cmd, pars_lst, ev);
+	nb_cmd = ft_nb_cmd(ms->lexer);
+	m = ft_init(m, nb_cmd, env);
 	if (!m)
 		return (1);
-	in = NULL;
-	out = NULL;
 	m->bhole = open("/dev/null", O_WRONLY);
-	ft_openin(m, in);
-	if (nb_cmd >= 2 && ev)
-		ft_pipex(m, out, in);
-	else if (nb_cmd == 1 && ev)
-		ft_forkex(m, in, out);
-	ft_free_process(m, errno);
+	// ft_openin(m, in);
+	// printf("Nombre de commade: %d\n", nb_cmd);
+	find_cmd(m, ms);
+	if (nb_cmd >= 2 && env)
+		ft_pipex(m, NULL, NULL);
+	// else if (nb_cmd == 1 && env)
+	// 	ft_forkex(m, in, out);
+	// print_allcmd(m);
+	// ft_lstclearpipex(&m->head);
+	// ft_free_process(m, errno);
 	return (1);
 }

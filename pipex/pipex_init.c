@@ -6,45 +6,12 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/18 15:48:20 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-
-// static int	ft_heredoc(char *in)
-// {
-// 	size_t		i;
-// 	char		*tab;
-
-// 	tab = "here_doc";
-// 	i = 0;
-// 	if (ft_strlen(in) != ft_strlen(tab))
-// 		return (0);
-// 	else
-// 	{
-// 		while (in[i])
-// 		{
-// 			if (in[i] != tab[i])
-// 				break ;
-// 			i++;
-// 		}
-// 	}
-// 	if (i == (size_t)ft_strlen(tab))
-// 		return (1);
-// 	return (0);
-// }
-
-// void	ft_printheredoc(t_struct *m)
-// {
-// 	int	tmp;
-
-// 	tmp = m->nb_cmd;
-// 	while (tmp-- >= 2)
-// 		printf("pipe ");
-// 	printf("heredoc> ");
-// }
 
 void	ft_mallocpipe(t_struct *m)
 {
@@ -87,7 +54,7 @@ void	ft_forkex(t_struct	*m, char *in, char *out)
 		i++;
 }
 
-t_struct	*ft_init(t_struct *m, int nb_cmd, t_list *pars_lst, char **ev)
+t_struct	*ft_init(t_struct *m, int nb_cmd, char **env)
 {
 	m = malloc(sizeof(t_struct));
 	if (!m)
@@ -105,12 +72,11 @@ t_struct	*ft_init(t_struct *m, int nb_cmd, t_list *pars_lst, char **ev)
 	m->ac = nb_cmd;
 	m->cmd_join = NULL;
 	m->limit = NULL;
-	m->ev = ev;
+	m->ev = env;
 	m->s_ev = NULL;
 	m->av = NULL;
 	m->cmd = NULL;
 	m->nb_cmd = nb_cmd;
-	(void)pars_lst;
 	m->pids = malloc (sizeof(pid_t) * (unsigned long)m->nb_cmd);
 	if (!m->pids)
 		ft_free_process(m, errno);

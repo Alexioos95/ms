@@ -6,7 +6,7 @@
 #    By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/07/14 11:42:33 by eewu             ###   ########.fr        #
+#    Updated: 2023/07/18 18:05:17 by eewu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			parsing/parsing.c					\
 			parsing/checkorphans.c				\
 			parsing/lst_lexer.c					\
-			parsing/tokens.c						\
+			parsing/tokens.c					\
 			builtins/builtins.c					\
 			builtins/builtins_cd.c				\
 			builtins/builtins_cd2.c				\
@@ -31,8 +31,10 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			builtins/builtins_export.c			\
 			builtins/builtins_export2.c			\
 			pipex/pipex.c						\
-			pipex/pipex_minilib.c				\
+			pipex/pipex_test.c					\
 			pipex/pipex_util.c					\
+			pipex/pipex_util2.c					\
+			pipex/pipex_parth.c					\
 			pipex/pipex_open.c					\
 			pipex/pipex_close.c					\
 			pipex/pipex_gnl.c					\
@@ -52,7 +54,7 @@ OBJ =		$(SRC:.c=.o)
 
 OBJDIR	=	obj
 
-CC =		cc
+CC =		cc 
 
 FLAGS =		-Wall -Wextra -Werror -g3
 

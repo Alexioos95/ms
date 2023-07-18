@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/18 11:27:18 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/18 15:26:57 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,18 @@ void	init(struct s_shell *ms, char **envp)
 	ft_memset(&ms->sigact[2], 0, sizeof(ms->sigact[1]));
 	ms->sigact[2].sa_handler = SIG_IGN;
 	ft_setenv(ms, envp);
+}
+
+int	ft_nb_cmd(t_lexer *lexer)
+{
+	int	i;
+
+	i = 1;
+	while (lexer)
+	{
+		if (lexer->token.pipe)
+			i++;
+		lexer = lexer->next;
+	}
+	return (i);
 }

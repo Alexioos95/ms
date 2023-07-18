@@ -6,11 +6,12 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/18 18:24:35 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
 
 
 void	ft_openin(t_struct *m, char *in)
@@ -27,7 +28,9 @@ void	ft_openin(t_struct *m, char *in)
 
 void	ft_openout(t_struct *m, char *out)
 {
-	if (access(out, W_OK) == 0 && m->out == -1)
+	if (!out)
+		m->out = open("/dev/stdout", O_WRONLY);
+	else if (access(out, W_OK) == 0 && m->out == -1)
 		m->out = open(out, O_WRONLY | O_TRUNC);
 	else if (access(out, F_OK) != 0)
 		m->out = open(out, O_WRONLY | O_CREAT, 0644);
