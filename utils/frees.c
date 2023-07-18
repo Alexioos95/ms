@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 14:36:20 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/13 14:22:57 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/18 10:27:39 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,16 @@ void	ft_lstclear(struct s_lst *lst)
 void	ft_lexerclear(t_lexer *lexer)
 {
 	t_lexer		*tmp;
-	int			i;
-	int			len;
 
-	i = 0;
 	if (lexer == NULL)
 		return ;
-	len = lexer->len;
-	while (i < len)
+	while (lexer)
 	{
 		tmp = lexer->next;
 		if (lexer->str)
 			free(lexer->str);
+		if (lexer->tab)
+			freesplit(lexer->tab);
 		if (lexer->token.token)
 			free(lexer->token.token);
 		if (lexer->token.arg)
@@ -50,7 +48,6 @@ void	ft_lexerclear(t_lexer *lexer)
 			free(lexer->token.pipe);
 		free(lexer);
 		lexer = tmp;
-		i++;
 	}
 }
 

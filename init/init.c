@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/18 11:27:18 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,21 @@ struct s_lst	*ft_lstnew(struct s_shell *ms, char *str)
 	new->line = str;
 	new->next = NULL;
 	new->ms = ms;
+	return (new);
+}
+
+t_tokens	ft_newtoken(char *token, char *arg)
+{
+	t_tokens	new;
+
+
+	new.pipe = NULL;
+	new.token = NULL;
+	if (ft_strcmp(token, "|"))
+		new.pipe = token;
+	else
+		new.token = token;
+	new.arg = arg;
 	return (new);
 }
 

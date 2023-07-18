@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:47:00 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/13 14:18:54 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/18 12:22:07 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_lexer	*ft_lstlast_lexer(t_lexer *head)
 
 	tmp = head;
 	len = head->len;
-	while (tmp->next->i != 0)
+	while (tmp->next)
 		tmp = tmp->next;
 	return (tmp);
 }
@@ -31,7 +31,7 @@ void	ft_lstresetindex_lexer(t_lexer *head)
 
 	tmp = head;
 	last = ft_lstlast_lexer(head);
-	while (tmp && (tmp->i != last->i))
+	while (tmp->next)
 	{
 		tmp->next->i = tmp->i + 1;
 		tmp->next->len = tmp->len;
@@ -47,11 +47,12 @@ t_lexer	*ft_lexer_new(char *str, t_tokens token)
 	if (!new)
 		return (NULL);
 	new->str = str;
+	new->tab = NULL;
 	new->token = token;
 	new->i = 0;
 	new->len = 1;
-	new->next = new;
-	new->back = new;
+	new->next = NULL;
+	new->back = NULL;
 	return (new);
 }
 
@@ -67,9 +68,26 @@ void	ft_lexer_addback(t_lexer **head, t_lexer *new)
 	(*head)->len++;
 	last = ft_lstlast_lexer((*head));
 	last->next = new;
-	new->next = (*head);
 	new->back = last;
-	(*head)->back = new;
 	new->i = last->i + 1;
 	ft_lstresetindex_lexer((*head));
 }
+
+void	ft_lexer_delone(t_lexer **curr_node, int i)
+{
+	t_lexer		*node_cmd;
+	t_lexer		*tmp;
+
+	node_cmd = (*curr_node)->back;
+	node_cmd->tab[i] = ((*curr_node))->str;
+	((*curr_node))->str = NULL;
+	tmp = (*curr_node);
+	(*curr_node) = (*curr_node)->next;
+	free (tmp);
+	node_cmd->next = (*curr_node);
+	if ((*curr_node))
+		(*curr_node)->back = node_cmd;
+}
+
+
+// c'at' | ls < 'Ma'ke"fil"e > "out" | echo "'hey"|c'at' | ls < 'Ma'ke"fil"e>"out" | echo "'hey" | ls -la >> fichier | awk '{"$1 print >> <<"}' | "|" autre <<< fichier | ok ok ok ok ok ok ok ok ok ok ok ok okok o ko" oijf fioejw iowef iowejfowie f"

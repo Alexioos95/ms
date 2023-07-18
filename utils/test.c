@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:19:34 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/13 14:19:59 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/17 11:51:44 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,21 @@ void	ft_print_lexerlst(t_lexer *lst)
 	int		c;
 	t_lexer	*tmp;
 
-	i = 0;
 	tmp = lst;
 	c = tmp->len;
-	while (i < c)
+	printf("Taille du Lexer: %d\n", lst->len);
+	while (tmp)
 	{
-		printf("Commande: %s\n", tmp->str);
+		i = 0;
+		printf("Word: %s\n", tmp->str);
+		while (tmp->tab && tmp->tab[i])
+			printf("Commande: %s\n", tmp->tab[i++]);
 		printf("Token: %s\n", tmp->token.token);
 		printf("Arg: %s\n", tmp->token.arg);
 		printf("Pipe: %s\n", tmp->token.pipe);
+		printf("---------\n");
 		tmp = tmp->next;
-		i++;
+		// printf("Index: %d\n", tmp->back->i);
+		// i++;
 	}
 }

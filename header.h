@@ -64,6 +64,7 @@ typedef struct s_tokens
 typedef struct s_lexer
 {
 	char				*str;
+	char				**tab;
 	t_tokens			token;
 	int					i;
 	int					len;
@@ -102,113 +103,118 @@ typedef struct s_shell
 // ************************** INIT ************************** \\
 
 // init/init.c
-void				ft_lstadd_back(struct s_lst **lst, struct s_lst *new);
-struct s_lst		*ft_lstnew(struct s_shell *ms, char *str);
-void				init(struct s_shell *ms, char **envp);
+void		ft_lstadd_back(struct s_lst **lst, struct s_lst *new);
+t_lst		*ft_lstnew(struct s_shell *ms, char *str);
+t_tokens	ft_newtoken(char *token, char *arg);
+void		init(struct s_shell *ms, char **envp);
 // init/init_env.c
-void				increaseshlvl(struct s_shell *ms);
-void				ft_setpwd(struct s_shell *ms);
-void				recreatepwd(struct s_shell *ms);
-void				createminienv(struct s_shell *ms);
-void				ft_setenv(struct s_shell *ms, char **envp);
+void		increaseshlvl(struct s_shell *ms);
+void		ft_setpwd(struct s_shell *ms);
+void		recreatepwd(struct s_shell *ms);
+void		createminienv(struct s_shell *ms);
+void		ft_setenv(struct s_shell *ms, char **envp);
 
 // ************************** PROG ************************** \\
 
 // signals.c
-void				ft_sigquit(int sig);
-void				ft_sigint(int sig);
-void				*ft_memset(void *s, int c, size_t n);
+void		ft_sigquit(int sig);
+void		ft_sigint(int sig);
+void		*ft_memset(void *s, int c, size_t n);
 
 // ************************ PARSING ************************ \\
 
 // parsing/parsing.c
-int					parser(struct s_shell *ms);
-int					ft_state(char c, int state);
-int					ft_istoken(char c);
-int					ft_isthereatoken(char *line, t_lexer **lexer);
-void				ft_browse(t_shell *ms);
+int			parser(struct s_shell *ms);
+int			ft_state(char c, int state);
+int			ft_istoken(char c);
+int			ft_isthereatoken(char *line, t_lexer **lexer);
+void		ft_browse(t_shell *ms);
 // parsing/checkorphans
-int					isspecial(char c);
+int			isspecial(char c);
 // parsing/lst_lexer.c
-t_tokens			ft_newtoken(char *token, char *arg);
-t_lexer				*ft_lexer_new(char *str, t_tokens token);
-t_lexer				*ft_lstlast_lexer(t_lexer *head);
-void				ft_lexer_addback(t_lexer **head, t_lexer *new);
-void				ft_lstresetindex_lexer(t_lexer *head);
+t_lexer		*ft_lexer_new(char *str, t_tokens token);
+t_lexer		*ft_lstlast_lexer(t_lexer *head);
+void		ft_lexer_addback(t_lexer **head, t_lexer *new);
+void		ft_lstresetindex_lexer(t_lexer *head);
+void		ft_lexer_delone(t_lexer **curr_node, int i);
+// parsing/tokens.c
+// char		*ft_expected_token(char *curr_token);
+int			ft_goodtoken(char *line, t_tokens *token, char **word, int state);
+int			ft_goodword(char *line, t_tokens *token, char **word, int state);
+void		ft_add_tokenword(t_lexer *lexer, t_shell *ms);
+void		ft_add_word_to_tab(t_lexer *lexer, t_shell *ms);
+void		ft_tabptr(t_shell *ms, t_lexer *cmd, t_lexer *cmd2, int nb_tab);
 // utils/lst.c
-void				ft_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
-t_cmd				*ft_lstnew_cmd(char **str, char **redir, char **built);
-int					checkorphanquote(char *line);
-int					checkorphanbracket(char *line);
-void				ft_print_lexerlst(t_lexer *lst);
+void		ft_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
+t_cmd		*ft_lstnew_cmd(char **str, char **redir, char **built);
+int			checkorphanquote(char *line);
+int			checkorphanbracket(char *line);
+void		ft_print_lexerlst(t_lexer *lst);
 
 // ************************ BUILT-INS ************************ \\
 
 // builtins/builtins.c
-void				ft_exit(struct s_shell *ms, char **tab);
-int					ft_pwd(struct s_shell *ms);
-int					ft_unset(struct s_shell *ms, char **tab);
-int					ft_env(struct s_shell *ms, char **tab);
+void		ft_exit(struct s_shell *ms, char **tab);
+int			ft_pwd(struct s_shell *ms);
+int			ft_unset(struct s_shell *ms, char **tab);
+int			ft_env(struct s_shell *ms, char **tab);
 // builtins/builtins_echo.c
-int					ft_echo_isfulln(char *str);
-int					ft_echo(char **tab);
+int			ft_echo_isfulln(char *str);
+int			ft_echo(char **tab);
 // builtins/builtins_export.c
-int					ft_export_newnode(struct s_shell *ms, char *str);
-int					ft_export_oldnode(struct s_lst *node, char *str);
-int					ft_export_refreshenv(struct s_shell *ms, char *str,
-						int equal);
-int					ft_export(struct s_shell *ms, char **tab);
+int			ft_export_newnode(struct s_shell *ms, char *str);
+int			ft_export_oldnode(struct s_lst *node, char *str);
+int			ft_export_refreshenv(struct s_shell *ms, char *str, int equal);
+int			ft_export(struct s_shell *ms, char **tab);
 // builtins/builtins_export2.c
-int					ft_export_isvalid(char c, int i);
-int					ft_export_searchequal(char *str);
-int					ft_export_parsing(char *str);
+int			ft_export_isvalid(char c, int i);
+int			ft_export_searchequal(char *str);
+int			ft_export_parsing(char *str);
 // builtins/builtins_cd.c
-int					ft_cd_home(struct s_shell *ms, char *tmp);
-int					ft_cd_oldpwd(struct s_shell *ms, char *tmp);
-int					ft_cd_nothome(struct s_shell *ms, char *str, char *tmp);
-int					ft_cd(struct s_shell *ms, char **tab);
+int			ft_cd_home(struct s_shell *ms, char *tmp);
+int			ft_cd_oldpwd(struct s_shell *ms, char *tmp);
+int			ft_cd_nothome(struct s_shell *ms, char *str, char *tmp);
+int			ft_cd(struct s_shell *ms, char **tab);
 // builtins/builtins_cd2.c
-void				ft_echo_actualizepwd(struct s_shell *ms);
-void				ft_echo_changeenv(struct s_shell *ms, char *tmp,
-						char *str);
-char				*ft_cd_symlink(struct s_shell *ms, char *tmp,
-						char *str);
-void				ft_echo_actualizeenv(struct s_shell *ms, char *tmp);
+void		ft_echo_actualizepwd(struct s_shell *ms);
+void		ft_echo_changeenv(struct s_shell *ms, char *tmp, char *str);
+char		*ft_cd_symlink(struct s_shell *ms, char *tmp, char *str);
+void		ft_echo_actualizeenv(struct s_shell *ms, char *tmp);
 
 // ************************* UTILS ************************* \\
 
 // utils/utils.c
-int					ft_strlen(char *str);
-char				*ft_strjoin(char *s1, char *s2);
-char				*ft_strdup(char *s);
-int					ft_atoi(char *nptr);
-int					ft_tablen(char **str);
-int					ft_strncmp(char *s1, char *s2, size_t n);
+int			ft_strlen(char *str);
+char		*ft_strjoin(char *s1, char *s2);
+char		*ft_strdup(char *s);
+int			ft_atoi(char *nptr);
+int			ft_tablen(char **str);
+int			ft_strncmp(char *s1, char *s2, size_t n);
 // utils/utils_env.c
-char				*ft_strjoinenv(char *s1, char c, char *s2);
-char				*ft_substr(char *s, int start, int len);
-char				*ft_strnstr(char *big, char *little, int equal);
-struct s_lst		*ft_getenv(struct s_shell *ms, char *str);
-char				*ft_itoa(int nb);
+char		*ft_strjoinenv(char *s1, char c, char *s2);
+char		*ft_substr(char *s, int start, int len);
+char		*ft_strnstr(char *big, char *little, int equal);
+t_lst		*ft_getenv(struct s_shell *ms, char *str);
+char		*ft_itoa(int nb);
 // utils/utils_env2.c
-int					countvalablenodes(struct s_lst *lst);
-char				**listtotab(struct s_shell *ms);
-char				*ft_subnstr(char *s, unsigned int start, size_t len);
+int			countvalablenodes(struct s_lst *lst);
+char		**listtotab(struct s_shell *ms);
+char		*ft_subnstr(char *s, unsigned int start, size_t len);
 // utils/ft_split.c
-char				**ft_split(char *s, char c);
+char		**ft_split(char *s, char c);
 // utils/frees.c
-void				ft_lstclear(struct s_lst *lst);
-void				ft_lexerclear(t_lexer *lexer);
-void				freesplit(char **strmalloc);
-void				frees(struct s_shell *ms, int code);
-void				throwerror(struct s_shell *ms, char *str);
+void		ft_lstclear(struct s_lst *lst);
+void		ft_lexerclear(t_lexer *lexer);
+void		freesplit(char **strmalloc);
+void		frees(struct s_shell *ms, int code);
+void		throwerror(struct s_shell *ms, char *str);
 // utils/minilib.c
-void				*ft_calloc(size_t nmemb, size_t size);
-void				ft_bzero(void *s, size_t n);
-int					ft_strcmp(char *s1, char *s2);
-int					ft_tabcmp(char *str, char **tab);
-char				*ft_strnstr_cmp(char *big, char *little, int len);
+void		*ft_calloc(size_t nmemb, size_t size);
+void		ft_bzero(void *s, size_t n);
+int			ft_strcmp(char *s1, char *s2);
+char		*ft_tabcmp(char *str, char **tab);
+char		*ft_strnstr_cmp(char *big, char *little, int len);
 //errors/errors_1-5.c
-int					ft_errors_1_5(int error, char *str);
+int			ft_errors_1_5(int error, char *str);
 
 #endif

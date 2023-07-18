@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/13 14:12:43 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/18 10:37:29 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 // Parser.
 int	parser(struct s_shell *ms)
 {
+	t_lexer	*lexer;
+
 	if (ms->split != NULL)
 	{
 		freesplit(ms->split);
@@ -27,7 +29,10 @@ int	parser(struct s_shell *ms)
 	ft_browse(ms);
 	if (ms->lexer)
 	{
-		printf("Taille du Lexer: %d\n", ms->lexer->len);
+		lexer = ms->lexer;
+		ft_add_tokenword(lexer, ms);
+		// lexer = ms->lexer;
+		ft_add_word_to_tab(lexer, ms);
 		ft_print_lexerlst(ms->lexer);
 		ft_lexerclear(ms->lexer);
 	}
@@ -65,30 +70,20 @@ int	ft_istoken(char c)
 
 int	ft_isthereatoken(char *line, t_lexer **lexer)
 {
-	int			y;
+	int			i;
 	int			s;
 	t_tokens	token;
-	char		*str;
+	char		*word;
 
-	y = 0;
-	s = 0;
-	if (ft_istoken(line[y]) && ft_state(line[y], s) == 0)
-	{
-		while ((ft_istoken(line[y]) && ft_state(line[y], s) == 0) && line[y])
-			s = ft_state(line[y++], s);
-		token = ft_newtoken(ft_subnstr(line, 0, y), NULL);
-		str = NULL;
-	}
-	else if (!ft_istoken(line[y]) || ft_state(line[y], s) > 0)
-	{
-		while ((!ft_istoken(line[y]) || ft_state(line[y], s) > 0) && line[y])
-			s = ft_state(line[y++], s);
-		token = ft_newtoken(NULL, NULL);
-		str = ft_subnstr(line, 0, y);
-	}
-	if (0 != y)
-		ft_lexer_addback(lexer, ft_lexer_new(str, token));
-	return (y);
+	i = 0;
+	s = ft_state(line[i], 0);
+	if (ft_istoken(line[i]) && s == 0)
+		i = ft_goodtoken(line, &token, &word, s);
+	else if (!ft_istoken(line[i]) || ft_state(line[i], s) > 0)
+		i = ft_goodword(line, &token, &word, s);
+	if (0 != i)
+		ft_lexer_addback(lexer, ft_lexer_new(word, token));
+	return (i);
 }
 
 void	ft_browse(t_shell *ms)
