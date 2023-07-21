@@ -6,12 +6,11 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/26 10:41:40 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/19 14:33:52 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
-
 
 // Quitter proprement le programme.
 void	ft_exit(struct s_shell *ms, char **tab)

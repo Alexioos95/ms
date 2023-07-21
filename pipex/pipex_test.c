@@ -6,28 +6,34 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:58:01 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/18 17:19:15 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/20 14:56:12 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-void	print_allcmd(t_struct *m)
+void	print_allcmd(t_pipex *m)
 {
-	int		j;
-	int		k;
-	t_list	*tmp;
+	int			j;
+	int			k;
+	t_cmd_lst	*tmp;
+	t_redir		*red;
 
 	k = 0;
 	tmp = m->head;
 	while (tmp)
 	{
 		j = 0;
-		while (tmp->tab[j])
+		while (tmp->tab && tmp->tab[j])
 		{
-			printf("cmd_tab[%d][%d]:%s Bool[%d]\n", k, j, \
-			tmp->tab[j], tmp->i);
+			dprintf(2, "tab[%d][%d]:%s Bool[%d]\n", k, j, tmp->tab[j], tmp->i);
 			j++;
+		}
+		red = tmp->redirlst;
+		while (red)
+		{
+			dprintf(2, "Dir: %s\nFile: %s\n", red->token.token, red->token.file);
+			red = red->next;
 		}
 		tmp = tmp->next;
 		k++;

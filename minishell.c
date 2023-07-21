@@ -6,14 +6,14 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/27 14:13:42 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/21 17:11:40 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
 
-static void	setsigaction(struct s_shell *ms, int b)
+void	setsigaction(struct s_shell *ms, int b)
 {
 	if (b == 1)
 	{
@@ -31,7 +31,7 @@ static void	setsigaction(struct s_shell *ms, int b)
 	}
 }
 
-static void	nullonreadline(struct s_shell *ms)
+void	nullonreadline(struct s_shell *ms)
 {
 	if (errno == ENOMEM)
 		throwerror(ms, "readline");
@@ -44,7 +44,7 @@ static void	nullonreadline(struct s_shell *ms)
 
 // Boucle du shell.
 // Lire une ligne > parser > executer.
-_Noreturn static void	loop(struct s_shell *ms)
+void	loop(struct s_shell *ms)
 {
 	while (1)
 	{
@@ -56,7 +56,7 @@ _Noreturn static void	loop(struct s_shell *ms)
 			nullonreadline(ms);
 		if (ms->line[0] != '\0')
 			add_history(ms->line);
-		setsigaction(ms, 0);
+		// setsigaction(ms, 0);
 		parser(ms);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:48:23 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/18 15:48:20 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/20 17:38:20 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,22 @@
 
 
 
-t_list	*ft_pipex_lstnew(char **cmd, int i)
+t_cmd_lst	*ft_pipex_lstnew(char **cmd, char *name, int i)
 {
-	t_list	*new;
+	t_cmd_lst	*new;
 
-	new = malloc(sizeof(t_list));
+	new = malloc(sizeof(t_cmd_lst));
 	if (!new)
 		return (0);
 	new->tab = cmd;
+	new->name = name;
+	new->redirlst = NULL;
 	new->i = i;
 	new->next = NULL;
 	return (new);
 }
 
-t_list	*ft_lstlast(t_list *lst)
+t_cmd_lst	*ft_lstlast(t_cmd_lst *lst)
 {
 	if (!lst)
 		return (0);
@@ -36,9 +38,9 @@ t_list	*ft_lstlast(t_list *lst)
 	return (lst);
 }
 
-void	ft_pipex_lstadd_back(t_list **lst, t_list *new, t_struct *m)
+void	ft_pipex_lstadd_back(t_cmd_lst **lst, t_cmd_lst *new, t_pipex *m)
 {
-	t_list	*last;
+	t_cmd_lst	*last;
 
 	if (*lst == NULL)
 	{
@@ -50,10 +52,10 @@ void	ft_pipex_lstadd_back(t_list **lst, t_list *new, t_struct *m)
 	last->next = new;
 }
 
-void	ft_lstclearpipex(t_list **lst)
+void	ft_lstclearpipex(t_cmd_lst **lst)
 {
-	t_list	*tmp;
-	int		i;
+	t_cmd_lst	*tmp;
+	int			i;
 
 	if (!lst)
 		return ;
@@ -61,7 +63,7 @@ void	ft_lstclearpipex(t_list **lst)
 	{
 		i = 0;
 		tmp = (*lst)->next;
-		while ((*lst)->tab[i])
+		while ((*lst)->tab && (*lst)->tab[i])
 			free((*lst)->tab[i++]);
 		free((*lst)->tab);
 		free(*lst);
@@ -69,7 +71,7 @@ void	ft_lstclearpipex(t_list **lst)
 	}
 }
 
-int	ft_lstsize(t_list *lst)
+int	ft_lstsize(t_cmd_lst *lst)
 {
 	int	i;
 

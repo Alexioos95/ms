@@ -73,7 +73,7 @@ typedef struct s_builtins
 typedef struct s_tokens
 {
 	char				*token;
-	char				*arg;
+	char				*file;
 	char				*pipe;
 }						t_tokens;
 
@@ -96,6 +96,57 @@ typedef struct s_lst
 	struct s_shell		*ms;
 }						t_lst;
 
+
+
+typedef struct s_redir
+{
+	struct s_tokens		token;
+	struct s_redir		*next;
+}						t_redir;
+
+typedef struct s_cmd_lst
+{
+	char				**tab;
+	char				*name;
+	struct s_redir		*redirlst;
+	struct s_cmd_lst	*next;
+	int					i;
+	char				pad[4];
+}						t_cmd_lst;
+
+typedef struct s_pipex
+{
+	int					count;
+	int					i;
+	int					eror;
+	int					in[2];
+	int					out;
+	int					bhole;
+	int					status;
+	int					in_rok;
+	int					out_rok;
+	int					out_red;
+	int					pipe;
+	int					cmd_i;
+	char				pad3[4];
+	int					**fds;
+	int					fd[2];
+	int					nb_cmd;
+	int					hdoc;
+	int					ac;
+	char				pad[4];
+	pid_t				*pids;
+	char				*limit;
+	char				*cmd_join;
+	char				**s_ev;
+	char				**ev;
+	char				**av;
+	struct s_cmd_lst	*head;
+	struct s_cmd_lst	*cmd;
+	struct s_redir		*tokenhead;
+	struct s_shell		*ms;
+}						t_pipex;
+
 typedef struct s_shell
 {
 	char				*line;
@@ -116,50 +167,11 @@ typedef struct s_shell
 	struct stat			stat;
 }						t_shell;
 
-typedef struct s_cmd_lst
-{
-	char				**tab;
-	struct s_cmd_lst	*next;
-	int					i;
-	char				pad[4];
-}						t_list;
-
-typedef struct s_pipex
-{
-	int					count;
-	int					i;
-	int					eror;
-	int					in[2];
-	int					out;
-	int					bhole;
-	int					status;
-	int					in_rok;
-	int					out_rok;
-	int					pipe;
-	int					cmd_i;
-	char				pad3[4];
-	int					**fds;
-	int					fd[2];
-	int					nb_cmd;
-	int					hdoc;
-	int					ac;
-	char				pad[4];
-	pid_t				*pids;
-	char				*limit;
-	char				*cmd_join;
-	char				**s_ev;
-	char				**ev;
-	char				**av;
-	struct s_cmd_lst	*head;
-	struct s_cmd_lst	*cmd;
-}						t_struct;
-
 // ************************** INIT ************************** //
-
 // init/init.c
 void		ft_lstadd_back(struct s_lst **lst, struct s_lst *new);
 t_lst		*ft_lstnew(struct s_shell *ms, char *str);
-t_tokens	ft_newtoken(char *token, char *arg);
+t_tokens	ft_newtoken(char *token, char *file);
 void		init(struct s_shell *ms, char **envp);
 int			ft_nb_cmd(t_lexer *lexer);
 // init/init_env.c
@@ -170,59 +182,64 @@ void		createminienv(struct s_shell *ms);
 void		ft_setenv(struct s_shell *ms, char **envp);
 
 // ************************** PROG ************************** //
-
 // signals.c
 void		ft_sigquit(int sig);
 void		ft_sigint(int sig);
 void		*ft_memset(void *s, int c, size_t n);
-// ************************ Pipex ************************ //
 
+// ************************ Pipex ************************ //
 // pipex/pipex.c
-void		ft_process(t_struct *main, char *out);
-void		ft_pipex(t_struct *main, char *out, char *in);
-int			ft_start(t_lexer *lexer, t_shell *ms);
+void		ft_dup_redir(t_pipex *m, t_cmd_lst *cmd);
+void		ft_process(t_pipex *m, t_shell *ms);
+void		ft_pipex(t_pipex *m, t_shell *ms);
+int			ft_start(t_shell *ms);
 // pipex/pipex_util.c
-void		ft_pipe(t_struct *m);
-int			ft_fdspipe(t_struct *m);
-void		ft_fork(t_struct *m);
-void		ft_childprocess(t_struct *m, char *out)
+void		ft_pipe(t_pipex *m);
+int			ft_fdspipe(t_pipex *m);
+void		ft_fork(t_pipex *m);
+void		ft_childprocess(t_pipex *m)
 			__attribute__((noreturn));
-void		ft_cmdex(char **cmd, char **ev, t_struct *main)
+void		ft_cmdex(char **cmd, char **ev, t_pipex *m)
 			__attribute__((noreturn));
 // pipex/pipex_util2.c
 char		*ft_pipex_strlcpy(char *dest, const char *src);
 char		*ft_pipex_strlcat(char *dest, const char *src, int size);
 char		*ft_pipex_join(char *path, char *cmd);
-
 // pipex/pipex_open.c
-void		ft_openin(t_struct *main, char *in);
-void		ft_openout(t_struct *main, char *out);
-void		ft_dupcheck(int fd, int stdfd, t_struct *m);
-int			ft_error(char *ft, char *error, int pid, t_struct *m);
+int			ft_openin(t_pipex *m, char *token, char *file);
+int			ft_openout(t_pipex *m, char *token, char *file);
+void		ft_dupcheck(int fd, int stdfd, t_pipex *m);
+int			ft_error(char *ft, char *error, int pid, t_pipex *m);
 // pipex/pipex_init.c
-void		ft_mallocpipe(t_struct *m);
-void		ft_forkex(t_struct	*m, char *in, char *out);
-t_struct	*ft_init(t_struct *main, int nb_cmd, char **ev);
+void		ft_mallocpipe(t_pipex *m);
+void		ft_theone(t_pipex *m, t_shell *ms);
+t_pipex		*ft_init(t_pipex *m, int nb_cmd, char **ev);
 // pipex/pipex_close.c
-void		ft_free_process(t_struct *main, int r)
+void		ft_free_process(t_pipex *m, int r)
 			__attribute__((noreturn));
 void		ft_free_tab(char **tab);
-void		ft_closeoutin(t_struct *m);
-void		ft_closefds(t_struct *m);
-void		ft_freefds(t_struct *m);
+void		ft_closeoutin(t_pipex *m);
+void		ft_closefds(t_pipex *m);
+void		ft_freefds(t_pipex *m);
 // pipex/pipex_lst.c
-t_list		*ft_pipex_lstnew(char **cmd, int i);
-t_list		*ft_lstlast(t_list *lst);
-void		ft_pipex_lstadd_back(t_list **lst, t_list *new, t_struct *m);
-void		ft_lstclearpipex(t_list **lst);
-int			ft_lstsize(t_list *lst);
-// pipex/pipex_parth.c
+t_cmd_lst	*ft_pipex_lstnew(char **cmd, char *name, int i);
+t_cmd_lst	*ft_lstlast(t_cmd_lst *lst);
+void		ft_pipex_lstadd_back(t_cmd_lst **lst, t_cmd_lst *new, t_pipex *m);
+void		ft_lstclearpipex(t_cmd_lst **lst);
+int			ft_lstsize(t_cmd_lst *lst);
+// pipex/pipex_parsing.c
 char		**ft_find_nodecmd(t_lexer **lexer);
-void		ft_access(t_struct *m, char **tab_cmd, int j, int p);
-void		ft_list_tab(t_struct *m, t_shell *ms);
-void		find_cmd(t_struct *m, t_shell *ms);
-// pipex/pipex_parth.c
-void		print_allcmd(t_struct *m);
+void		ft_access(t_pipex *m, char **tab_cmd, int j, int p);
+void		ft_cmd_list(t_pipex *m, t_shell *ms);
+void		find_cmd(t_pipex *m, t_shell *ms);
+// pipex/pipex_parsing2.c
+t_redir		*ft_redir_lstnew(t_tokens token);
+t_redir		*ft_redir_lstlast(t_redir *lst);
+void		ft_redir_lstadd_back(t_redir **lst, t_redir *new, t_pipex *m);
+void		ft_redir_in_cmd(t_pipex *m, t_lexer **lexer, t_cmd_lst *cmd);
+void		ft_redir_list(t_pipex *m, t_shell *ms);
+// pipex/pipex_test.c
+void		print_allcmd(t_pipex *m);
 void		print_list(char *tab, int i);
 void		print_tab(char **tab);
 
@@ -242,7 +259,6 @@ void		ft_lexer_addback(t_lexer **head, t_lexer *new);
 void		ft_lstresetindex_lexer(t_lexer *head);
 void		ft_lexer_delone(t_lexer **curr_node, int i);
 // parsing/tokens.c
-// char		*ft_expected_token(char *curr_token);
 int			ft_goodtoken(char *line, t_tokens *token, char **word, int state);
 int			ft_goodword(char *line, t_tokens *token, char **word, int state);
 void		ft_add_tokenword(t_lexer *lexer, t_shell *ms);
@@ -256,7 +272,6 @@ int			checkorphanbracket(char *line);
 void		ft_print_lexerlst(t_lexer *lst);
 
 // ************************ BUILT-INS ************************ //
-
 // builtins/builtins.c
 void		ft_exit(struct s_shell *ms, char **tab);
 int			ft_pwd(struct s_shell *ms);
@@ -286,7 +301,6 @@ char		*ft_cd_symlink(struct s_shell *ms, char *tmp, char *str);
 void		ft_echo_actualizeenv(struct s_shell *ms, char *tmp);
 
 // ************************* UTILS ************************* //
-
 // utils/utils.c
 int			ft_strlen(char *str);
 char		*ft_strjoin(char *s1, char *s2);
@@ -320,5 +334,12 @@ char		*ft_tabcmp(char *str, char **tab);
 char		*ft_strnstr_cmp(char *big, char *little, int len);
 //errors/errors_1-5.c
 int			ft_errors_1_5(int error, char *str);
+
+// ************************* MINISHELL ************************* //
+//minishell.c
+void		setsigaction(struct s_shell *ms, int b);
+void		nullonreadline(struct s_shell *ms);
+void		loop(struct s_shell *ms)
+			__attribute__((noreturn));
 
 #endif

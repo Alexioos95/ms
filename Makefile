@@ -6,7 +6,7 @@
 #    By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/07/18 18:05:17 by eewu             ###   ########.fr        #
+#    Updated: 2023/07/19 12:50:52 by eewu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			pipex/pipex_test.c					\
 			pipex/pipex_util.c					\
 			pipex/pipex_util2.c					\
-			pipex/pipex_parth.c					\
+			pipex/pipex_parsing.c				\
+			pipex/pipex_parsing2.c				\
 			pipex/pipex_open.c					\
 			pipex/pipex_close.c					\
 			pipex/pipex_gnl.c					\

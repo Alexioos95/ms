@@ -6,14 +6,14 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:01:50 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/18 15:48:20 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/21 17:25:22 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
 
-void	ft_pipe(t_struct *m)
+void	ft_pipe(t_pipex *m)
 {
 	int	i;
 
@@ -31,7 +31,7 @@ void	ft_pipe(t_struct *m)
 	}
 }
 
-int	ft_fdspipe(t_struct *m)
+int	ft_fdspipe(t_pipex *m)
 {
 	int	i;
 
@@ -42,7 +42,7 @@ int	ft_fdspipe(t_struct *m)
 	return (i);
 }
 
-void	ft_fork(t_struct *m)
+void	ft_fork(t_pipex *m)
 {
 	if (m->nb_cmd >= 1)
 	{
@@ -55,41 +55,33 @@ void	ft_fork(t_struct *m)
 	}
 }
 
-void	ft_childprocess(t_struct *m, char *out)
+void	ft_childprocess(t_pipex *m)
 {
 	int	i;
 
 	i = 0;
 	if (m->i == 0)
 		i = 1;
-	if (m->count > 0)
-	{
-		close(m->fds[i][1]);
+	setsigaction(m->ms, 0);
+	ft_dup_redir(m, m->cmd);
+	if (m->count > 0 && m->in_rok != -2)
 		ft_dupcheck(m->fds[i][0], STDIN_FILENO, m);
-	}
-	if (m->nb_cmd > 1)
-	{
-		close(m->fds[m->i][0]);
+	if (m->nb_cmd > 1 && m->out_red != 1)
 		ft_dupcheck(m->fds[m->i][1], STDOUT_FILENO, m);
-	}
-	else
-	{
-		ft_openout(m, out);
-		if (m->out >= 0)
-			ft_dupcheck(m->out, STDOUT_FILENO, m);
-		else
-			ft_free_process(m, errno);
-	}
 	ft_cmdex(m->cmd->tab, m->ev, m);
 }
 
-void	ft_cmdex(char **cmd, char **ev, t_struct *m)
+void	ft_cmdex(char **cmd, char **ev, t_pipex *m)
 {
+	int	i;
+
+	i = 0;
 	ft_closefds(m);
 	ft_closeoutin(m);
-	if (m->cmd->i != 0)
+	if (m->cmd->i > 0 && cmd)
 		ft_error(cmd[0], "error", m->pids[m->count], m);
-	if (m->in_rok == 0)
-		execve(cmd[0], cmd, ev);
+	else if ((m->out_rok == 0 && (m->in_rok == 0 || m->in_rok == -2)) \
+			&& cmd && m->cmd->i == 0)
+		i = execve(m->cmd->name, cmd, ev);
 	ft_free_process(m, errno);
 }

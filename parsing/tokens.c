@@ -6,23 +6,11 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:21:57 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/18 12:29:37 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/21 11:39:15 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
-
-// char	*ft_expected_token(char *curr_token)
-// {
-// 	int		i;
-// 	char	**token;
-
-// 	i = 0;
-// 	token = ft_split("< > << >> |", ' ');
-// 	if (ft_tabcmp(curr_token, token))
-// 		return (curr_token);
-// 	return (NULL);
-// }
 
 int	ft_goodtoken(char *line, t_tokens *token, char **word, int state)
 {
@@ -70,7 +58,7 @@ void	ft_add_tokenword(t_lexer *lexer, t_shell *ms)
 		(lexer->next && lexer->next->str && lexer->next->i != 0))
 		{
 			tmp = lexer->next->next;
-			lexer->token.arg = lexer->next->str;
+			lexer->token.file = lexer->next->str;
 			lexer->next->str = NULL;
 			free (lexer->next);
 			lexer->next = tmp;

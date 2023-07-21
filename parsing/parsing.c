@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/18 18:26:30 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/21 14:27:55 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	parser(struct s_shell *ms)
 		ft_add_tokenword(lexer, ms);
 		ft_add_word_to_tab(lexer, ms);
 		// ft_print_lexerlst(ms->lexer);
-		ft_start(lexer, ms);
+		ft_start(ms);
 		ft_lexerclear(ms->lexer);
 	}
 	return (0);

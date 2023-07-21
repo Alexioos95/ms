@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 14:36:20 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/18 10:27:39 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/19 11:52:39 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	ft_lexerclear(t_lexer *lexer)
 			freesplit(lexer->tab);
 		if (lexer->token.token)
 			free(lexer->token.token);
-		if (lexer->token.arg)
-			free(lexer->token.arg);
+		if (lexer->token.file)
+			free(lexer->token.file);
 		if (lexer->token.pipe)
 			free(lexer->token.pipe);
 		free(lexer);

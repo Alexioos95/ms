@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:03:12 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/18 15:49:06 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/21 14:27:50 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 // 	struct s_cmd_lst	*next;
 // 	int					i;
 // 	char				pad[4];
-// }						t_list;
+// }						t_cmd_lst;
 
 // typedef struct s_pipex
 // {
@@ -67,41 +67,41 @@
 // 	char				**av;
 // 	struct s_cmd_lst	*head;
 // 	struct s_cmd_lst	*cmd;
-// }						t_struct;
+// }						t_pipex;
 
 // // pipex/pipex.c
-// void			ft_process(t_struct *main, char *out);
-// void			ft_pipex(t_struct *main, char *out, char *in);
-// int				ft_start(t_lexer *lexer, t_shell *ms);
+// void			ft_process(t_pipex *m, t_shell *ms);
+// void			ft_pipex(t_pipex *m, t_shell *ms);
+// int				ft_start(t_shell *ms);
 // // pipex/pipex_util.c
-// void			ft_pipe(t_struct *m);
-// int				ft_fdspipe(t_struct *m);
-// void			ft_fork(t_struct *m);
-// void			ft_childprocess(t_struct *m, char *out)
+// void			ft_pipe(t_pipex *m);
+// int				ft_fdspipe(t_pipex *m);
+// void			ft_fork(t_pipex *m);
+// void			ft_childprocess(t_pipex *m)
 // 				__attribute__((noreturn));
-// void			ft_cmdex(char **cmd, char **ev, t_struct *main)
+// void			ft_cmdex(char **cmd, char **ev, t_pipex *m)
 // 				__attribute__((noreturn));
 // // pipex/pipex_open.c
-// void			ft_openin(t_struct *main, char *in);
-// void			ft_openout(t_struct *main, char *out);
-// void			ft_dupcheck(int fd, int stdfd, t_struct *m);
-// int				ft_error(char *ft, char *error, int pid, t_struct *m);
+// void			ft_openin(t_pipex *m, char *token, char *file);
+// void			ft_openout(t_pipex *m, char *token, char *file);
+// void			ft_dupcheck(int fd, int stdfd, t_pipex *m);
+// int				ft_error(char *ft, char *error, int pid, t_pipex *m);
 // // pipex/pipex_init.c
-// void			ft_mallocpipe(t_struct *m);
-// void			ft_forkex(t_struct	*m, char *in, char *out);
-// t_struct		*ft_init(t_struct *main, int nb_cmd, char **ev);
+// void			ft_mallocpipe(t_pipex *m);
+// void			ft_theone(t_pipex *m, t_shell *ms);
+// t_pipex		*ft_init(t_pipex *m, int nb_cmd, char **ev);
 // // pipex/pipex_close.c
-// void			ft_free_process(t_struct *main, int r)
+// void			ft_free_process(t_pipex *m, int r)
 // 				__attribute__((noreturn));
 // void			ft_free_tab(char **tab);
-// void			ft_closeoutin(t_struct *m);
-// void			ft_closefds(t_struct *m);
-// void			ft_freefds(t_struct *m);
+// void			ft_closeoutin(t_pipex *m);
+// void			ft_closefds(t_pipex *m);
+// void			ft_freefds(t_pipex *m);
 // // pipex/pipex_lst.c
-// t_list			*ft_pipex_lstnew(char **cmd, int i);
-// t_list			*ft_lstlast(t_list *lst);
-// void			ft_pipex_lstadd_back(t_list **lst, t_list *new, t_struct *m);
-// void			ft_lstclearpipex(t_list **lst);
-// int				ft_lstsize(t_list *lst);
+// t_cmd_lst			*ft_pipex_lstnew(char **cmd, char *name, int i);
+// t_cmd_lst			*ft_lstlast(t_cmd_lst *lst);
+// void			ft_pipex_lstadd_back(t_cmd_lst **lst, t_cmd_lst *new, t_pipex *m);
+// void			ft_lstclearpipex(t_cmd_lst **lst);
+// int				ft_lstsize(t_cmd_lst *lst);
 
 // #endif

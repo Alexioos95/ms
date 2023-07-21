@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:19:34 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/17 11:51:44 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/19 11:54:02 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_print_lexerlst(t_lexer *lst)
 		while (tmp->tab && tmp->tab[i])
 			printf("Commande: %s\n", tmp->tab[i++]);
 		printf("Token: %s\n", tmp->token.token);
-		printf("Arg: %s\n", tmp->token.arg);
+		printf("file: %s\n", tmp->token.file);
 		printf("Pipe: %s\n", tmp->token.pipe);
 		printf("---------\n");
 		tmp = tmp->next;

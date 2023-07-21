@@ -6,13 +6,13 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 18:53:15 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/18 17:22:45 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/21 17:19:30 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-void	ft_free_process(t_struct *m, int r)
+void	ft_free_process(t_pipex *m, int r)
 {
 	int	s;
 
@@ -43,7 +43,7 @@ void	ft_free_tab(char **tab)
 	free(tab);
 }
 
-void	ft_closeoutin(t_struct *m)
+void	ft_closeoutin(t_pipex *m)
 {
 	if (m->in[0] >= 0)
 		close(m->in[0]);
@@ -55,7 +55,7 @@ void	ft_closeoutin(t_struct *m)
 		close(m->bhole);
 }
 
-void	ft_closefds(t_struct *m)
+void	ft_closefds(t_pipex *m)
 {
 	int	i;
 
@@ -70,13 +70,16 @@ void	ft_closefds(t_struct *m)
 	}
 }
 
-void	ft_freefds(t_struct *m)
+void	ft_freefds(t_pipex *m)
 {
 	int	i;
 
 	i = 0;
 	while (i < m->pipe)
 		free(m->fds[i++]);
-	free(m->fds);
-	free(m->pids);
+	if (m->pipe)
+	{
+		free(m->fds);
+		free(m->pids);
+	}
 }
