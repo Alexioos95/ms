@@ -20,7 +20,7 @@ void	ft_exit(struct s_shell *ms, char **tab)
 	i = 0;
 	printf("exit\n");
 	if (tab[1] == NULL)
-		frees(ms, 0); // A remplacer par le $?
+		frees(ms, ms->status);
 	if (i == 0 && (tab[1][0] == '-' || tab[1][0] == '+'))
 		i++;
 	while (tab[1][i] != '\0')
@@ -62,7 +62,7 @@ int	ft_unset(struct s_shell *ms, char **tab)
 	{
 		i++;
 		tmp = ft_getenv(ms, tab[i - 1]);
-		if (tmp == NULL || ft_strncmp(tmp->line, "_", 2))
+		if (tmp == NULL)
 			continue ;
 		if (ft_strncmp(tmp->line, "OLDPWD=", 7) == 0 && ms->oldpwdpath != NULL)
 		{

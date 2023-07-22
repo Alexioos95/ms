@@ -69,6 +69,7 @@ void	init(struct s_shell *ms, char **envp)
 	ms->orphan = -1;
 	ms->env = NULL;
 	ms->tmp = NULL;
+	ms->status = 0;
 	ft_memset(&ms->sigact[0], 0, sizeof(ms->sigact[0]));
 	ms->sigact[0].sa_handler = SIG_DFL;
 	ft_memset(&ms->sigact[1], 0, sizeof(ms->sigact[0]));

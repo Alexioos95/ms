@@ -16,7 +16,7 @@ void	ft_free_process(t_pipex *m, int r)
 {
 	int	s;
 
-	s = m->status;
+	s = m->ms->status;
 	ft_lstclearpipex(&m->head);
 	ft_closefds(m);
 	ft_freefds(m);

@@ -48,19 +48,19 @@ int	ft_isabuiltin(char **tab, t_shell *ms)
 		ft_dup_redir(ms->pex, ms->pex->cmd);
 	}
 	if (ft_strncmp(tab[0], "echo", 4) == 0)
-		ft_echo(tab);
+		ms->status = ft_echo(tab);
 	else if (ft_strncmp(tab[0], "pwd", 3) == 0)
-		ft_pwd(ms);
+		ms->status = ft_pwd(ms);
 	else if (ft_strncmp(tab[0], "cd", 2) == 0)
-		ft_cd(ms, tab);
+		ms->status = ft_cd(ms, tab);
 	else if (ft_strncmp(tab[0], "exit", 4) == 0)
-		ft_exit(ms, tab);
+		ms->status = ft_exit(ms, tab);
 	else if (ft_strncmp(tab[0], "env", 3) == 0)
-		ft_env(ms, tab);
+		ms->status = ft_env(ms, tab);
 	else if (ft_strncmp(tab[0], "unset", 5) == 0)
-		ft_unset(ms, tab);
+		ms->status = ft_unset(ms, tab);
 	else if (ft_strncmp(tab[0], "export", 6) == 0)
-		ft_export(ms, tab);
+		ms->status = ft_export(ms, tab);
 	ft_dupcheck(in, STDIN_FILENO, ms->pex);
 	ft_dupcheck(out, STDOUT_FILENO, ms->pex);
 	return (freesplit(built), i);
@@ -100,7 +100,6 @@ t_pipex	*ft_init(t_pipex *m, int nb_cmd, char **env)
 	m->in[0] = -1;
 	m->in[1] = -1;
 	m->pipe = 0;
-	m->status = -1;
 	m->out = -1;
 	m->bhole = -1;
 	m->in_rok = -1;

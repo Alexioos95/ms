@@ -115,7 +115,7 @@ int	ft_start(t_shell *ms)
 	else if (nb_cmd == 1 && env)
 		ft_theone(m, ms);
 	ft_closefds(m);
-	while (waitpid(m->pids[i], &m->status, 0) > 0 && i <= m->count - 1)
+	while (waitpid(m->pids[i], &m->ms->status, 0) > 0 && i <= m->count - 1)
 		i++;
 	// ft_lstclearpipex(&m->head);
 	// ft_free_process(m, errno);

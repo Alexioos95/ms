@@ -122,7 +122,6 @@ typedef struct s_pipex
 	int					in[2];
 	int					out;
 	int					bhole;
-	int					status;
 	int					in_rok;
 	int					out_rok;
 	int					out_red;
@@ -157,6 +156,7 @@ typedef struct s_shell
 	int					orphan;
 	int					symlink;
 	int					nb_pipe;
+	int					status;
 	struct s_tokens		token;
 	struct s_lst		*env;
 	struct s_cmd		*cmd;
