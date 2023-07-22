@@ -73,15 +73,15 @@ void	ft_childprocess(t_pipex *m)
 
 void	ft_cmdex(char **cmd, char **ev, t_pipex *m)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	ft_closefds(m);
 	ft_closeoutin(m);
 	if (m->cmd->i > 0 && cmd)
 		ft_error(cmd[0], "error", m->pids[m->count], m);
 	else if ((m->out_rok == 0 && (m->in_rok == 0 || m->in_rok == -2)) \
 			&& cmd && m->cmd->i == 0)
-		i = execve(m->cmd->name, cmd, ev);
+		execve(m->cmd->name, cmd, ev);
 	ft_free_process(m, errno);
 }

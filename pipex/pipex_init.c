@@ -54,7 +54,7 @@ int	ft_isabuiltin(char **tab, t_shell *ms)
 	else if (ft_strncmp(tab[0], "cd", 2) == 0)
 		ms->status = ft_cd(ms, tab);
 	else if (ft_strncmp(tab[0], "exit", 4) == 0)
-		ms->status = ft_exit(ms, tab);
+		ft_exit(ms, tab);
 	else if (ft_strncmp(tab[0], "env", 3) == 0)
 		ms->status = ft_env(ms, tab);
 	else if (ft_strncmp(tab[0], "unset", 5) == 0)

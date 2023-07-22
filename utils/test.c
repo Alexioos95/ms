@@ -15,11 +15,11 @@
 void	ft_print_lexerlst(t_lexer *lst)
 {
 	int		i;
-	int		c;
+	// int		c;
 	t_lexer	*tmp;
 
 	tmp = lst;
-	c = tmp->len;
+	// c = tmp->len;
 	printf("Taille du Lexer: %d\n", lst->len);
 	while (tmp)
 	{

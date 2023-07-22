@@ -190,8 +190,8 @@ void		*ft_memset(void *s, int c, size_t n);
 // ************************ Pipex ************************ //
 // pipex/pipex.c
 void		ft_dup_redir(t_pipex *m, t_cmd_lst *cmd);
-void		ft_process(t_pipex *m, t_shell *ms);
-void		ft_pipex(t_pipex *m, t_shell *ms);
+void		ft_process(t_pipex *m);
+void		ft_pipex(t_pipex *m);
 int			ft_start(t_shell *ms);
 // pipex/pipex_util.c
 void		ft_pipe(t_pipex *m);

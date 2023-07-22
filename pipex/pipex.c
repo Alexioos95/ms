@@ -36,9 +36,9 @@ void	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
 void	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
 {
 	t_cmd_lst	*tmp;
-	int			i;
+	// int			i;
 
-	i = 0;
+	// i = 0;
 	tmp = cmd;
 	if (!cmd)
 		return ;
@@ -54,13 +54,13 @@ void	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
 		ft_dupcheck(m->out, STDOUT_FILENO, m);
 }
 
-void	ft_process(t_pipex *m, t_shell *ms)
+void	ft_process(t_pipex *m)
 {
 	int			i;
-	t_lexer		*redir;
+	// t_lexer		*redir;
 
 	i = ft_fdspipe(m);
-	redir = ms->lexer;
+	// redir = ms->lexer;
 	ft_fork(m);
 	if (m->pids[m->count] == 0)
 		ft_childprocess(m);
@@ -82,15 +82,15 @@ void	ft_process(t_pipex *m, t_shell *ms)
 	}
 }
 
-void	ft_pipex(t_pipex *m, t_shell *ms)
+void	ft_pipex(t_pipex *m)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	ft_mallocpipe(m);
 	ft_pipe(m);
 	while (m->nb_cmd >= 1)
-		ft_process(m, ms);
+		ft_process(m);
 }
 
 int	ft_start(t_shell *ms)
@@ -111,7 +111,7 @@ int	ft_start(t_shell *ms)
 		return (1);
 	find_cmd(m, ms);
 	if (nb_cmd >= 2 && env)
-		ft_pipex(m, ms);
+		ft_pipex(m);
 	else if (nb_cmd == 1 && env)
 		ft_theone(m, ms);
 	ft_closefds(m);

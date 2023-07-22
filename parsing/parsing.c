@@ -90,11 +90,9 @@ void	ft_browse(t_shell *ms)
 {
 	int			i;
 	int			n;
-	char		*line;
 	t_lexer		*lexer;
 	char		**split;
 
-	line = ms->line;
 	i = 0;
 	lexer = NULL;
 	split = ft_split(ms->line, ' ');

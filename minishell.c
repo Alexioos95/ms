@@ -38,7 +38,7 @@ void	nullonreadline(struct s_shell *ms)
 	else
 	{
 		printf("exit\n");
-		frees(ms, 0);
+		frees(ms, ms->status);
 	}
 }
 
