@@ -163,7 +163,7 @@ typedef struct s_shell
 	struct s_pipex		*pex;
 	struct s_lexer		*lexer;
 	struct s_cmd_lst	*cmd_lst;
-	struct sigaction	sigact[3];
+	struct sigaction	sigact[4];
 	struct stat			stat;
 }						t_shell;
 
@@ -185,6 +185,7 @@ void		ft_setenv(struct s_shell *ms, char **envp);
 // signals.c
 void		ft_sigquit(int sig);
 void		ft_sigint(int sig);
+void		ft_sigint2(int sig);
 void		*ft_memset(void *s, int c, size_t n);
 
 // ************************ Pipex ************************ //

@@ -18,6 +18,13 @@ void	ft_sigquit(int sig)
 	(void)sig;
 }
 
+void	ft_sigint2(int sig)
+{
+	(void)sig;
+	printf("\n");
+	rl_on_new_line();
+}
+
 void	ft_sigint(int sig)
 {
 	(void)sig;

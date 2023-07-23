@@ -18,8 +18,13 @@ void	setsigaction(struct s_shell *ms, int b)
 	if (b == 1)
 	{
 		if (sigaction(SIGINT, &ms->sigact[1], NULL) == -1 \
-			|| sigaction(SIGQUIT, &ms->sigact[2], NULL) == -1 \
-			|| sigaction(SIGTSTP, &ms->sigact[2], NULL) == -1)
+			|| sigaction(SIGQUIT, &ms->sigact[3], NULL) == -1 \
+			|| sigaction(SIGTSTP, &ms->sigact[3], NULL) == -1)
+			throwerror(ms, "sigaction");
+	}
+	else if (b == 2)
+	{
+		if (sigaction(SIGINT, &ms->sigact[2], NULL) == -1)
 			throwerror(ms, "sigaction");
 	}
 	else
@@ -56,7 +61,7 @@ void	loop(struct s_shell *ms)
 			nullonreadline(ms);
 		if (ms->line[0] != '\0')
 			add_history(ms->line);
-		// setsigaction(ms, 0);
+		setsigaction(ms, 2);
 		parser(ms);
 	}
 }

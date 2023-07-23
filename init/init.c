@@ -74,8 +74,10 @@ void	init(struct s_shell *ms, char **envp)
 	ms->sigact[0].sa_handler = SIG_DFL;
 	ft_memset(&ms->sigact[1], 0, sizeof(ms->sigact[0]));
 	ms->sigact[1].sa_handler = &ft_sigint;
-	ft_memset(&ms->sigact[2], 0, sizeof(ms->sigact[1]));
-	ms->sigact[2].sa_handler = SIG_IGN;
+	ft_memset(&ms->sigact[2], 0, sizeof(ms->sigact[0]));
+	ms->sigact[2].sa_handler = &ft_sigint2;
+	ft_memset(&ms->sigact[3], 0, sizeof(ms->sigact[1]));
+	ms->sigact[3].sa_handler = SIG_IGN;
 	ft_setenv(ms, envp);
 }
 
