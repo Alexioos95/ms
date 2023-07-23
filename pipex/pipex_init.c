@@ -103,6 +103,8 @@ t_pipex	*ft_init(t_pipex *m, int nb_cmd, char **env)
 	m->out = -1;
 	m->bhole = -1;
 	m->in_rok = -1;
+	m->out_rok = 0; // fix mis par Alexis pour unconditionnal jump
+	m->out_red = 0; // fix mis par Alexis pour unconditionnal jump
 	m->cmd_i = 0;
 	m->hdoc = 0;
 	m->cmd_join = NULL;
