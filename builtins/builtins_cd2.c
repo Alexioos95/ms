@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_cd2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 11:25:56 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-
 // Actualise les char * pwd et oldpwd paths.
-void	ft_echo_actualizepwd(struct s_shell *ms)
+void	ft_cd_actualizepwd(struct s_shell *ms)
 {
 	struct s_lst	*tmp;
 
@@ -37,7 +36,7 @@ void	ft_echo_actualizepwd(struct s_shell *ms)
 }
 
 // Actualise la ligne du env.
-void	ft_echo_changeenv(struct s_shell *ms, char *tmp, char *str)
+void	ft_cd_changeenv(struct s_shell *ms, char *tmp, char *str)
 {
 	char			*ret;
 	struct s_lst	*node;
@@ -57,42 +56,30 @@ void	ft_echo_changeenv(struct s_shell *ms, char *tmp, char *str)
 	node->line = ret;
 }
 
-// Modifie le tmp pour avoir le symlink.
-char	*ft_cd_symlink(struct s_shell *ms, char *tmp, char *str)
-{
-	int				i;
-	char			*new;
-	struct s_lst	*node;
-
-	node = ft_getenv(ms, str);
-	if (node == NULL || tmp == NULL)
-		return (tmp);
-	i = 0;
-	if (tmp[0] == '/')
-		i++;
-	while (tmp[i] != '\0' && tmp[i] != '/')
-		i++;
-	new = ft_substr(tmp, 0, i);
-	free(tmp);
-	if (new == NULL)
-		throwerror(ms, "malloc");
-	tmp = ft_strjoin(&node->line[ft_strlen(str) + 1], new);
-	if (tmp == NULL)
-		throwerror(ms, "malloc");
-	free(new);
-	return (tmp);
-}
-
 // Actualise le env de PWD et OLDPWD.
-void	ft_echo_actualizeenv(struct s_shell *ms, char *tmp)
+void	ft_cd_actualizeenv(struct s_shell *ms, char *tmp)
 {
-	ft_echo_changeenv(ms, tmp, "OLDPWD");
+	ft_cd_changeenv(ms, tmp, "OLDPWD");
 	free(tmp);
 	tmp = getcwd(NULL, 0);
 	if (tmp == NULL)
 		throwerror(ms, "getcwd");
-	if (ms->symlink == 1)
-		tmp = ft_cd_symlink(ms, tmp, "PWD");
-	ft_echo_changeenv(ms, tmp, "PWD");
+	ft_cd_changeenv(ms, tmp, "PWD");
 	free(tmp);
+}
+
+char	*ft_cd_proteccwd(struct s_shell *ms, char **tab, char *tmp)
+{
+	if (errno == ENOMEM)
+		throwerror(ms, "cd");
+	if (tab[1] != NULL && ft_strncmp(tab[1], "-", 2) != 0)
+	{
+		printf("minishell: cd: %s: %s\n", tab[1], strerror(errno));
+		return (NULL);
+	}
+	tmp = malloc(sizeof(char) * 1);
+	if (errno == ENOMEM)
+		throwerror(ms, "malloc");
+	tmp[0] = '\0';
+	return (tmp);
 }

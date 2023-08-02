@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 16:32:20 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/10 15:28:18 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 11:22:35 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**listtotab(struct s_shell *ms)
 
 	i = 0;
 	len = countvalablenodes(ms->env);
-	tab = malloc(sizeof(char *) * (len + 1));
+	tab = malloc(sizeof(char *) * ((unsigned long)len + 1));
 	if (tab == NULL)
 		throwerror(ms, "malloc");
 	tmp = ms->env;
@@ -82,7 +82,7 @@ char	*ft_subnstr(char *s, unsigned int start, size_t len)
 	if ((int)start >= ft_strlen(s))
 		n = 0;
 	else
-		n = ft_strlen(&s[start]);
+		n = (size_t)ft_strlen(&s[start]);
 	if (n > len)
 		n = len;
 	str = malloc(sizeof(char) * (n + 1));

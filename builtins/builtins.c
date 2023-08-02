@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/19 14:33:52 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 10:08:44 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ int	ft_pwd(struct s_shell *ms)
 {
 	if (ms->pwdpath != NULL)
 		printf("%s\n", &ms->pwdpath[4]);
+	else
+	{
+		printf("pwd: error retrieving current directory: getcwd: cannot ");
+		printf("access parent directories: No such file or directory\n");
+		return (1);
+	}
 	return (0);
 }
 

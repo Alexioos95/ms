@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_open.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/21 17:25:40 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 11:09:40 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	ft_openout(t_pipex *m, char *token, char *file)
 	}
 	return (m->out);
 }
+
 void	ft_dupcheck(int fd, int stdfd, t_pipex *m)
 {
 	if (dup2(fd, stdfd) == -1)

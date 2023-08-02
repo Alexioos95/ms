@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_echo.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:37:39 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/21 13:03:15 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 11:06:11 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
-
 
 // Regarde si la str envoyee est compose que de n apres le -n initial.
 int	ft_echo_isfulln(char *str)
@@ -53,6 +52,5 @@ int	ft_echo(char **tab)
 	}
 	if (n == 0)
 		printf("\n");
-
 	return (0);
 }

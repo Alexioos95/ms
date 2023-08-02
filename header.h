@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef HEADER_H
 # define HEADER_H
 
@@ -96,8 +95,6 @@ typedef struct s_lst
 	struct s_shell		*ms;
 }						t_lst;
 
-
-
 typedef struct s_redir
 {
 	struct s_tokens		token;
@@ -154,7 +151,6 @@ typedef struct s_shell
 	char				**split;
 	char				*tmp;
 	int					orphan;
-	int					symlink;
 	int					nb_pipe;
 	int					status;
 	struct s_tokens		token;
@@ -164,7 +160,6 @@ typedef struct s_shell
 	struct s_lexer		*lexer;
 	struct s_cmd_lst	*cmd_lst;
 	struct sigaction	sigact[4];
-	struct stat			stat;
 }						t_shell;
 
 // ************************** INIT ************************** //
@@ -296,10 +291,10 @@ int			ft_cd_oldpwd(struct s_shell *ms, char *tmp);
 int			ft_cd_nothome(struct s_shell *ms, char *str, char *tmp);
 int			ft_cd(struct s_shell *ms, char **tab);
 // builtins/builtins_cd2.c
-void		ft_echo_actualizepwd(struct s_shell *ms);
-void		ft_echo_changeenv(struct s_shell *ms, char *tmp, char *str);
-char		*ft_cd_symlink(struct s_shell *ms, char *tmp, char *str);
-void		ft_echo_actualizeenv(struct s_shell *ms, char *tmp);
+void		ft_cd_actualizepwd(struct s_shell *ms);
+void		ft_cd_changeenv(struct s_shell *ms, char *tmp, char *str);
+char		*ft_cd_proteccwd(struct s_shell *ms, char **tab, char *tmp);
+void		ft_cd_actualizeenv(struct s_shell *ms, char *tmp);
 
 // ************************* UTILS ************************* //
 // utils/utils.c

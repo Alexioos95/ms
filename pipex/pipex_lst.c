@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:48:23 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/20 17:38:20 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 11:09:13 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
-
-
 
 t_cmd_lst	*ft_pipex_lstnew(char **cmd, char *name, int i)
 {

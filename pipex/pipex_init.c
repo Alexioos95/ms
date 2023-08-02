@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/21 17:54:06 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 11:20:37 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_mallocpipe(t_pipex *m)
 	}
 }
 
-int	ft_isabuiltin(char **tab, t_shell *ms)
+static int	ft_isabuiltin(char **tab, t_shell *ms)
 {
 	char	**built;
 	int		i;
@@ -63,7 +63,7 @@ int	ft_isabuiltin(char **tab, t_shell *ms)
 		ms->status = ft_export(ms, tab);
 	ft_dupcheck(in, STDIN_FILENO, ms->pex);
 	ft_dupcheck(out, STDOUT_FILENO, ms->pex);
-	return (freesplit(built), i);
+	return ((void)freesplit(built), i);
 }
 
 void	ft_theone(t_pipex *m, t_shell *ms)

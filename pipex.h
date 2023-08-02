@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 15:03:12 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/21 14:27:50 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 10:56:59 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,8 @@
 // // pipex/pipex_lst.c
 // t_cmd_lst			*ft_pipex_lstnew(char **cmd, char *name, int i);
 // t_cmd_lst			*ft_lstlast(t_cmd_lst *lst);
-// void			ft_pipex_lstadd_back(t_cmd_lst **lst, t_cmd_lst *new, t_pipex *m);
+// void			ft_pipex_lstadd_back(t_cmd_lst **lst, \
+//	t_cmd_lst *new, t_pipex *m);
 // void			ft_lstclearpipex(t_cmd_lst **lst);
 // int				ft_lstsize(t_cmd_lst *lst);
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+         #
+#    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/07/19 12:50:52 by eewu             ###   ########.fr        #
+#    Updated: 2023/08/02 11:22:44 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,12 +50,12 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			utils/ft_split.c					\
 			errors/errors_1-5.c					\
 			utils/frees.c)
-	
+
 OBJ =		$(SRC:.c=.o)
 
 OBJDIR	=	obj
 
-CC =		cc 
+CC =		cc
 
 FLAGS =		-Wall -Wextra -Werror -g3
 

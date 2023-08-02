@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:05:22 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/26 17:13:43 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 11:22:08 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ char	*ft_itoa(int nb)
 		tmp = tmp / 10;
 		len++;
 	}
-	str = malloc(sizeof(char) * (len + 1));
+	str = malloc(sizeof(char) * ((unsigned long)len + 1));
 	if (str == NULL)
 		return (NULL);
 	str[len] = '\0';

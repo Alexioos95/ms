@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/19 11:54:02 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 11:06:56 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
-
 
 void	ft_lstadd_back(struct s_lst **lst, struct s_lst *new)
 {
@@ -47,7 +46,6 @@ struct s_lst	*ft_lstnew(struct s_shell *ms, char *str)
 t_tokens	ft_newtoken(char *token, char *file)
 {
 	t_tokens	new;
-
 
 	new.pipe = NULL;
 	new.token = NULL;

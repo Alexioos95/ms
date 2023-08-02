@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_gnl.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 12:01:20 by eewu              #+#    #+#             */
-/*   Updated: 2023/06/22 11:47:25 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 11:10:15 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "../header.h"
-
 
 // void	ft_clear_buf(char *buf, char *bsn_i, int after)
 // {
