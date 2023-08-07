@@ -32,6 +32,7 @@ int	parser(struct s_shell *ms)
 		lexer = ms->lexer;
 		ft_add_tokenword(lexer, ms);
 		ft_add_word_to_tab(lexer, ms);
+		ft_expand(lexer, ms);
 		// ft_print_lexerlst(ms->lexer);
 		ft_start(ms);
 		ft_lexerclear(ms->lexer);

@@ -24,6 +24,9 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			parsing/checkorphans.c				\
 			parsing/lst_lexer.c					\
 			parsing/tokens.c					\
+			parsing/expand.c					\
+			parsing/expand_dquote.c				\
+			parsing/expand_utils.c				\
 			builtins/builtins.c					\
 			builtins/builtins_cd.c				\
 			builtins/builtins_cd2.c				\

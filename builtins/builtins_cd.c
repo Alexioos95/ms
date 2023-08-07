@@ -95,8 +95,7 @@ int	ft_cd(struct s_shell *ms, char **tab)
 	else if (tab[1] != NULL && ft_strncmp(tab[1], "-", 2) == 0 \
 		&& ft_cd_oldpwd(ms, tmp) == 1)
 		return (1);
-	else if (tab[1] != NULL && ft_strncmp(tab[1], "-", 2) != 0 \
-		&& ft_cd_nothome(ms, tab[1], tmp) == 1)
+	else if (tab[1] != NULL && ft_cd_nothome(ms, tab[1], tmp) == 1)
 		return (1);
 	ft_cd_actualizeenv(ms, tmp);
 	ft_cd_actualizepwd(ms);

@@ -13,7 +13,6 @@
 #ifndef HEADER_H
 # define HEADER_H
 
-# include "pipex.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdint.h>
@@ -23,22 +22,6 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <stddef.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <unistd.h>
-# include <string.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
-
-# include <errno.h>
-# include <fcntl.h>
-# include <stdint.h>
-# include <limits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
 # include <stddef.h>
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -67,7 +50,20 @@ typedef struct s_builtins
 	int					env;
 	int					echo;
 	int					export;
-}						t_builtins;
+}						t_builtins; // A quoi ca sert ?
+
+typedef struct s_expand
+{
+	int				i;
+	int				j;
+	char			c;
+	char			*split[3];
+	char			*tmp;
+	char			*buff;
+	struct s_lst	*node;
+	struct s_lexer	*lex;
+	struct s_shell	*ms;
+}						t_expand;
 
 typedef struct s_tokens
 {
@@ -176,14 +172,7 @@ void		recreatepwd(struct s_shell *ms);
 void		createminienv(struct s_shell *ms);
 void		ft_setenv(struct s_shell *ms, char **envp);
 
-// ************************** PROG ************************** //
-// signals.c
-void		ft_sigquit(int sig);
-void		ft_sigint(int sig);
-void		ft_sigint2(int sig);
-void		*ft_memset(void *s, int c, size_t n);
-
-// ************************ Pipex ************************ //
+// ************************ PIPEX ************************ //
 // pipex/pipex.c
 void		ft_dup_redir(t_pipex *m, t_cmd_lst *cmd);
 void		ft_process(t_pipex *m);
@@ -260,6 +249,20 @@ int			ft_goodword(char *line, t_tokens *token, char **word, int state);
 void		ft_add_tokenword(t_lexer *lexer, t_shell *ms);
 void		ft_add_word_to_tab(t_lexer *lexer, t_shell *ms);
 void		ft_tabptr(t_shell *ms, t_lexer *cmd, t_lexer *cmd2, int nb_tab);
+// parsing/expand.c
+void		ft_expand(struct s_lexer *lexer, struct s_shell *ms);
+char		*ft_expand_start(struct s_expand *exp, char *str);
+void		ft_expand_init(struct s_expand *exp, char *str, int i, int j);
+void		ft_expand_replace(struct s_expand *exp, char *str);
+void		ft_expand_dollar(struct s_expand *exp, char *str);
+// parsing/expand_dquote.c
+void		ft_expand_dquote(struct s_expand *exp, char *str);
+void		ft_expand_dquotereplace(struct s_expand *exp);
+// parsing/expand_utils.c
+void		ft_expand_initstruct(struct s_expand *exp, t_shell *ms, t_lexer *lex);
+int 		isexp(char *str, int i, int j);
+char		*ft_expand_join(struct s_expand *exp, char *s1, char *s2);
+void		ft_expand_error(struct s_expand *exp);
 // utils/lst.c
 void		ft_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
 t_cmd		*ft_lstnew_cmd(char **str, char **redir, char **built);
@@ -337,5 +340,10 @@ void		setsigaction(struct s_shell *ms, int b);
 void		nullonreadline(struct s_shell *ms);
 void		loop(struct s_shell *ms)
 			__attribute__((noreturn));
+// signals.c
+void		ft_sigquit(int sig);
+void		ft_sigint(int sig);
+void		ft_sigint2(int sig);
+void		*ft_memset(void *s, int c, size_t n);
 
 #endif
