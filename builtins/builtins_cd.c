@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/02 11:26:06 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/09 10:03:21 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ int	ft_cd_home(struct s_shell *ms, char *tmp)
 		printf("minishell: cd: HOME not set\n");
 		return (1);
 	}
+	if (node->line[5] == '\0')
+		return (0);
 	if (chdir(&node->line[5]) == -1)
 	{
 		free(tmp);
