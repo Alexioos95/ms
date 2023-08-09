@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:41:57 by marvin            #+#    #+#             */
-/*   Updated: 2023/08/06 22:42:07 by marvin           ###   ########.fr       */
+/*   Updated: 2023/08/09 10:24:40 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,21 @@ char	*ft_expand_join(struct s_expand *exp, char *s1, char *s2)
 	return (half);
 }
 
-int isexp(char *str, int i, int j)
+int	ft_isalnum(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') \
+		|| (c >= '0' && c <= '9'))
+		return (1);
+	else
+		return (0);
+}
+
+int	isexp(char *str, int i, int j)
 {
 	if (str[j] == '\0')
 		return (1);
-	else if (str[i] == '$' && (str[i + 1] == '?' || str[j + 1] == ' '))
+	else if (str[i] == '$' \
+		&& (str[i + 1] == '?' || ft_isalnum(str[j + 1]) == 0))
 		return (1);
 	else if (str[j + 1] == '\0' || str[j + 1] == '$' \
 		|| str[j + 1] == '\'' || str[j + 1] == '"')

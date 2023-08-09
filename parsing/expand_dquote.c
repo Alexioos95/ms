@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_dquote.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:42:43 by marvin            #+#    #+#             */
-/*   Updated: 2023/08/06 22:42:57 by marvin           ###   ########.fr       */
+/*   Updated: 2023/08/09 10:25:08 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	ft_expand_dquote(struct s_expand *exp, char *str)
 		while (str[exp->i] != '\0' && str[exp->i] != '$')
 			exp->i++;
 		if (str[exp->i] == '\0' || exp->i != exp->j)
-			exp->buff = ft_expand_join(exp, exp->buff, ft_substr(str, exp->j, exp->i - exp->j));
+			exp->buff = ft_expand_join(exp, exp->buff, \
+				ft_substr(str, exp->j, exp->i - exp->j));
 		else
 		{
 			exp->j++;
