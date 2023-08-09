@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:37:39 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/02 11:06:11 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/09 13:05:17 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ int	ft_echo(char **tab)
 	}
 	while (tab[i] != NULL)
 	{
-		printf("%s", tab[i]);
+		write(1, tab[i], ft_strlen(tab[i]));
 		if (tab[i + 1] != NULL)
-			printf(" ");
+			write(1, " ", 1);
 		i++;
 	}
 	if (n == 0)
-		printf("\n");
+		write(1, "\n", 1);
 	return (0);
 }
