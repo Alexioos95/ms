@@ -25,7 +25,7 @@ void	ft_expand_dollar(struct s_expand *exp, char *str)
 		if (exp->split[0] == NULL)
 			ft_expand_error(exp);
 	}
-	else
+	else if (len > 0)
 	{
 		exp->node = ft_getenv(exp->ms, &str[1]);
 		if (str[1] == '\0' || exp->node == NULL || exp->node->print != 1)
@@ -82,23 +82,21 @@ void	ft_expand_init(struct s_expand *exp, char *str, int i, int j)
 // Routine pour expand la str.
 char	*ft_expand_start(struct s_expand *exp, char *str)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while (str[i] != '\0' && str[i] != '$' && str[i] != '\'' && str[i] != '"')
-		i++;
-	if (str[i] == '\0')
+	exp->i = 0;
+	while (str[exp->i] != '\0' && str[exp->i] != '$' \
+		&& str[exp->i] != '\'' && str[exp->i] != '"')
+		exp->i++;
+	if (str[exp->i] == '\0')
 	{
 		exp->buff = ft_expand_join(exp, exp->buff, str);
 		return (exp->buff);
 	}
-	exp->c = str[i];
-	j = i + 1;
-	while ((exp->c == '$' && isexp(str, i, j) == 0) \
-		|| (exp->c != '$' && str[j] != '\0' && str[j] != exp->c))
-		j++;
-	ft_expand_init(exp, str, i, j);
+	exp->c = str[exp->i];
+	exp->j = exp->i;
+	while ((exp->c == '$' && isexp(exp, str, exp->i, exp->j + 1) == 0) \
+		|| (exp->c != '$' && (str[exp->j] != exp->c || exp->j == exp->i)))
+		exp->j++;
+	ft_expand_init(exp, str, exp->i, exp->j);
 	ft_expand_replace(exp, exp->split[0]);
 	free(str);
 	return (exp->buff);

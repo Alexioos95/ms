@@ -260,7 +260,7 @@ void		ft_expand_dquote(struct s_expand *exp, char *str);
 void		ft_expand_dquotereplace(struct s_expand *exp);
 // parsing/expand_utils.c
 void		ft_expand_initstruct(struct s_expand *exp, t_shell *ms, t_lexer *lex);
-int			isexp(char *str, int i, int j);
+int			isexp(struct s_expand *exp, char *str, int i, int j);
 char		*ft_expand_join(struct s_expand *exp, char *s1, char *s2);
 void		ft_expand_error(struct s_expand *exp);
 // utils/lst.c

@@ -55,16 +55,14 @@ int	ft_isalnum(int c)
 }
 
 // Regarde si l'index i de la str est arrive a l'expand suivant.
-int	isexp(char *str, int i, int j)
+int	isexp(struct s_expand *exp, char *str, int i, int j)
 {
-	if (str[j] == '\0')
+	if (str[j] != '_' && ft_isalnum(str[j]) == 0)
 		return (1);
-	else if (str[i] == '$' \
-		&& (str[i + 1] == '?' || ft_isalnum(str[j + 1]) == 0))
-		return (1);
-	else if (str[j + 1] == '\0' || str[j + 1] == '$' \
-		|| str[j + 1] == '\'' || str[j + 1] == '"')
-		return (1);
+	// else if (str[j + 1] == '\0' || str[j + 1] == '$' || str[j + 1] == '\'' || str[j + 1] == '"')
+		// return (1);
+	(void)exp;
+	(void)i;
 	return (0);
 }
 

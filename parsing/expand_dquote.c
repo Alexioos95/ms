@@ -27,11 +27,11 @@ void	ft_expand_dquotereplace(struct s_expand *exp)
 		return ;
 	}
 	len = ft_strlen(&exp->tmp[1]);
+	if (len == 0)
+		return ;
 	exp->node = ft_getenv(exp->ms, &exp->tmp[1]);
-	if (exp->tmp[1] == '\0' || exp->node == NULL || exp->node->print != 1)
-	{
+	if (exp->node == NULL || exp->node->print != 1)
 		exp->tmp[0] = '\0';
-	}
 	else
 	{
 		free(exp->tmp);
@@ -39,7 +39,6 @@ void	ft_expand_dquotereplace(struct s_expand *exp)
 		if (exp->tmp == NULL)
 			ft_expand_error(exp);
 	}
-	exp->j++;
 }
 
 // Routine pour la str donnee.
@@ -57,10 +56,10 @@ void	ft_expand_dquote(struct s_expand *exp, char *str)
 				ft_substr(str, exp->j, exp->i - exp->j));
 		else
 		{
-			exp->j++;
-			while (isexp(str, exp->i, exp->j + 1) == 0)
+			while (isexp(exp, str, exp->i, exp->j + 1) == 0)
 				exp->j++;
-			exp->tmp = ft_substr(str, exp->i, exp->j - exp->i + 2);
+			exp->tmp = ft_substr(str, exp->i, exp->j - exp->i + 1);
+			dprintf(2, "tmp: %s\n", exp->tmp);
 			if (exp->tmp == NULL)
 				ft_expand_error(exp);
 			ft_expand_dquotereplace(exp);
