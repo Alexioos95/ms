@@ -6,12 +6,14 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:42:43 by marvin            #+#    #+#             */
-/*   Updated: 2023/08/09 10:25:08 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/09 13:39:27 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
+// Remplace la str donnee commencant par $, et la remplace par son
+// equivalent dans le env, pour une str originale entre double quotes.
 void	ft_expand_dquotereplace(struct s_expand *exp)
 {
 	int	len;
@@ -40,6 +42,7 @@ void	ft_expand_dquotereplace(struct s_expand *exp)
 	exp->j++;
 }
 
+// Routine pour la str donnee.
 void	ft_expand_dquote(struct s_expand *exp, char *str)
 {
 	exp->i = 0;

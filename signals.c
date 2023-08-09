@@ -6,17 +6,19 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:43:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/02 10:55:35 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/09 13:44:34 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
+// Empeche le signal d'agir.
 void	ft_sigquit(int sig)
 {
 	(void)sig;
 }
 
+// Deplace la ligne pour la boucle du shell.
 void	ft_sigint2(int sig)
 {
 	(void)sig;
@@ -24,6 +26,7 @@ void	ft_sigint2(int sig)
 	rl_on_new_line();
 }
 
+// Replace une nouvelle ligne vide pour la boucle du shell.
 void	ft_sigint(int sig)
 {
 	(void)sig;

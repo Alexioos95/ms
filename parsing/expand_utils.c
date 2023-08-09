@@ -6,12 +6,14 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:41:57 by marvin            #+#    #+#             */
-/*   Updated: 2023/08/09 10:24:40 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/09 13:38:29 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
+// Free toutes les variables de l'expand,
+// et appelle la fonction d'erreur critique generale.
 void	ft_expand_error(struct s_expand *exp)
 {
 	if (exp->split[0] != NULL)
@@ -27,6 +29,7 @@ void	ft_expand_error(struct s_expand *exp)
 	throwerror(exp->ms, "malloc");
 }
 
+// Join 2 str les free.
 char	*ft_expand_join(struct s_expand *exp, char *s1, char *s2)
 {
 	char	*half;
@@ -41,6 +44,7 @@ char	*ft_expand_join(struct s_expand *exp, char *s1, char *s2)
 	return (half);
 }
 
+// Return 1 si le char est alpha-numerique.
 int	ft_isalnum(int c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') \
@@ -50,6 +54,7 @@ int	ft_isalnum(int c)
 		return (0);
 }
 
+// Regarde si l'index i de la str est arrive a l'expand suivant.
 int	isexp(char *str, int i, int j)
 {
 	if (str[j] == '\0')
@@ -63,6 +68,7 @@ int	isexp(char *str, int i, int j)
 	return (0);
 }
 
+// Initialise les variables necessaires.
 void	ft_expand_initstruct(struct s_expand *exp, t_shell *ms, t_lexer *lex)
 {
 	exp->split[0] = NULL;

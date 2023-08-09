@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/21 14:27:55 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/09 13:39:42 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-// Parser.
+// Hub du parser.
 int	parser(struct s_shell *ms)
 {
 	t_lexer	*lexer;

@@ -12,6 +12,7 @@
 
 #include "../header.h"
 
+// Remplace la str donnee par son equivalent dans le env.
 void	ft_expand_dollar(struct s_expand *exp, char *str)
 {
 	int	len;
@@ -41,6 +42,8 @@ void	ft_expand_dollar(struct s_expand *exp, char *str)
 	exp->split[0] = NULL;
 }
 
+// Hub qui redirige selon les differents type d'expand.
+// Si une autre expand est prevu, je rappelle la routine en recursion.
 void	ft_expand_replace(struct s_expand *exp, char *str)
 {
 	if (exp->c == '$')
@@ -63,6 +66,7 @@ void	ft_expand_replace(struct s_expand *exp, char *str)
 	}
 }
 
+// Separe la str 2 parties : L'expand a travailler immediatement, et le reste.
 void	ft_expand_init(struct s_expand *exp, char *str, int i, int j)
 {
 	exp->buff = ft_expand_join(exp, exp->buff, ft_substr(str, 0, i));
@@ -75,6 +79,7 @@ void	ft_expand_init(struct s_expand *exp, char *str, int i, int j)
 		ft_expand_error(exp);
 }
 
+// Routine pour expand la str.
 char	*ft_expand_start(struct s_expand *exp, char *str)
 {
 	int	i;
@@ -99,6 +104,7 @@ char	*ft_expand_start(struct s_expand *exp, char *str)
 	return (exp->buff);
 }
 
+// Boucle qui parcours toutes les str donnee pour les expand.
 void	ft_expand(struct s_lexer *lexer, struct s_shell *ms)
 {
 	int				i;

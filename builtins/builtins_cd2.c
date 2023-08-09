@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/02 11:25:56 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/09 13:30:55 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	ft_cd_actualizeenv(struct s_shell *ms, char *tmp)
 	free(tmp);
 }
 
+// Protecte getcwd en cas de fail.
 char	*ft_cd_proteccwd(struct s_shell *ms, char **tab, char *tmp)
 {
 	if (errno == ENOMEM)

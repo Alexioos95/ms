@@ -6,12 +6,13 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 13:35:18 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/02 11:06:01 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/09 13:32:27 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
+// Renvoir 0 si le char n'est pas valide.
 int	ft_export_isvalid(char c, int i)
 {
 	if (i == 0 && c >= '0' && c <= '9')
@@ -26,6 +27,7 @@ int	ft_export_isvalid(char c, int i)
 	return (1);
 }
 
+// Cherche le char = pour avoir la valeur de la variable.
 int	ft_export_searchequal(char *str)
 {
 	int	i;
@@ -42,6 +44,7 @@ int	ft_export_searchequal(char *str)
 	return (i);
 }
 
+// Verifie que le nom de variable soit valide.
 int	ft_export_parsing(char *str)
 {
 	int	i;

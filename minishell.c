@@ -6,12 +6,16 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/02 10:55:41 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/09 13:43:27 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
+// Realise des sigactions different selon le int donnee.
+// Si b == 1, les signaux sont handled pour ne pas casser la boucle du shell.
+// Si b == 2, Sigint est handled pour ne pas changer de ligne.
+// Dans les autres cas, les signaux agissent par defaut.
 void	setsigaction(struct s_shell *ms, int b)
 {
 	if (b == 1)
@@ -35,6 +39,7 @@ void	setsigaction(struct s_shell *ms, int b)
 	}
 }
 
+// Regarde pourquoi la line est a NULL, et agit en consequence.
 void	nullonreadline(struct s_shell *ms)
 {
 	if (errno == ENOMEM)
