@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/21 14:27:55 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/25 15:00:37 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,11 @@ void	ft_browse(t_shell *ms)
 {
 	int			i;
 	int			n;
-	char		*line;
+	// char		*line;
 	t_lexer		*lexer;
 	char		**split;
 
-	line = ms->line;
+	// line = ms->line;
 	i = 0;
 	lexer = NULL;
 	split = ft_split(ms->line, ' ');

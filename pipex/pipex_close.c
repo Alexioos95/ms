@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 18:53:15 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/21 17:19:30 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/25 16:13:02 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,20 @@
 void	ft_free_process(t_pipex *m, int r)
 {
 	int	s;
+	int	pid;
 
-	s = m->status;
+	pid = m->pids[m->count];
+	dprintf(2, "Pid: %d\n", pid);
+	s = m->ms->status;
 	ft_lstclearpipex(&m->head);
 	ft_closefds(m);
 	ft_freefds(m);
 	ft_closeoutin(m);
-	if (m->nb_cmd == 1 && m->out < 0)
-	{
-		free(m);
-		exit (1);
-	}
-	free(m);
-	if (WIFEXITED(s))
+	if (WIFEXITED(s) && pid == 0)
 		exit(WEXITSTATUS(s));
 	else
-		exit (r);
+		m->ms->status = r;
+	free(m);
 }
 
 void	ft_free_tab(char **tab)
@@ -78,8 +76,6 @@ void	ft_freefds(t_pipex *m)
 	while (i < m->pipe)
 		free(m->fds[i++]);
 	if (m->pipe)
-	{
 		free(m->fds);
-		free(m->pids);
-	}
+	free(m->pids);
 }

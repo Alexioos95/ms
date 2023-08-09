@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/21 11:40:50 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/25 15:05:30 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,22 @@ void	ft_access(t_pipex *m, char **tab, int j, int p)
 	}
 }
 
+void	ft_cmd_bool(t_pipex *m, t_lexer **lexer, char **tab)
+{
+	if (((int)ft_strlen(tab[0]) >= 1) && ((tab[0][0] == '.')))
+	{
+		if (!access(tab[0], X_OK))
+			m->eror = 0;
+		else
+			m->eror = errno;
+	}
+	else
+		m->eror = 2;
+	ft_access(m, tab, 0, m->eror);
+	while ((*lexer) && !((*lexer)->token.pipe))
+		(*lexer) = (*lexer)->next;
+}
+
 void	ft_cmd_list(t_pipex *m, t_shell *ms)
 {
 	char	**tab;
@@ -59,20 +75,7 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 	{
 		tab = ft_find_nodecmd(&lexer);
 		if (tab)
-		{
-			if (((int)ft_strlen(tab[0]) >= 1) && ((tab[0][0] == '.')))
-			{
-				if (!access(tab[0], X_OK))
-					m->eror = 0;
-				else
-					m->eror = errno;
-			}
-			else
-				m->eror = 2;
-			ft_access(m, tab, 0, m->eror);
-			while (lexer && !(lexer->token.pipe))
-				lexer = lexer->next;
-		}
+			ft_cmd_bool(m, &lexer, tab);
 		else
 		{
 			tab = ft_calloc (sizeof (char *), 2);
@@ -91,12 +94,10 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 
 void	find_cmd(t_pipex *m, t_shell *ms)
 {
-	int		i;
 	t_lst	*node_env;
 
 	node_env = ft_getenv(ms, "PATH");
-	i = 0;
-	if (node_env)
+	if (node_env && node_env->print == 1)
 		m->s_ev = ft_split(&node_env->line[5], ':');
 	else
 	{

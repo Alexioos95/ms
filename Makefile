@@ -6,14 +6,13 @@
 #    By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/07/19 12:50:52 by eewu             ###   ########.fr        #
+#    Updated: 2023/07/25 14:44:35 by eewu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =		minishell
 
-HEADER =	header.h \
-			pipex.h
+HEADER =	header.h
 
 SRC = 		$(addprefix $(OBJDIR)/,				\
 			minishell.c							\

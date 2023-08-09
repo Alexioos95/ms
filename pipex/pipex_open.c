@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/21 17:25:40 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/25 15:01:18 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,27 +54,49 @@ int	ft_openout(t_pipex *m, char *token, char *file)
 	}
 	return (m->out);
 }
+
 void	ft_dupcheck(int fd, int stdfd, t_pipex *m)
 {
 	if (dup2(fd, stdfd) == -1)
 		ft_free_process(m, errno);
 }
 
-int	ft_error(char *file, char *error, int pid, t_pipex *m)
+void	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
 {
-	if (pid == 0)
+	char		*token;
+	char		*file;
+	t_redir		*redir_tmp;
+	int			i;
+
+	i = 0;
+	redir_tmp = tmp->redirlst;
+	while (redir_tmp && i >= 0)
 	{
-		if (m->cmd->i == 13)
-			ft_free_process(m, 126);
-		else
-			ft_free_process(m, 127);
+		token = redir_tmp->token.token;
+		file = redir_tmp->token.file;
+		if (token && ft_strcmp(token, "<"))
+			i = ft_openin(m, token, file);
+		else if (token && (ft_strcmp(token, ">>") || ft_strcmp(token, ">")))
+			i = ft_openout(m, token, file);
+		redir_tmp = redir_tmp->next;
 	}
-	else
-	{
-		if (m->cmd->i == 13)
-			printf("bash: permission denied: %s\n", file);
-		else
-			printf("bash: %s: %s\n", file, error);
-		return (0);
-	}
+}
+
+void	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
+{
+	t_cmd_lst	*tmp;
+
+	tmp = cmd;
+	if (!cmd)
+		return ;
+	m->bhole = open("/dev/null", O_WRONLY);
+	ft_openin(m, NULL, NULL);
+	ft_openout(m, NULL, NULL);
+	ft_open_redir(tmp, m);
+	if (m->in_rok > 0 || m->cmd->i != 0)
+		ft_dupcheck(m->bhole, STDIN_FILENO, m);
+	if (m->in[0] >= 0)
+		ft_dupcheck(m->in[0], STDIN_FILENO, m);
+	if (m->out >= 0)
+		ft_dupcheck(m->out, STDOUT_FILENO, m);
 }

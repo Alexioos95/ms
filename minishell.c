@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/21 17:11:40 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/25 14:57:06 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	nullonreadline(struct s_shell *ms)
 	else
 	{
 		printf("exit\n");
-		frees(ms, 0);
+		frees(ms, ms->status);
 	}
 }
 
