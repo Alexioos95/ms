@@ -249,6 +249,8 @@ int			ft_goodword(char *line, t_tokens *token, char **word, int state);
 void		ft_add_tokenword(t_lexer *lexer, t_shell *ms);
 void		ft_add_word_to_tab(t_lexer *lexer, t_shell *ms);
 void		ft_tabptr(t_shell *ms, t_lexer *cmd, t_lexer *cmd2, int nb_tab);
+// parsing/heredoc.c
+void		ft_heredoc(struct s_lexer *lexer, struct s_shell *ms);
 // parsing/expand.c
 void		ft_expand(struct s_lexer *lexer, struct s_shell *ms);
 char		*ft_expand_start(struct s_expand *exp, char *str);
