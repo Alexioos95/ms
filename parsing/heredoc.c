@@ -174,6 +174,10 @@ void	ft_heredoc(struct s_lexer *lexer, struct s_shell *ms)
 			}
 			free(lexer->token.file);
 			lexer->token.file = hd.name;
+			printf("\n");
+			// rl_replace_line("\n", 0);
+			// rl_on_new_line();
+			// rl_redisplay();
 		}
 		lexer = lexer->next;
 	}

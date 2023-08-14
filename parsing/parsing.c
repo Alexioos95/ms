@@ -17,6 +17,9 @@ int	parser(struct s_shell *ms)
 {
 	t_lexer	*lexer;
 
+	if (g_glob > 1)
+		ms->status = 130;
+	g_glob = 0;
 	if (ms->split != NULL)
 	{
 		freesplit(ms->split);

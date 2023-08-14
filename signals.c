@@ -22,7 +22,9 @@ void	ft_sigquit(int sig)
 void	ft_sigint_heredoc(int sig)
 {
 	(void)sig;
-	printf("\n");
+	// printf("\n");
+	// rl_on_new_line();
+	g_glob = 1;
 	close(0);
 }
 
@@ -34,11 +36,17 @@ void	ft_sigint2(int sig)
 	rl_on_new_line();
 }
 
+int	g_glob = 0;
+
 // Replace une nouvelle ligne vide pour la boucle du shell.
 void	ft_sigint(int sig)
 {
 	(void)sig;
-	printf("\n");
+	if (g_glob != 1)
+	{
+		printf("\n");
+		g_glob = 130;
+	}
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

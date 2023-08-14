@@ -31,6 +31,8 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 
+extern int	g_glob;
+
 typedef struct s_cmd
 {
 	char				**split;
