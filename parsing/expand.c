@@ -77,7 +77,6 @@ void	ft_expand_init(struct s_expand *exp, char *str, int i, int j)
 	exp->split[1] = ft_substr(str, j + 1, ft_strlen(str) - j);
 	if (exp->split[0] == NULL || exp->split[1] == NULL)
 		ft_expand_error(exp);
-	dprintf(2, "split[0]: %s\n", exp->split[0]);
 }
 
 // Routine pour expand la str.
@@ -109,7 +108,6 @@ void	ft_expand(struct s_lexer *lexer, struct s_shell *ms)
 	int				i;
 	struct s_expand	exp;
 
-	dprintf(2, "START EXP\n");
 	while (lexer != NULL)
 	{
 		if (lexer->tab != NULL)
@@ -117,7 +115,6 @@ void	ft_expand(struct s_lexer *lexer, struct s_shell *ms)
 			i = 0;
 			while (lexer->tab[i] != NULL)
 			{
-				dprintf(2, "START WORKING EXP\n");
 				ft_expand_initstruct(&exp, ms, lexer);
 				lexer->tab[i] = ft_expand_start(&exp, lexer->tab[i]);
 				i++;

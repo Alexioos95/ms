@@ -65,6 +65,15 @@ typedef struct s_expand
 	struct s_shell	*ms;
 }						t_expand;
 
+typedef struct s_heredoc
+{
+	int				i;
+	int				fd;
+	int				state;
+	char			*name;
+	char			*line;
+}						t_heredoc;
+
 typedef struct s_tokens
 {
 	char				*token;
@@ -155,7 +164,7 @@ typedef struct s_shell
 	struct s_pipex		*pex;
 	struct s_lexer		*lexer;
 	struct s_cmd_lst	*cmd_lst;
-	struct sigaction	sigact[4];
+	struct sigaction	sigact[5];
 }						t_shell;
 
 // ************************** INIT ************************** //
@@ -346,6 +355,7 @@ void		loop(struct s_shell *ms)
 void		ft_sigquit(int sig);
 void		ft_sigint(int sig);
 void		ft_sigint2(int sig);
+void		ft_sigint_heredoc(int sig);
 void		*ft_memset(void *s, int c, size_t n);
 
 #endif

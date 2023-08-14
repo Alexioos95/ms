@@ -1,31 +1,56 @@
 
 #include "../header.h"
 
-void	ft_heredoc_loop(struct s_shell *ms, char *delim, char *name, int state)
+int	ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 {
-	int 	fd;
-	char	*line;
-
-	fd = open(name, O_WRONLY | O_CREAT);
-	if (fd == -1)
+	if (hd->line == NULL)
 	{
-		free(name);
+		if (errno == ENOMEM)
+		{
+			close(hd->fd);
+			throwerror(ms, "readline");
+		}
+		if (errno == EBADF)
+			return (2);
+		printf("-minishell: warning: here-document at line ");
+		printf("%d delimited by end-of-file (wanted `%s')\n", hd->i, delim);
+		return (1);
+	}
+	if (ft_strncmp(hd->line, delim, ft_strlen(delim)) == 0)
+	{
+		free(hd->line);
+		close(hd->fd);
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd)
+{
+	int	isend;
+
+	hd->i = 0;
+	hd->fd = open(hd->name, O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	if (hd->fd == -1)
+	{
+		free(hd->name);
 		throwerror(ms, "open");
 	}
 	while (1)
 	{
-		line = readline("> ");
-		if (line == NULL || ft_strncmp(line, delim, ft_strlen(delim)) == 0)
-		{
-			free(line);
-			close(fd);
-			return ;
-		}
-		if (state == 0)
-			dprintf(2, "NO EXPAND\n");
-		write(fd, line, ft_strlen(line));
-		free(line);
+		hd->line = readline("> ");
+		isend = ft_heredoc_end(ms, delim, hd);
+		if (isend == 1)
+			return (0);
+		else if (isend == 2)
+			return (1);
+		if (hd->state == 0)
+			dprintf(2, "EXPAND\n");
+		write(hd->fd, hd->line, ft_strlen(hd->line));
+		free(hd->line);
+		hd->i++;
 	}
+	return (0);
 }
 
 void	ft_heredoc_filename(struct s_shell *ms, char *str)
@@ -104,25 +129,41 @@ int	ft_heredoc_delim(char *str)
 	return (state);
 }
 
+void	ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd)
+{
+	hd->i = 0;
+	hd->fd = -1;
+	hd->line = NULL;
+	hd->name = malloc(sizeof(char) * 20);
+	if (hd->name == NULL)
+		throwerror(ms, "malloc");
+	ft_memset(hd->name, 0, 20);
+	ft_heredoc_filename(ms, hd->name);
+}
+
 void	ft_heredoc(struct s_lexer *lexer, struct s_shell *ms)
 {
-	int		state;
-	char	*name;
+	int					backup;
+	struct s_heredoc	hd;
 
-	while (lexer != NULL)
+	backup = dup(0);
+	setsigaction(ms, 3);
+	while (lexer != NULL && ms->status != -1)
 	{
-		if (lexer->token.token != NULL && ft_strncmp(lexer->token.token, "<<", 2) == 0)
+		if (lexer->token.token != NULL \
+			&& ft_strncmp(lexer->token.token, "<<", 2) == 0)
 		{
-			state = ft_heredoc_delim(lexer->token.file);
-			name = malloc(sizeof(char) * 20);
-			if (name == NULL)
-				throwerror(ms, "malloc");
-			ft_memset(name, 0, 20);
-			ft_heredoc_filename(ms, name);
-			ft_heredoc_loop(ms, lexer->token.file, name, state);
+			ft_heredoc_init(ms, &hd);
+			hd.state = ft_heredoc_delim(lexer->token.file);
+			if (ft_heredoc_loop(ms, lexer->token.file, &hd) == 1)
+			{
+				dup2(backup, 0);
+				ms->status = -1;
+			}
 			free(lexer->token.file);
-			lexer->token.file = name;
+			lexer->token.file = hd.name;
 		}
 		lexer = lexer->next;
 	}
+	close(backup);
 }

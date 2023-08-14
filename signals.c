@@ -19,6 +19,13 @@ void	ft_sigquit(int sig)
 }
 
 // Deplace la ligne pour la boucle du shell.
+void	ft_sigint_heredoc(int sig)
+{
+	(void)sig;
+	close(0);
+}
+
+// Deplace la ligne pour la boucle du shell.
 void	ft_sigint2(int sig)
 {
 	(void)sig;

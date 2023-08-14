@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/09 13:39:42 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/14 11:33:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,18 @@ int	parser(struct s_shell *ms)
 		ft_add_tokenword(lexer, ms);
 		ft_add_word_to_tab(lexer, ms);
 		ft_heredoc(lexer, ms);
+		if (ms->status == -1)
+		{
+			ft_lexerclear(ms->lexer);
+			return (130);
+		}
+		setsigaction(ms, 2);
 		ft_expand(lexer, ms);
 		// ft_print_lexerlst(ms->lexer);
 		ft_start(ms);
 		ft_lexerclear(ms->lexer);
 	}
-	return (0);
+	return (ms->status);
 }
 
 int	ft_state(char c, int state)
