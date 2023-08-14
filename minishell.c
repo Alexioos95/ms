@@ -59,7 +59,6 @@ void	loop(struct s_shell *ms)
 			nullonreadline(ms);
 		if (ms->line[0] != '\0')
 			add_history(ms->line);
-		// setsigaction(ms, 2);
 		ms->status = parser(ms);
 	}
 }

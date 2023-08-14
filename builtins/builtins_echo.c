@@ -46,6 +46,11 @@ int	ft_echo(char **tab)
 	while (tab[i] != NULL)
 	{
 		write(1, tab[i], ft_strlen(tab[i]));
+		if (errno == ENOSPC)
+		{
+			write(2, "-minishell: echo: write error: No space left on device\n", 55);
+			return (1);
+		}
 		if (tab[i + 1] != NULL)
 			write(1, " ", 1);
 		i++;

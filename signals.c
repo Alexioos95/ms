@@ -22,6 +22,7 @@ void	ft_sigquit(int sig)
 void	ft_sigint_heredoc(int sig)
 {
 	(void)sig;
+	printf("\n");
 	close(0);
 }
 

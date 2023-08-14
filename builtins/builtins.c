@@ -94,7 +94,14 @@ int	ft_env(struct s_shell *ms, char **tab)
 	while (tmp != NULL)
 	{
 		if (tmp->print == 1 && tmp->line != NULL)
+		{
 			printf("%s\n", tmp->line);
+			if (errno == ENOSPC)
+			{
+				write(2, "env: write error: No space left on device\n", 42);
+				return (125);
+			}
+		}
 		tmp = tmp->next;
 	}
 	return (0);

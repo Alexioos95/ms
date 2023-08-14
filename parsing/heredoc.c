@@ -1,6 +1,18 @@
 
 #include "../header.h"
 
+// void	ft_heredoc_expand()
+// {
+// 	int	i;
+// 	int	j;
+
+// 	i = 0;
+// 	while (str[i] != '\0')
+// 	{
+// 		i++;
+// 	}
+// }
+
 int	ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 {
 	if (hd->line == NULL)
