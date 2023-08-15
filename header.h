@@ -266,14 +266,13 @@ void		ft_tabptr(t_shell *ms, t_lexer *cmd, t_lexer *cmd2, int nb_tab);
 void		ft_heredoc(struct s_lexer *lexer, struct s_shell *ms);
 void		ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd);
 int			ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd);
-// parsing/heredoc_file.c
+int			ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd);
+// parsing/heredoc_utils.c
 int			ft_heredoc_delim(char *str);
 int			ft_heredoc_quotes(char *str, int i, int len);
 void		ft_heredoc_filename(struct s_shell *ms, char *str);
-int			ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd);
-// parsing/heredoc_expand.c
 char		*ft_heredoc_expand(struct s_heredoc *hd, char *str);
-void		ft_heredoc_error(struct s_heredoc *hd);
+void		ft_expheredoc_init(struct s_expand *exp, char *str);
 // parsing/expand.c
 void		ft_expand(struct s_lexer *lexer, struct s_shell *ms);
 char		*ft_expand_start(struct s_expand *exp, char *str);

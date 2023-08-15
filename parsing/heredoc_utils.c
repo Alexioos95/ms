@@ -15,14 +15,14 @@
 // Initialise les variables pour l'expand du heredoc.
 void	ft_expheredoc_init(struct s_expand *exp, char *str)
 {
-	if (exp.i != exp.j)
-		exp.buff = ft_expand_join(&exp, exp.buff, ft_substr(str, exp.j, exp.i - exp.j));
-	exp.j = exp.i;
-	while (isexp(&exp, str, exp.i, exp.j + 1) == 0)
-		exp.j++;
-	exp.split[0] = ft_substr(str, exp.i, exp.j - exp.i + 1);
-	if (exp.split[0] == NULL)
-		ft_expand_error(&exp);
+	if (exp->i != exp->j)
+		exp->buff = ft_expand_join(exp, exp->buff, ft_substr(str, exp->j, exp->i - exp->j));
+	exp->j = exp->i;
+	while (isexp(exp, str, exp->i, exp->j + 1) == 0)
+		exp->j++;
+	exp->split[0] = ft_substr(str, exp->i, exp->j - exp->i + 1);
+	if (exp->split[0] == NULL)
+		ft_expand_error(exp);
 }
 
 // Expand les variables d'environnements des lignes heredoc.
