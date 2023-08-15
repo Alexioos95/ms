@@ -12,6 +12,31 @@
 
 #include "../header.h"
 
+// Regarde si la boucle du heredoc doit être stoppé.
+int	ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd)
+{
+	if (hd->line == NULL)
+	{
+		if (errno == ENOMEM)
+		{
+			close(hd->fd);
+			throwerror(ms, "readline");
+		}
+		if (errno == EBADF)
+			return (2);
+		printf("-minishell: warning: here-document at line ");
+		printf("%d delimited by end-of-file (wanted `%s')\n", hd->i, delim);
+		return (1);
+	}
+	if (ft_strncmp(hd->line, delim, ft_strlen(delim)) == 0)
+	{
+		free(hd->line);
+		close(hd->fd);
+		return (1);
+	}
+	return (0);
+}
+
 // Boucle du heredoc.
 int	ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 {
@@ -34,7 +59,6 @@ int	ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 			return (1);
 		if (hd->state == 0)
 			hd->line = ft_heredoc_expand(hd, hd->line);
-		dprintf(2, "line: %s\n", hd->line);
 		write(hd->fd, hd->line, ft_strlen(hd->line));
 		write(hd->fd, "\n", 1);
 		free(hd->line);
@@ -57,7 +81,7 @@ void	ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd)
 	ft_heredoc_filename(ms, hd->name);
 }
 
-// Parcours la liste des infos, et fais autant de heredoc que necessaire.
+// Parcours la liste chaînée, et fais autant de heredoc que necessaire.
 void	ft_heredoc(struct s_lexer *lexer, struct s_shell *ms)
 {
 	int					backup;

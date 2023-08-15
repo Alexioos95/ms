@@ -26,8 +26,11 @@ void	ft_expand_error(struct s_expand *exp)
 		free(exp->buff);
 	if (exp->tmp != NULL)
 		free(exp->tmp);
-	if (exp->hd != NULL)
-		ft_heredoc_error(exp->hd);
+	if (exp->hd != NULL && exp->hd->name != NULL)
+	{
+		unlink(exp->hd->name);
+		free(exp->hd->line);
+	}
 	throwerror(exp->ms, "malloc");
 }
 

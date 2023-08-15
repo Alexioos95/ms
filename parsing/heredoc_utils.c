@@ -12,30 +12,50 @@
 
 #include "../header.h"
 
-int	ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd)
+// Initialise les variables pour l'expand du heredoc.
+void	ft_expheredoc_init(struct s_expand *exp, char *str)
 {
-	if (hd->line == NULL)
-	{
-		if (errno == ENOMEM)
-		{
-			close(hd->fd);
-			throwerror(ms, "readline");
-		}
-		if (errno == EBADF)
-			return (2);
-		printf("-minishell: warning: here-document at line ");
-		printf("%d delimited by end-of-file (wanted `%s')\n", hd->i, delim);
-		return (1);
-	}
-	if (ft_strncmp(hd->line, delim, ft_strlen(delim)) == 0)
-	{
-		free(hd->line);
-		close(hd->fd);
-		return (1);
-	}
-	return (0);
+	if (exp.i != exp.j)
+		exp.buff = ft_expand_join(&exp, exp.buff, ft_substr(str, exp.j, exp.i - exp.j));
+	exp.j = exp.i;
+	while (isexp(&exp, str, exp.i, exp.j + 1) == 0)
+		exp.j++;
+	exp.split[0] = ft_substr(str, exp.i, exp.j - exp.i + 1);
+	if (exp.split[0] == NULL)
+		ft_expand_error(&exp);
 }
 
+// Expand les variables d'environnements des lignes heredoc.
+char	*ft_heredoc_expand(struct s_heredoc *hd, char *str)
+{
+	struct s_expand	exp;
+
+	ft_expand_initstruct(&exp, hd->ms, hd->ms->lexer);
+	exp.hd = hd;
+	exp.i = 0;
+	if (str[0] == '\0')
+		return (str);
+	while (str[exp.i] != '\0')
+	{
+		exp.j = exp.i;
+		while (str[exp.i] != '\0' && str[exp.i] != '$')
+			exp.i++;
+		if (str[exp.i] == '\0')
+		{
+			exp.split[1] = ft_substr(str, exp.j, ft_strlen(&str[exp.j]) + 1);
+			if (exp.split[1] == NULL)
+				ft_expand_error(&exp);
+			exp.buff = ft_expand_join(&exp, exp.buff, exp.split[1]);
+			return (exp.buff);
+		}
+		ft_expheredoc_init(&exp, str);
+		ft_expand_dollar(&exp, exp.split[0]);
+		exp.i = exp.j + 1;
+	}
+	return (exp.buff);
+}
+
+// Créer un fichier avec un nom aléatoire.
 void	ft_heredoc_filename(struct s_shell *ms, char *str)
 {
 	int		i;
@@ -63,6 +83,7 @@ void	ft_heredoc_filename(struct s_shell *ms, char *str)
 	close(fd);
 }
 
+// Modifie la str pour enlever les (d)quotes.
 int	ft_heredoc_quotes(char *str, int i, int len)
 {
 	int		j;
@@ -91,6 +112,7 @@ int	ft_heredoc_quotes(char *str, int i, int len)
 	return (ret - 1);
 }
 
+// Retire les (d)quotes du délimiteur.
 int	ft_heredoc_delim(char *str)
 {
 	int		i;
