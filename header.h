@@ -56,15 +56,16 @@ typedef struct s_builtins
 
 typedef struct s_expand
 {
-	int				i;
-	int				j;
-	char			c;
-	char			*split[3];
-	char			*tmp;
-	char			*buff;
-	struct s_lst	*node;
-	struct s_lexer	*lex;
-	struct s_shell	*ms;
+	int					i;
+	int					j;
+	char				c;
+	char				*split[3];
+	char				*tmp;
+	char				*buff;
+	struct s_lst		*node;
+	struct s_lexer		*lex;
+	struct s_heredoc	*hd;
+	struct s_shell		*ms;
 }						t_expand;
 
 typedef struct s_heredoc
@@ -74,6 +75,7 @@ typedef struct s_heredoc
 	int				state;
 	char			*name;
 	char			*line;
+	struct s_shell	*ms;
 }						t_heredoc;
 
 typedef struct s_tokens
@@ -262,6 +264,16 @@ void		ft_add_word_to_tab(t_lexer *lexer, t_shell *ms);
 void		ft_tabptr(t_shell *ms, t_lexer *cmd, t_lexer *cmd2, int nb_tab);
 // parsing/heredoc.c
 void		ft_heredoc(struct s_lexer *lexer, struct s_shell *ms);
+void		ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd);
+int			ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd);
+// parsing/heredoc_file.c
+int			ft_heredoc_delim(char *str);
+int			ft_heredoc_quotes(char *str, int i, int len);
+void		ft_heredoc_filename(struct s_shell *ms, char *str);
+int			ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd);
+// parsing/heredoc_expand.c
+char		*ft_heredoc_expand(struct s_heredoc *hd, char *str);
+void		ft_heredoc_error(struct s_heredoc *hd);
 // parsing/expand.c
 void		ft_expand(struct s_lexer *lexer, struct s_shell *ms);
 char		*ft_expand_start(struct s_expand *exp, char *str);
@@ -272,7 +284,8 @@ void		ft_expand_dollar(struct s_expand *exp, char *str);
 void		ft_expand_dquote(struct s_expand *exp, char *str);
 void		ft_expand_dquotereplace(struct s_expand *exp);
 // parsing/expand_utils.c
-void		ft_expand_initstruct(struct s_expand *exp, t_shell *ms, t_lexer *lex);
+void		ft_expand_initstruct(struct s_expand *exp, t_shell *ms, \
+			t_lexer *lex);
 int			isexp(struct s_expand *exp, char *str, int i, int j);
 char		*ft_expand_join(struct s_expand *exp, char *s1, char *s2);
 void		ft_expand_error(struct s_expand *exp);

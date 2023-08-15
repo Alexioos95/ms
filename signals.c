@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:43:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/09 13:44:34 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/15 10:09:24 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	ft_sigquit(int sig)
 void	ft_sigint_heredoc(int sig)
 {
 	(void)sig;
-	// printf("\n");
-	// rl_on_new_line();
 	g_glob = 1;
 	close(0);
 }
@@ -35,8 +33,6 @@ void	ft_sigint2(int sig)
 	printf("\n");
 	rl_on_new_line();
 }
-
-int	g_glob = 0;
 
 // Replace une nouvelle ligne vide pour la boucle du shell.
 void	ft_sigint(int sig)

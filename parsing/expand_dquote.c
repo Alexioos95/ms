@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:42:43 by marvin            #+#    #+#             */
-/*   Updated: 2023/08/09 13:39:27 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/15 12:26:03 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	ft_expand_dquote(struct s_expand *exp, char *str)
 			while (isexp(exp, str, exp->i, exp->j + 1) == 0)
 				exp->j++;
 			exp->tmp = ft_substr(str, exp->i, exp->j - exp->i + 1);
-			dprintf(2, "tmp: %s\n", exp->tmp);
 			if (exp->tmp == NULL)
 				ft_expand_error(exp);
 			ft_expand_dquotereplace(exp);

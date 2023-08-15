@@ -6,14 +6,13 @@
 #    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/08/02 11:22:44 by apayen           ###   ########.fr        #
+#    Updated: 2023/08/15 10:49:53 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =		minishell
 
-HEADER =	header.h \
-			pipex.h
+HEADER =	header.h
 
 SRC = 		$(addprefix $(OBJDIR)/,				\
 			minishell.c							\
@@ -25,6 +24,8 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			parsing/lst_lexer.c					\
 			parsing/tokens.c					\
 			parsing/heredoc.c					\
+			parsing/heredoc_file.c				\
+			parsing/heredoc_expand.c			\
 			parsing/expand.c					\
 			parsing/expand_dquote.c				\
 			parsing/expand_utils.c				\

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/14 11:32:21 by marvin           ###   ########.fr       */
+/*   Updated: 2023/08/15 10:11:06 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,17 @@
 void	setsigaction(struct s_shell *ms, int b)
 {
 	if (b == 1 && (sigaction(SIGINT, &ms->sigact[1], NULL) == -1 \
-			|| sigaction(SIGQUIT, &ms->sigact[4], NULL) == -1 \
-			|| sigaction(SIGTSTP, &ms->sigact[4], NULL) == -1))
-			throwerror(ms, "sigaction");
+		|| sigaction(SIGQUIT, &ms->sigact[4], NULL) == -1 \
+		|| sigaction(SIGTSTP, &ms->sigact[4], NULL) == -1))
+		throwerror(ms, "sigaction");
 	else if (b == 2 && sigaction(SIGINT, &ms->sigact[2], NULL) == -1)
-			throwerror(ms, "sigaction");
+		throwerror(ms, "sigaction");
 	else if (b == 3 && sigaction(SIGINT, &ms->sigact[3], NULL) == -1)
-			throwerror(ms, "sigaction");
+		throwerror(ms, "sigaction");
 	else if (b == 0 && (sigaction(SIGINT, &ms->sigact[0], NULL) == -1 \
-			|| sigaction(SIGQUIT, &ms->sigact[0], NULL) == -1 \
-			|| sigaction(SIGTSTP, &ms->sigact[0], NULL) == -1))
-			throwerror(ms, "sigaction");
+		|| sigaction(SIGQUIT, &ms->sigact[0], NULL) == -1 \
+		|| sigaction(SIGTSTP, &ms->sigact[0], NULL) == -1))
+		throwerror(ms, "sigaction");
 }
 
 // Regarde pourquoi la line est a NULL, et agit en consequence.
@@ -63,6 +63,7 @@ void	loop(struct s_shell *ms)
 	}
 }
 
+int	g_glob = 0;
 int	main(int argc, char **argv, char **envp)
 {
 	struct s_shell	ms;

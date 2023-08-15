@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:41:57 by marvin            #+#    #+#             */
-/*   Updated: 2023/08/09 13:38:29 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/15 10:42:42 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	ft_expand_error(struct s_expand *exp)
 		free(exp->buff);
 	if (exp->tmp != NULL)
 		free(exp->tmp);
+	if (exp->hd != NULL)
+		ft_heredoc_error(exp->hd);
 	throwerror(exp->ms, "malloc");
 }
 
@@ -80,6 +82,7 @@ void	ft_expand_initstruct(struct s_expand *exp, t_shell *ms, t_lexer *lex)
 	exp->node = NULL;
 	exp->ms = ms;
 	exp->lex = lex;
+	exp->hd = NULL;
 	exp->buff = malloc(sizeof(char) * 1);
 	if (exp->buff == NULL)
 		ft_expand_error(exp);
