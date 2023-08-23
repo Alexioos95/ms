@@ -25,7 +25,7 @@ void	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
 	{
 		token = redir_tmp->token.token;
 		file = redir_tmp->token.file;
-		if (token && ft_strcmp(token, "<"))
+		if (token && (ft_strcmp(token, "<")  || ft_strcmp(token, "<<")))
 			i = ft_openin(m, token, file);
 		else if (token && (ft_strcmp(token, ">>") || ft_strcmp(token, ">")))
 			i = ft_openout(m, token, file);

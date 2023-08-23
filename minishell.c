@@ -40,7 +40,8 @@ void	nullonreadline(struct s_shell *ms)
 		throwerror(ms, "readline");
 	else
 	{
-		printf("exit\n");
+		if (isatty(0) == 1)
+			printf("exit\n");
 		frees(ms, ms->status);
 	}
 }
@@ -54,7 +55,10 @@ void	loop(struct s_shell *ms)
 		setsigaction(ms, 1);
 		if (ms->line != NULL)
 			free(ms->line);
-		ms->line = readline("apayen&eewu@minishell$ ");
+		if (isatty(0) == 1)
+			ms->line = readline("apayen&eewu@minishell$ ");
+		else
+			ms->line = readline("");
 		if (ms->line == NULL)
 			nullonreadline(ms);
 		if (ms->line[0] != '\0')

@@ -17,6 +17,7 @@ int	ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 {
 	if (hd->line == NULL)
 	{
+		rl_replace_line("", 0);
 		if (errno == ENOMEM)
 		{
 			close(hd->fd);

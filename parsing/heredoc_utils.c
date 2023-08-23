@@ -34,7 +34,10 @@ char	*ft_heredoc_expand(struct s_heredoc *hd, char *str)
 	exp.hd = hd;
 	exp.i = 0;
 	if (str[0] == '\0')
+	{
+		free(exp.buff);
 		return (str);
+	}
 	while (str[exp.i] != '\0')
 	{
 		exp.j = exp.i;

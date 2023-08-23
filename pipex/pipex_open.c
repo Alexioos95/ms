@@ -16,7 +16,7 @@ int	ft_openin(t_pipex *m, char *token, char *file)
 {
 	if (!token)
 		m->in[0] = open("/dev/stdin", O_RDONLY);
-	else if (token && ft_strcmp(token, "<"))
+	else if (token && (ft_strcmp(token, "<") || ft_strcmp(token, "<<")))
 	{
 		m->in[0] = open(file, O_RDONLY);
 		if (m->in[0] >= 0)
