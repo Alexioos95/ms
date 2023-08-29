@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_open.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/28 15:11:41 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/29 12:41:42 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,10 @@ void	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
 	{
 		token = redir_tmp->token.token;
 		file = redir_tmp->token.file;
-		if (token && ft_strcmp(token, "<"))
+		if (token && (ft_strcmp(token, "<") || ft_strcmp(token, "<<")))
 			i = ft_openin(m, token, file);
 		else if (token && (ft_strcmp(token, ">>") || ft_strcmp(token, ">")))
 			i = ft_openout(m, token, file);
-		else if (token && ft_strcmp(token, "<<"))
-			dprintf(2, "Here_doc\n);");
-			// i = ft_heredoc();
 		redir_tmp = redir_tmp->next;
 	}
 }

@@ -206,8 +206,7 @@ char		*ft_isabuiltin(char **tab, t_shell *ms);
 void		ft_exec(t_pipex *m, t_shell *ms);
 t_pipex		*ft_init(t_pipex *m, int nb_cmd, char **ev);
 // pipex/pipex_close.c
-void		ft_free_process(t_pipex *m, int r)
-			__attribute__((noreturn));
+void		ft_free_process(t_pipex *m, int r);
 void		ft_free_tab(char **tab);
 void		ft_closeoutin(t_pipex *m);
 void		ft_closefds(t_pipex *m);
