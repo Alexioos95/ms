@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/28 14:52:58 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/29 12:07:17 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_process(t_pipex *m, t_shell *ms)
 {
 	int			i;
-	// t_lexer		*redir;
+	t_lexer		*redir;
 
 	i = ft_fdspipe(m);
 	redir = ms->lexer;
@@ -72,13 +72,10 @@ void	ft_exec(t_pipex *m, t_shell *ms)
 
 void	ft_pipe_exec(t_pipex *m, t_shell *ms)
 {
-	// int	i;
-
-	// i = 0;
 	ft_mallocpipe(m);
 	ft_pipe(m);
 	while (m->nb_cmd >= 1)
-		ft_process(m);
+		ft_process(m, ms);
 }
 
 int	ft_end(t_shell *ms)

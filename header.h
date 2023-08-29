@@ -43,17 +43,6 @@ typedef struct s_cmd
 	struct s_shell		*ms;
 }						t_cmd;
 
-typedef struct s_builtins
-{
-	int					cd;
-	int					pwd;
-	int					exit;
-	int					unset;
-	int					env;
-	int					echo;
-	int					export;
-}						t_builtins; // A quoi ca sert ?
-
 typedef struct s_expand
 {
 	int					i;

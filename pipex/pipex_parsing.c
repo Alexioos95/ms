@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/28 16:34:39 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/29 12:21:38 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ void	ft_access(t_pipex *m, char **tab, int j, int p)
 				ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, join, p), m);
 			}
 		}
-		if (access(tab[0], X_OK) == 0 && p != 0)
-			ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, tab[0], 0), m);
-		else if ((access(tab[0], X_OK) != 0) && p != 0)
-			ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, tab[0], p), m);
+		ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, tab[0], p), m);
 	}
 }
 
@@ -98,11 +95,9 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 
 void	find_cmd(t_pipex *m, t_shell *ms)
 {
-	// int		i;
 	t_lst	*node_env;
 
 	node_env = ft_getenv(ms, "PATH");
-	// i = 0;
 	if (node_env && node_env->print == 1)
 		m->s_ev = ft_split(&node_env->line[5], ':');
 	else
@@ -116,6 +111,6 @@ void	find_cmd(t_pipex *m, t_shell *ms)
 	}
 	ft_cmd_list(m, ms);
 	ft_redir_list(m, ms);
-	print_allcmd(m);
+	// print_allcmd(m);
 	ft_free_tab(m->s_ev);
 }
