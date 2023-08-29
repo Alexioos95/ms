@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:19:34 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/25 15:06:28 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/19 11:54:02 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 void	ft_print_lexerlst(t_lexer *lst)
 {
 	int		i;
-	// int		c;
+	int		c;
 	t_lexer	*tmp;
 
 	tmp = lst;
-	// c = tmp->len;
+	c = tmp->len;
 	printf("Taille du Lexer: %d\n", lst->len);
 	while (tmp)
 	{

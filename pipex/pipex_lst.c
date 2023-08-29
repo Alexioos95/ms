@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:48:23 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/25 16:11:38 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/20 17:38:20 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ void	ft_lstclearpipex(t_cmd_lst **lst)
 	{
 		i = 0;
 		tmp = (*lst)->next;
-		free((*lst)->name);
+		while ((*lst)->tab && (*lst)->tab[i])
+			free((*lst)->tab[i++]);
+		free((*lst)->tab);
 		free(*lst);
 		*lst = tmp;
 	}

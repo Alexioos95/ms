@@ -6,20 +6,22 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/25 16:12:06 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/28 14:52:58 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-
-void	ft_pipe_process(t_pipex *m)
+void	ft_process(t_pipex *m, t_shell *ms)
 {
 	int			i;
+	t_lexer		*redir;
 
 	i = ft_fdspipe(m);
-	ft_fork(m);
-	if (m->pids[m->count] == 0)
+	redir = ms->lexer;
+	if (m->cmd)
+		ft_fork(m);
+	if (m->cmd && m->pids[m->count] == 0)
 		ft_childprocess(m);
 	else
 	{
@@ -27,9 +29,12 @@ void	ft_pipe_process(t_pipex *m)
 		close(m->fds[i][0]);
 		if (pipe(m->fds[i]) == -1)
 			ft_free_process(m, errno);
-		if (m->cmd->i > 0 && m->cmd->tab)
+		if (m->cmd && m->cmd->i > 0 && m->cmd->tab)
 			ft_error(m->cmd->tab[0], "command not found", 42, m);
-		m->cmd = m->cmd->next;
+		if (!m->cmd)
+			ft_errors_1_5(0, "|");
+		if (m->cmd)
+			m->cmd = m->cmd->next;
 		m->nb_cmd--;
 		m->count++;
 		m->in_rok = 0;
@@ -39,9 +44,12 @@ void	ft_pipe_process(t_pipex *m)
 	}
 }
 
-void	ft_nopipe_ex(t_pipex *m, t_shell *ms)
+void	ft_exec(t_pipex *m, t_shell *ms)
 {
-	m->pids[0] = -1;
+	int		i;
+
+	i = 0;
+	m->pids[i] = -1;
 	if (!(ft_isabuiltin(m->cmd->tab, ms)))
 	{
 		ft_fork(m);
@@ -53,27 +61,31 @@ void	ft_nopipe_ex(t_pipex *m, t_shell *ms)
 				ft_error(m->cmd->tab[0], "command not found", 42, m);
 			m->cmd = m->cmd->next;
 			m->nb_cmd--;
-			// m->count++;
+			m->count++;
 			m->in_rok = 0;
+			m->out_rok = 0;
 			m->out = -1;
 			m->in[0] = -1;
 		}
 	}
 }
 
-void	ft_pipe_ex(t_pipex *m)
+void	ft_pipe_exec(t_pipex *m, t_shell *ms)
 {
+	int	i;
+
+	i = 0;
 	ft_mallocpipe(m);
 	ft_pipe(m);
 	while (m->nb_cmd >= 1)
-		ft_pipe_process(m);
-	m->count--;
+		ft_process(m, ms);
 }
 
 int	ft_end(t_shell *ms)
 {
 	int			i;
 	int			n;
+	int			tmpstatus;
 	t_pipex		*m;
 
 	n = 0;
@@ -82,15 +94,18 @@ int	ft_end(t_shell *ms)
 	ft_closefds(m);
 	while (1)
 	{
-		if (i == m->nb_cmd)
+		if (i == m->count)
 			i = 0;
-		if (waitpid(m->pids[i], &ms->status, WNOHANG) > 0)
+		if (waitpid(m->pids[i], &tmpstatus, WNOHANG) > 0)
+		{
 			n++;
-		if (n == m->nb_cmd)
+			if (i == m->count)
+				ms->status = tmpstatus;
+		}
+		if (n == m->count)
 			break ;
 		i++;
 	}
-	ft_free_process(m, errno);
 	return (1);
 }
 
@@ -99,7 +114,9 @@ int	ft_start(t_shell *ms)
 	int			nb_cmd;
 	char		**env;
 	t_pipex		*m;
+	int			i;
 
+	i = 0;
 	env = listtotab(ms);
 	m = NULL;
 	nb_cmd = ft_nb_cmd(ms->lexer);
@@ -110,11 +127,13 @@ int	ft_start(t_shell *ms)
 		return (1);
 	find_cmd(m, ms);
 	if (nb_cmd >= 2 && env)
-		ft_pipe_ex(m);
+		ft_pipe_exec(m, ms);
 	else if (nb_cmd == 1 && env)
-		ft_nopipe_ex(m, ms);
+		ft_exec(m, ms);
+	ft_closefds(m);
 	ft_end(ms);
-	free(env);
+	// ft_lstclearpipex(&m->head);
+	// ft_free_process(m, errno);
 	return (1);
 }
 

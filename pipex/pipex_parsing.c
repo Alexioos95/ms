@@ -6,21 +6,25 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/25 15:05:30 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/28 16:34:39 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
+
 char	**ft_find_nodecmd(t_lexer **lexer)
 {
+	char	**tab;
+
+	tab = NULL;
 	while ((*lexer) && !((*lexer)->token.pipe))
 	{
 		if ((*lexer)->tab)
-			return ((*lexer)->tab);
+			tab = ft_realloc_tab(tab, (*lexer)->tab);
 		(*lexer) = (*lexer)->next;
 	}
-	return (NULL);
+	return (tab);
 }
 
 void	ft_access(t_pipex *m, char **tab, int j, int p)
@@ -49,7 +53,7 @@ void	ft_access(t_pipex *m, char **tab, int j, int p)
 	}
 }
 
-void	ft_cmd_bool(t_pipex *m, t_lexer **lexer, char **tab)
+void	ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab)
 {
 	if (((int)ft_strlen(tab[0]) >= 1) && ((tab[0][0] == '.')))
 	{
@@ -75,7 +79,7 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 	{
 		tab = ft_find_nodecmd(&lexer);
 		if (tab)
-			ft_cmd_bool(m, &lexer, tab);
+			ft_checkaccees(m, &lexer, tab);
 		else
 		{
 			tab = ft_calloc (sizeof (char *), 2);
@@ -94,10 +98,12 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 
 void	find_cmd(t_pipex *m, t_shell *ms)
 {
+	int		i;
 	t_lst	*node_env;
 
 	node_env = ft_getenv(ms, "PATH");
-	if (node_env && node_env->print == 1)
+	i = 0;
+	if (node_env)
 		m->s_ev = ft_split(&node_env->line[5], ':');
 	else
 	{
@@ -110,6 +116,6 @@ void	find_cmd(t_pipex *m, t_shell *ms)
 	}
 	ft_cmd_list(m, ms);
 	ft_redir_list(m, ms);
-	// print_allcmd(m);
+	print_allcmd(m);
 	ft_free_tab(m->s_ev);
 }

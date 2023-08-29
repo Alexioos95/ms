@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/25 15:00:37 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/28 16:36:49 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_istoken(char c)
 	return (0);
 }
 
-int	ft_isthereatoken(char *line, t_lexer **lexer)
+int	ft_isthereatoken(char *line, t_lexer **lexer, t_shell *ms)
 {
 	int			i;
 	int			s;
@@ -78,7 +78,7 @@ int	ft_isthereatoken(char *line, t_lexer **lexer)
 	i = 0;
 	s = ft_state(line[i], 0);
 	if (ft_istoken(line[i]) && s == 0)
-		i = ft_goodtoken(line, &token, &word, s);
+		i = ft_goodtoken(line, &token, &word, ms);
 	else if (!ft_istoken(line[i]) || ft_state(line[i], s) > 0)
 		i = ft_goodword(line, &token, &word, s);
 	if (0 != i)
@@ -90,11 +90,11 @@ void	ft_browse(t_shell *ms)
 {
 	int			i;
 	int			n;
-	// char		*line;
+	char		*line;
 	t_lexer		*lexer;
 	char		**split;
 
-	// line = ms->line;
+	line = ms->line;
 	i = 0;
 	lexer = NULL;
 	split = ft_split(ms->line, ' ');
@@ -102,7 +102,7 @@ void	ft_browse(t_shell *ms)
 	{
 		n = 0;
 		while (n != ft_strlen(split[i]))
-			n += ft_isthereatoken(&split[i][n], &lexer);
+			n += ft_isthereatoken(&split[i][n], &lexer, ms);
 		i++;
 	}
 	freesplit (split);

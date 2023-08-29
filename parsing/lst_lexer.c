@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:47:00 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/25 14:59:32 by eewu             ###   ########.fr       */
+/*   Updated: 2023/07/18 17:17:48 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 t_lexer	*ft_lstlast_lexer(t_lexer *head)
 {
-	// int		len;
+	int		len;
 	t_lexer	*tmp;
 
 	tmp = head;
-	// len = head->len;
+	len = head->len;
 	while (tmp->next)
 		tmp = tmp->next;
 	return (tmp);
@@ -26,11 +26,11 @@ t_lexer	*ft_lstlast_lexer(t_lexer *head)
 
 void	ft_lstresetindex_lexer(t_lexer *head)
 {
-	// t_lexer	*last;
+	t_lexer	*last;
 	t_lexer	*tmp;
 
 	tmp = head;
-	// last = ft_lstlast_lexer(head);
+	last = ft_lstlast_lexer(head);
 	while (tmp->next)
 	{
 		tmp->next->i = tmp->i + 1;

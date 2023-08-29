@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/25 15:01:18 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/28 15:11:41 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@ void	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
 			i = ft_openin(m, token, file);
 		else if (token && (ft_strcmp(token, ">>") || ft_strcmp(token, ">")))
 			i = ft_openout(m, token, file);
+		else if (token && ft_strcmp(token, "<<"))
+			dprintf(2, "Here_doc\n);");
+			// i = ft_heredoc();
 		redir_tmp = redir_tmp->next;
 	}
 }
@@ -85,7 +88,9 @@ void	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
 void	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
 {
 	t_cmd_lst	*tmp;
+	int			i;
 
+	i = 0;
 	tmp = cmd;
 	if (!cmd)
 		return ;
@@ -100,3 +105,5 @@ void	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
 	if (m->out >= 0)
 		ft_dupcheck(m->out, STDOUT_FILENO, m);
 }
+
+
