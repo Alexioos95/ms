@@ -185,10 +185,8 @@ int			ft_start(t_shell *ms);
 void		ft_pipe(t_pipex *m);
 int			ft_fdspipe(t_pipex *m);
 void		ft_fork(t_pipex *m);
-void		ft_childprocess(t_pipex *m)
-			__attribute__((noreturn));
-void		ft_cmdex(char **cmd, char **ev, t_pipex *m)
-			__attribute__((noreturn));
+void		ft_childprocess(t_pipex *m);
+void		ft_cmdex(char **cmd, char **ev, t_pipex *m);
 // pipex/pipex_util2.c
 char		*ft_pipex_strlcpy(char *dest, const char *src);
 char		*ft_pipex_strlcat(char *dest, const char *src, int size);

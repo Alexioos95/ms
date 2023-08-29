@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/29 12:07:17 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/29 13:30:08 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int	ft_start(t_shell *ms)
 	ft_closefds(m);
 	ft_end(ms);
 	// ft_lstclearpipex(&m->head);
-	// ft_free_process(m, errno);
+	ft_free_process(m, errno);
 	return (1);
 }
 

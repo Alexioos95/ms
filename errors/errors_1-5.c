@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_1-5.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 11:25:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/28 14:41:20 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/29 13:31:57 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	ft_errors_1_5(int error, char *str)
 		printf ("%s\n", str);
 		return (-2);
 	}
+	return (0);
 }
 
 int	ft_error(char *file, char *error, int pid, t_pipex *m)
@@ -58,4 +59,5 @@ int	ft_error(char *file, char *error, int pid, t_pipex *m)
 			printf("bash: %s: %s\n", file, error);
 		return (0);
 	}
+	return (0);
 }
