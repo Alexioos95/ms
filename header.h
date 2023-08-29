@@ -147,6 +147,7 @@ typedef struct s_shell
 	char				*pwdpath;
 	char				*oldpwdpath;
 	char				**split;
+	char				**tabenv;
 	char				*tmp;
 	int					orphan;
 	int					nb_pipe;
@@ -196,7 +197,7 @@ char		**ft_realloc_tab(char **tab, char **curr_tab);
 int			ft_openin(t_pipex *m, char *token, char *file);
 int			ft_openout(t_pipex *m, char *token, char *file);
 void		ft_dupcheck(int fd, int stdfd, t_pipex *m);
-int			ft_error(char *ft, char *error, int pid, t_pipex *m);
+void		ft_error(char *ft, char *error, int pid, t_pipex *m);
 // pipex/pipex_init.c
 void		ft_mallocpipe(t_pipex *m);
 void		ft_which_builtin(char **tab, t_shell *ms);

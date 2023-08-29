@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:48:23 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/02 11:09:13 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/29 16:03:20 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,15 @@ void	ft_lstclearpipex(t_cmd_lst **lst)
 	{
 		i = 0;
 		tmp = (*lst)->next;
-		while ((*lst)->tab && (*lst)->tab[i])
-			free((*lst)->tab[i++]);
+		// while ((*lst)->tab && (*lst)->tab[i])
+		// 	free((*lst)->tab[i++]);
+		// freesplit((*lst)->tab);
+		free ((*lst)->name);
+		(*lst)->name = NULL;
 		free((*lst)->tab);
+		(*lst)->tab = NULL;
 		free(*lst);
+		(*lst) = NULL;
 		*lst = tmp;
 	}
 }

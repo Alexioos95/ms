@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/09 15:27:18 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/29 17:21:50 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,3 @@ t_pipex	*ft_init(t_pipex *m, int nb_cmd, char **env)
 		ft_free_process(m, errno);
 	return (m);
 }
-	// m->ac = nb_cmd;
-
-	// m->limit = av[2];
-	// in = av[1];
-	// out = av[nb_cmd - 1];

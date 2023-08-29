@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 18:53:15 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/29 13:24:20 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/29 17:30:04 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,19 @@ void	ft_free_process(t_pipex *m, int r)
 
 	s = m->ms->status;
 	(void)r;
-	// ft_lstclearpipex(&m->head);
 	ft_closefds(m);
 	ft_freefds(m);
 	ft_closeoutin(m);
-	if (m->nb_cmd == 1 && m->out < 0)
-	{
-		free(m);
-		exit (1);
-	}
+	ft_lstclearpipex(&m->head);
+	// if (m->nb_cmd == 1 && m->out < 0)
+	// {
+	// 	free(m);
+	// 	exit (1);
+	// }
 	if (WIFEXITED(s))
 		m->ms->status = (WEXITSTATUS(s));
+	// else
+	// 	exit(r);
 	free(m);
 }
 
