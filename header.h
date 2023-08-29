@@ -188,8 +188,9 @@ void		ft_setenv(struct s_shell *ms, char **envp);
 // ************************ PIPEX ************************ //
 // pipex/pipex.c
 void		ft_dup_redir(t_pipex *m, t_cmd_lst *cmd);
-void		ft_process(t_pipex *m);
-void		ft_pipex(t_pipex *m);
+void		ft_process(t_pipex *m, t_shell *ms);
+void		ft_pipe_exec(t_pipex *m, t_shell *ms);
+int			ft_end(t_shell *ms);
 int			ft_start(t_shell *ms);
 // pipex/pipex_util.c
 void		ft_pipe(t_pipex *m);
@@ -203,6 +204,7 @@ void		ft_cmdex(char **cmd, char **ev, t_pipex *m)
 char		*ft_pipex_strlcpy(char *dest, const char *src);
 char		*ft_pipex_strlcat(char *dest, const char *src, int size);
 char		*ft_pipex_join(char *path, char *cmd);
+char		**ft_realloc_tab(char **tab, char **curr_tab);
 // pipex/pipex_open.c
 int			ft_openin(t_pipex *m, char *token, char *file);
 int			ft_openout(t_pipex *m, char *token, char *file);
@@ -210,7 +212,9 @@ void		ft_dupcheck(int fd, int stdfd, t_pipex *m);
 int			ft_error(char *ft, char *error, int pid, t_pipex *m);
 // pipex/pipex_init.c
 void		ft_mallocpipe(t_pipex *m);
-void		ft_theone(t_pipex *m, t_shell *ms);
+void		ft_which_builtin(char **tab, t_shell *ms);
+char		*ft_isabuiltin(char **tab, t_shell *ms);
+void		ft_exec(t_pipex *m, t_shell *ms);
 t_pipex		*ft_init(t_pipex *m, int nb_cmd, char **ev);
 // pipex/pipex_close.c
 void		ft_free_process(t_pipex *m, int r)
@@ -228,6 +232,7 @@ int			ft_lstsize(t_cmd_lst *lst);
 // pipex/pipex_parsing.c
 char		**ft_find_nodecmd(t_lexer **lexer);
 void		ft_access(t_pipex *m, char **tab_cmd, int j, int p);
+void		ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab);
 void		ft_cmd_list(t_pipex *m, t_shell *ms);
 void		find_cmd(t_pipex *m, t_shell *ms);
 // pipex/pipex_parsing2.c
@@ -246,7 +251,7 @@ void		print_tab(char **tab);
 int			parser(struct s_shell *ms);
 int			ft_state(char c, int state);
 int			ft_istoken(char c);
-int			ft_isthereatoken(char *line, t_lexer **lexer);
+int			ft_isthereatoken(char *line, t_lexer **lexer, t_shell *ms);
 void		ft_browse(t_shell *ms);
 // parsing/checkorphans
 int			isspecial(char c);
@@ -257,7 +262,7 @@ void		ft_lexer_addback(t_lexer **head, t_lexer *new);
 void		ft_lstresetindex_lexer(t_lexer *head);
 void		ft_lexer_delone(t_lexer **curr_node, int i);
 // parsing/tokens.c
-int			ft_goodtoken(char *line, t_tokens *token, char **word, int state);
+int			ft_goodtoken(char *line, t_tokens *token, char **word, t_shell *ms);
 int			ft_goodword(char *line, t_tokens *token, char **word, int state);
 void		ft_add_tokenword(t_lexer *lexer, t_shell *ms);
 void		ft_add_word_to_tab(t_lexer *lexer, t_shell *ms);

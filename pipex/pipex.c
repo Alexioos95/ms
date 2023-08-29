@@ -6,63 +6,22 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/02 11:19:37 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/28 14:52:58 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-void	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
-{
-	char		*token;
-	char		*file;
-	t_redir		*redir_tmp;
-	int			i;
-
-	i = 0;
-	redir_tmp = tmp->redirlst;
-	while (redir_tmp && i >= 0)
-	{
-		token = redir_tmp->token.token;
-		file = redir_tmp->token.file;
-		if (token && (ft_strcmp(token, "<")  || ft_strcmp(token, "<<")))
-			i = ft_openin(m, token, file);
-		else if (token && (ft_strcmp(token, ">>") || ft_strcmp(token, ">")))
-			i = ft_openout(m, token, file);
-		redir_tmp = redir_tmp->next;
-	}
-}
-
-void	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
-{
-	t_cmd_lst	*tmp;
-	// int			i;
-
-	// i = 0;
-	tmp = cmd;
-	if (!cmd)
-		return ;
-	m->bhole = open("/dev/null", O_WRONLY);
-	ft_openin(m, NULL, NULL);
-	ft_openout(m, NULL, NULL);
-	ft_open_redir(tmp, m);
-	if (m->in_rok > 0 || m->cmd->i != 0)
-		ft_dupcheck(m->bhole, STDIN_FILENO, m);
-	if (m->in[0] >= 0)
-		ft_dupcheck(m->in[0], STDIN_FILENO, m);
-	if (m->out >= 0)
-		ft_dupcheck(m->out, STDOUT_FILENO, m);
-}
-
-void	ft_process(t_pipex *m)
+void	ft_process(t_pipex *m, t_shell *ms)
 {
 	int			i;
 	// t_lexer		*redir;
 
 	i = ft_fdspipe(m);
-	// redir = ms->lexer;
-	ft_fork(m);
-	if (m->pids[m->count] == 0)
+	redir = ms->lexer;
+	if (m->cmd)
+		ft_fork(m);
+	if (m->cmd && m->pids[m->count] == 0)
 		ft_childprocess(m);
 	else
 	{
@@ -70,9 +29,12 @@ void	ft_process(t_pipex *m)
 		close(m->fds[i][0]);
 		if (pipe(m->fds[i]) == -1)
 			ft_free_process(m, errno);
-		if (m->cmd->i > 0 && m->cmd->tab)
+		if (m->cmd && m->cmd->i > 0 && m->cmd->tab)
 			ft_error(m->cmd->tab[0], "command not found", 42, m);
-		m->cmd = m->cmd->next;
+		if (!m->cmd)
+			ft_errors_1_5(0, "|");
+		if (m->cmd)
+			m->cmd = m->cmd->next;
 		m->nb_cmd--;
 		m->count++;
 		m->in_rok = 0;
@@ -82,7 +44,33 @@ void	ft_process(t_pipex *m)
 	}
 }
 
-void	ft_pipex(t_pipex *m)
+void	ft_exec(t_pipex *m, t_shell *ms)
+{
+	int		i;
+
+	i = 0;
+	m->pids[i] = -1;
+	if (!(ft_isabuiltin(m->cmd->tab, ms)))
+	{
+		ft_fork(m);
+		if (m->pids[m->count] == 0)
+			ft_childprocess(m);
+		else
+		{
+			if (m->cmd->i > 0 && m->cmd->tab)
+				ft_error(m->cmd->tab[0], "command not found", 42, m);
+			m->cmd = m->cmd->next;
+			m->nb_cmd--;
+			m->count++;
+			m->in_rok = 0;
+			m->out_rok = 0;
+			m->out = -1;
+			m->in[0] = -1;
+		}
+	}
+}
+
+void	ft_pipe_exec(t_pipex *m, t_shell *ms)
 {
 	// int	i;
 
@@ -91,6 +79,34 @@ void	ft_pipex(t_pipex *m)
 	ft_pipe(m);
 	while (m->nb_cmd >= 1)
 		ft_process(m);
+}
+
+int	ft_end(t_shell *ms)
+{
+	int			i;
+	int			n;
+	int			tmpstatus;
+	t_pipex		*m;
+
+	n = 0;
+	i = 0;
+	m = ms->pex;
+	ft_closefds(m);
+	while (1)
+	{
+		if (i == m->count)
+			i = 0;
+		if (waitpid(m->pids[i], &tmpstatus, WNOHANG) > 0)
+		{
+			n++;
+			if (i == m->count)
+				ms->status = tmpstatus;
+		}
+		if (n == m->count)
+			break ;
+		i++;
+	}
+	return (1);
 }
 
 int	ft_start(t_shell *ms)
@@ -111,12 +127,11 @@ int	ft_start(t_shell *ms)
 		return (1);
 	find_cmd(m, ms);
 	if (nb_cmd >= 2 && env)
-		ft_pipex(m);
+		ft_pipe_exec(m, ms);
 	else if (nb_cmd == 1 && env)
-		ft_theone(m, ms);
+		ft_exec(m, ms);
 	ft_closefds(m);
-	while (waitpid(m->pids[i], &m->ms->status, 0) > 0 && i <= m->count - 2)
-		i++;
+	ft_end(ms);
 	// ft_lstclearpipex(&m->head);
 	// ft_free_process(m, errno);
 	return (1);

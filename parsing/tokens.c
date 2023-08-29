@@ -6,20 +6,22 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:21:57 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/09 13:39:48 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/29 10:43:23 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-int	ft_goodtoken(char *line, t_tokens *token, char **word, int state)
+int	ft_goodtoken(char *line, t_tokens *token, char **word, t_shell *ms)
 {
 	int		i;
+	int		state;
 	char	c;
 	char	**good_tokens;
 	char	*curr_token;
 
 	i = 0;
+	state = 0;
 	c = line[i];
 	good_tokens = ft_split("< > << >> |", ' ');
 	while ((ft_istoken(line[i]) && state == 0) && line[i] && (c == line[i]))
@@ -27,8 +29,10 @@ int	ft_goodtoken(char *line, t_tokens *token, char **word, int state)
 	curr_token = ft_subnstr(line, 0, i);
 	if (!ft_tabcmp(curr_token, good_tokens))
 	{
+		ft_errors_1_5(0, curr_token);
 		free (curr_token);
 		curr_token = NULL;
+		loop(ms);
 	}
 	freesplit (good_tokens);
 	*token = ft_newtoken(curr_token, NULL);

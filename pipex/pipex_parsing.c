@@ -6,21 +6,25 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/21 11:40:50 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/28 16:34:39 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
+
 char	**ft_find_nodecmd(t_lexer **lexer)
 {
+	char	**tab;
+
+	tab = NULL;
 	while ((*lexer) && !((*lexer)->token.pipe))
 	{
 		if ((*lexer)->tab)
-			return ((*lexer)->tab);
+			tab = ft_realloc_tab(tab, (*lexer)->tab);
 		(*lexer) = (*lexer)->next;
 	}
-	return (NULL);
+	return (tab);
 }
 
 void	ft_access(t_pipex *m, char **tab, int j, int p)
@@ -49,6 +53,22 @@ void	ft_access(t_pipex *m, char **tab, int j, int p)
 	}
 }
 
+void	ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab)
+{
+	if (((int)ft_strlen(tab[0]) >= 1) && ((tab[0][0] == '.')))
+	{
+		if (!access(tab[0], X_OK))
+			m->eror = 0;
+		else
+			m->eror = errno;
+	}
+	else
+		m->eror = 2;
+	ft_access(m, tab, 0, m->eror);
+	while ((*lexer) && !((*lexer)->token.pipe))
+		(*lexer) = (*lexer)->next;
+}
+
 void	ft_cmd_list(t_pipex *m, t_shell *ms)
 {
 	char	**tab;
@@ -59,20 +79,7 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 	{
 		tab = ft_find_nodecmd(&lexer);
 		if (tab)
-		{
-			if (((int)ft_strlen(tab[0]) >= 1) && ((tab[0][0] == '.')))
-			{
-				if (!access(tab[0], X_OK))
-					m->eror = 0;
-				else
-					m->eror = errno;
-			}
-			else
-				m->eror = 2;
-			ft_access(m, tab, 0, m->eror);
-			while (lexer && !(lexer->token.pipe))
-				lexer = lexer->next;
-		}
+			ft_checkaccees(m, &lexer, tab);
 		else
 		{
 			tab = ft_calloc (sizeof (char *), 2);
@@ -109,6 +116,6 @@ void	find_cmd(t_pipex *m, t_shell *ms)
 	}
 	ft_cmd_list(m, ms);
 	ft_redir_list(m, ms);
-	// print_allcmd(m);
+	print_allcmd(m);
 	ft_free_tab(m->s_ev);
 }

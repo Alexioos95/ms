@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/29 09:43:23 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/28 15:11:41 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,49 @@ void	ft_dupcheck(int fd, int stdfd, t_pipex *m)
 		ft_free_process(m, errno);
 }
 
-int	ft_error(char *file, char *error, int pid, t_pipex *m)
+void	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
 {
-	if (pid == 0)
+	char		*token;
+	char		*file;
+	t_redir		*redir_tmp;
+	int			i;
+
+	i = 0;
+	redir_tmp = tmp->redirlst;
+	while (redir_tmp && i >= 0)
 	{
-		if (m->cmd->i == 13)
-			ft_free_process(m, 126);
-		else
-			ft_free_process(m, 127);
-	}
-	else
-	{
-		if (m->cmd->i == 13)
-			printf("minishell: permission denied: %s\n", file);
-		else
-			printf("minishell: %s: %s\n", file, error);
-		return (0);
+		token = redir_tmp->token.token;
+		file = redir_tmp->token.file;
+		if (token && ft_strcmp(token, "<"))
+			i = ft_openin(m, token, file);
+		else if (token && (ft_strcmp(token, ">>") || ft_strcmp(token, ">")))
+			i = ft_openout(m, token, file);
+		else if (token && ft_strcmp(token, "<<"))
+			dprintf(2, "Here_doc\n);");
+			// i = ft_heredoc();
+		redir_tmp = redir_tmp->next;
 	}
 }
+
+void	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
+{
+	t_cmd_lst	*tmp;
+	int			i;
+
+	i = 0;
+	tmp = cmd;
+	if (!cmd)
+		return ;
+	m->bhole = open("/dev/null", O_WRONLY);
+	ft_openin(m, NULL, NULL);
+	ft_openout(m, NULL, NULL);
+	ft_open_redir(tmp, m);
+	if (m->in_rok > 0 || m->cmd->i != 0)
+		ft_dupcheck(m->bhole, STDIN_FILENO, m);
+	if (m->in[0] >= 0)
+		ft_dupcheck(m->in[0], STDIN_FILENO, m);
+	if (m->out >= 0)
+		ft_dupcheck(m->out, STDOUT_FILENO, m);
+}
+
+

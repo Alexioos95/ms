@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:07:57 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/18 18:06:34 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/28 11:48:12 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,32 @@ char	*ft_pipex_join(char *path, char *cmd)
 	if (cmd)
 		ft_pipex_strlcat(join, cmd, (int)len_path);
 	return (join);
+}
+
+char	**ft_realloc_tab(char **tab, char **curr_tab)
+{
+	char	**res;
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	j = 0;
+	k = 0;
+	while (tab && tab[j])
+		j++;
+	while (curr_tab && curr_tab[k])
+		k++;
+	res = ft_calloc (sizeof(char *), (j + k + 1));
+	if (!res)
+		return (NULL);
+	j = 0;
+	k = 0;
+	while (tab && tab[j])
+		res[i++] = tab[j++];
+	while (curr_tab && curr_tab[k])
+		res[i++] = curr_tab[k++];
+	if (tab)
+		free (tab);
+	return (res);
 }

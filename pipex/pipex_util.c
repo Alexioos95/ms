@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:01:50 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/02 11:10:18 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/09 15:47:26 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,6 @@ void	ft_childprocess(t_pipex *m)
 
 void	ft_cmdex(char **cmd, char **ev, t_pipex *m)
 {
-	// int	i;
-
-	// i = 0;
 	ft_closefds(m);
 	ft_closeoutin(m);
 	if (m->cmd->i > 0 && cmd)
