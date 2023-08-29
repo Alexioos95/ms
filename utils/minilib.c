@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minilib.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:10:13 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/14 11:33:17 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 10:59:45 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
-
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
@@ -52,7 +51,6 @@ int	ft_strcmp(char *s1, char *s2)
 	return (1);
 }
 
-
 char	*ft_tabcmp(char *str, char **tab)
 {
 	int	i;
@@ -79,7 +77,7 @@ char	*ft_strnstr_cmp(char *big, char *little, int len)
 	if (!little[j])
 		return ((char *)big);
 	while (big[i] && i < len)
-	{	
+	{
 		j = 0;
 		while (i + j < len && (big[i + j] == little[j]))
 		{

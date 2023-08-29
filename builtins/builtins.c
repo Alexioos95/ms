@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
 /*   Updated: 2023/08/09 13:21:22 by eewu             ###   ########.fr       */
@@ -45,6 +45,12 @@ int	ft_pwd(struct s_shell *ms)
 {
 	if (ms->pwdpath != NULL)
 		printf("%s\n", &ms->pwdpath[4]);
+	else
+	{
+		printf("pwd: error retrieving current directory: getcwd: cannot ");
+		printf("access parent directories: No such file or directory\n");
+		return (1);
+	}
 	return (0);
 }
 
@@ -88,7 +94,14 @@ int	ft_env(struct s_shell *ms, char **tab)
 	while (tmp != NULL)
 	{
 		if (tmp->print == 1 && tmp->line != NULL)
+		{
 			printf("%s\n", tmp->line);
+			if (errno == ENOSPC)
+			{
+				write(2, "env: write error: No space left on device\n", 42);
+				return (125);
+			}
+		}
 		tmp = tmp->next;
 	}
 	return (0);

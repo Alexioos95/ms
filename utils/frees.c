@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 14:36:20 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/19 11:52:39 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 09:57:25 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,6 @@ _Noreturn void	frees(struct s_shell *ms, int code)
 
 _Noreturn void	throwerror(struct s_shell *ms, char *str)
 {
-	printf("minishell: %s: %s\n", strerror(errno), str);
+	printf("minishell: %s: %s\n", str, strerror(errno));
 	frees(ms, 1);
 }

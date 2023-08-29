@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_open.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
 /*   Updated: 2023/08/28 15:11:41 by eewu             ###   ########.fr       */
@@ -16,7 +16,7 @@ int	ft_openin(t_pipex *m, char *token, char *file)
 {
 	if (!token)
 		m->in[0] = open("/dev/stdin", O_RDONLY);
-	else if (token && ft_strcmp(token, "<"))
+	else if (token && (ft_strcmp(token, "<") || ft_strcmp(token, "<<")))
 	{
 		m->in[0] = open(file, O_RDONLY);
 		if (m->in[0] >= 0)

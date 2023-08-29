@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:21:57 by eewu              #+#    #+#             */
 /*   Updated: 2023/08/29 10:43:23 by eewu             ###   ########.fr       */
@@ -79,7 +79,6 @@ void	ft_add_word_to_tab(t_lexer *lexer, t_shell *ms)
 	int		nb_tab;
 	t_lexer	*node_cmd;
 
-
 	while (lexer)
 	{
 		node_cmd = lexer;
@@ -95,7 +94,6 @@ void	ft_add_word_to_tab(t_lexer *lexer, t_shell *ms)
 			lexer = lexer->next;
 	}
 }
-
 
 void	ft_tabptr(t_shell *ms, t_lexer *node_cmd, t_lexer *tmp, int nb_tab)
 {

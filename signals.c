@@ -3,25 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:43:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/06/22 11:47:01 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/15 10:09:24 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
 
-
+// Empeche le signal d'agir.
 void	ft_sigquit(int sig)
 {
 	(void)sig;
 }
 
-void	ft_sigint(int sig)
+// Deplace la ligne pour la boucle du shell.
+void	ft_sigint_heredoc(int sig)
+{
+	(void)sig;
+	g_glob = 1;
+	close(0);
+}
+
+// Deplace la ligne pour la boucle du shell.
+void	ft_sigint2(int sig)
 {
 	(void)sig;
 	printf("\n");
+	rl_on_new_line();
+}
+
+// Replace une nouvelle ligne vide pour la boucle du shell.
+void	ft_sigint(int sig)
+{
+	(void)sig;
+	if (g_glob != 1)
+	{
+		printf("\n");
+		g_glob = 130;
+	}
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

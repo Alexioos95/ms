@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_parsing2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 12:50:02 by eewu              #+#    #+#             */
 /*   Updated: 2023/08/28 15:26:31 by eewu             ###   ########.fr       */
@@ -59,7 +59,6 @@ void	ft_redir_in_cmd(t_pipex *m, t_lexer **lexer, t_cmd_lst *cmd)
 		(*lexer) = (*lexer)->next;
 	}
 	cmd->redirlst = redir;
-
 }
 
 void	ft_redir_list(t_pipex *m, t_shell *ms)

@@ -98,12 +98,12 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 
 void	find_cmd(t_pipex *m, t_shell *ms)
 {
-	int		i;
+	// int		i;
 	t_lst	*node_env;
 
 	node_env = ft_getenv(ms, "PATH");
-	i = 0;
-	if (node_env)
+	// i = 0;
+	if (node_env && node_env->print == 1)
 		m->s_ev = ft_split(&node_env->line[5], ':');
 	else
 	{

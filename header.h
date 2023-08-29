@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef HEADER_H
 # define HEADER_H
 
@@ -32,21 +31,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 
-# include <errno.h>
-# include <fcntl.h>
-# include <stdint.h>
-# include <limits.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <signal.h>
-# include <stddef.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <unistd.h>
-# include <string.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <sys/stat.h>
+extern int	g_glob;
 
 typedef struct s_cmd
 {
@@ -67,7 +52,31 @@ typedef struct s_builtins
 	int					env;
 	int					echo;
 	int					export;
-}						t_builtins;
+}						t_builtins; // A quoi ca sert ?
+
+typedef struct s_expand
+{
+	int					i;
+	int					j;
+	char				c;
+	char				*split[3];
+	char				*tmp;
+	char				*buff;
+	struct s_lst		*node;
+	struct s_lexer		*lex;
+	struct s_heredoc	*hd;
+	struct s_shell		*ms;
+}						t_expand;
+
+typedef struct s_heredoc
+{
+	int				i;
+	int				fd;
+	int				state;
+	char			*name;
+	char			*line;
+	struct s_shell	*ms;
+}						t_heredoc;
 
 typedef struct s_tokens
 {
@@ -94,8 +103,6 @@ typedef struct s_lst
 	struct s_lst		*next;
 	struct s_shell		*ms;
 }						t_lst;
-
-
 
 typedef struct s_redir
 {
@@ -153,7 +160,6 @@ typedef struct s_shell
 	char				**split;
 	char				*tmp;
 	int					orphan;
-	int					symlink;
 	int					nb_pipe;
 	int					status;
 	struct s_tokens		token;
@@ -162,8 +168,7 @@ typedef struct s_shell
 	struct s_pipex		*pex;
 	struct s_lexer		*lexer;
 	struct s_cmd_lst	*cmd_lst;
-	struct sigaction	sigact[3];
-	struct stat			stat;
+	struct sigaction	sigact[5];
 }						t_shell;
 
 // ************************** INIT ************************** //
@@ -180,13 +185,7 @@ void		recreatepwd(struct s_shell *ms);
 void		createminienv(struct s_shell *ms);
 void		ft_setenv(struct s_shell *ms, char **envp);
 
-// ************************** PROG ************************** //
-// signals.c
-void		ft_sigquit(int sig);
-void		ft_sigint(int sig);
-void		*ft_memset(void *s, int c, size_t n);
-
-// ************************ Pipex ************************ //
+// ************************ PIPEX ************************ //
 // pipex/pipex.c
 void		ft_dup_redir(t_pipex *m, t_cmd_lst *cmd);
 void		ft_process(t_pipex *m, t_shell *ms);
@@ -268,6 +267,33 @@ int			ft_goodword(char *line, t_tokens *token, char **word, int state);
 void		ft_add_tokenword(t_lexer *lexer, t_shell *ms);
 void		ft_add_word_to_tab(t_lexer *lexer, t_shell *ms);
 void		ft_tabptr(t_shell *ms, t_lexer *cmd, t_lexer *cmd2, int nb_tab);
+// parsing/heredoc.c
+void		ft_heredoc(struct s_lexer *lexer, struct s_shell *ms);
+void		ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd);
+int			ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd);
+int			ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd);
+void		ft_heredoc_remove(struct s_lexer *lexer);
+// parsing/heredoc_utils.c
+int			ft_heredoc_delim(char *str);
+int			ft_heredoc_quotes(char *str, int i, int len);
+void		ft_heredoc_filename(struct s_shell *ms, char *str);
+char		*ft_heredoc_expand(struct s_heredoc *hd, char *str);
+void		ft_expheredoc_init(struct s_expand *exp, char *str);
+// parsing/expand.c
+void		ft_expand(struct s_lexer *lexer, struct s_shell *ms);
+char		*ft_expand_start(struct s_expand *exp, char *str);
+void		ft_expand_init(struct s_expand *exp, char *str, int i, int j);
+void		ft_expand_replace(struct s_expand *exp, char *str);
+void		ft_expand_dollar(struct s_expand *exp, char *str);
+// parsing/expand_dquote.c
+void		ft_expand_dquote(struct s_expand *exp, char *str);
+void		ft_expand_dquotereplace(struct s_expand *exp);
+// parsing/expand_utils.c
+void		ft_expand_initstruct(struct s_expand *exp, t_shell *ms, \
+			t_lexer *lex);
+int			isexp(struct s_expand *exp, char *str, int i, int j);
+char		*ft_expand_join(struct s_expand *exp, char *s1, char *s2);
+void		ft_expand_error(struct s_expand *exp);
 // utils/lst.c
 void		ft_lstadd_back_cmd(t_cmd **lst, t_cmd *new);
 t_cmd		*ft_lstnew_cmd(char **str, char **redir, char **built);
@@ -299,10 +325,10 @@ int			ft_cd_oldpwd(struct s_shell *ms, char *tmp);
 int			ft_cd_nothome(struct s_shell *ms, char *str, char *tmp);
 int			ft_cd(struct s_shell *ms, char **tab);
 // builtins/builtins_cd2.c
-void		ft_echo_actualizepwd(struct s_shell *ms);
-void		ft_echo_changeenv(struct s_shell *ms, char *tmp, char *str);
-char		*ft_cd_symlink(struct s_shell *ms, char *tmp, char *str);
-void		ft_echo_actualizeenv(struct s_shell *ms, char *tmp);
+void		ft_cd_actualizepwd(struct s_shell *ms);
+void		ft_cd_changeenv(struct s_shell *ms, char *tmp, char *str);
+char		*ft_cd_proteccwd(struct s_shell *ms, char **tab, char *tmp);
+void		ft_cd_actualizeenv(struct s_shell *ms, char *tmp);
 
 // ************************* UTILS ************************* //
 // utils/utils.c
@@ -345,5 +371,11 @@ void		setsigaction(struct s_shell *ms, int b);
 void		nullonreadline(struct s_shell *ms);
 void		loop(struct s_shell *ms)
 			__attribute__((noreturn));
+// signals.c
+void		ft_sigquit(int sig);
+void		ft_sigint(int sig);
+void		ft_sigint2(int sig);
+void		ft_sigint_heredoc(int sig);
+void		*ft_memset(void *s, int c, size_t n);
 
 #endif

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
 /*   Updated: 2023/08/28 12:25:06 by eewu             ###   ########.fr       */
@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../header.h"
-
 
 void	ft_lstadd_back(struct s_lst **lst, struct s_lst *new)
 {
@@ -48,7 +47,6 @@ t_tokens	ft_newtoken(char *token, char *file)
 {
 	t_tokens	new;
 
-
 	new.pipe = NULL;
 	new.token = NULL;
 	if (ft_strcmp(token, "|"))
@@ -72,10 +70,14 @@ void	init(struct s_shell *ms, char **envp)
 	ms->status = 0;
 	ft_memset(&ms->sigact[0], 0, sizeof(ms->sigact[0]));
 	ms->sigact[0].sa_handler = SIG_DFL;
-	ft_memset(&ms->sigact[1], 0, sizeof(ms->sigact[0]));
+	ft_memset(&ms->sigact[1], 0, sizeof(ms->sigact[1]));
 	ms->sigact[1].sa_handler = &ft_sigint;
-	ft_memset(&ms->sigact[2], 0, sizeof(ms->sigact[1]));
-	ms->sigact[2].sa_handler = SIG_IGN;
+	ft_memset(&ms->sigact[2], 0, sizeof(ms->sigact[2]));
+	ms->sigact[2].sa_handler = &ft_sigint2;
+	ft_memset(&ms->sigact[3], 0, sizeof(ms->sigact[3]));
+	ms->sigact[3].sa_handler = &ft_sigint_heredoc;
+	ft_memset(&ms->sigact[4], 0, sizeof(ms->sigact[4]));
+	ms->sigact[4].sa_handler = SIG_IGN;
 	ft_setenv(ms, envp);
 }
 

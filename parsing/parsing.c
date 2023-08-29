@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
 /*   Updated: 2023/08/28 16:36:49 by eewu             ###   ########.fr       */
@@ -12,11 +12,14 @@
 
 #include "../header.h"
 
-// Parser.
+// Hub du parser.
 int	parser(struct s_shell *ms)
 {
 	t_lexer	*lexer;
 
+	if (g_glob > 1)
+		ms->status = 130;
+	g_glob = 0;
 	if (ms->split != NULL)
 	{
 		freesplit(ms->split);
@@ -32,11 +35,19 @@ int	parser(struct s_shell *ms)
 		lexer = ms->lexer;
 		ft_add_tokenword(lexer, ms);
 		ft_add_word_to_tab(lexer, ms);
+		ft_heredoc(lexer, ms);
+		if (ms->status == -1)
+		{
+			ft_lexerclear(ms->lexer);
+			return (130);
+		}
+		setsigaction(ms, 2);
+		ft_expand(lexer, ms);
 		// ft_print_lexerlst(ms->lexer);
 		ft_start(ms);
 		ft_lexerclear(ms->lexer);
 	}
-	return (0);
+	return (ms->status);
 }
 
 int	ft_state(char c, int state)
@@ -90,11 +101,9 @@ void	ft_browse(t_shell *ms)
 {
 	int			i;
 	int			n;
-	char		*line;
 	t_lexer		*lexer;
 	char		**split;
 
-	line = ms->line;
 	i = 0;
 	lexer = NULL;
 	split = ft_split(ms->line, ' ');

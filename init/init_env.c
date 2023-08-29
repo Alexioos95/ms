@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 11:04:45 by apayen            #+#    #+#             */
-/*   Updated: 2023/07/18 15:15:23 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 11:06:38 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
-
 
 // Augmente la valeur de SHLVL de 1.
 // S'il est a une valeur qui n'est pas entre 1 et INT_MAX
@@ -76,14 +75,24 @@ void	recreatepwd(struct s_shell *ms)
 	char			*tab[3];
 
 	tmp = getcwd(NULL, 0);
-	ms->tmp = ft_strjoin("PWD=", tmp);
-	free(tmp);
-	if (tmp == NULL || ms->tmp == NULL)
-		throwerror(ms, "getcwd");
-	tab[0] = "export";
-	tab[1] = ms->tmp;
-	tab[2] = NULL;
-	ft_export(ms, tab);
+	if (tmp == NULL)
+	{
+		if (errno == ENOMEM)
+			throwerror(ms, "malloc");
+		printf("shell-init: error retrieving current directory: getcwd: ");
+		printf("cannot access parent directories: %s\n", strerror(errno));
+	}
+	else
+	{
+		ms->tmp = ft_strjoin("PWD=", tmp);
+		free(tmp);
+		if (ms->tmp == NULL)
+			throwerror(ms, "malloc");
+		tab[0] = "export";
+		tab[1] = ms->tmp;
+		tab[2] = NULL;
+		ft_export(ms, tab);
+	}
 	free(ms->tmp);
 	ms->tmp = NULL;
 }

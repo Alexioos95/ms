@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_lexer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:47:00 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/18 17:17:48 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/02 11:08:28 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 t_lexer	*ft_lstlast_lexer(t_lexer *head)
 {
-	int		len;
+	// int		len;
 	t_lexer	*tmp;
 
 	tmp = head;
-	len = head->len;
+	// len = head->len;
 	while (tmp->next)
 		tmp = tmp->next;
 	return (tmp);
@@ -26,11 +26,11 @@ t_lexer	*ft_lstlast_lexer(t_lexer *head)
 
 void	ft_lstresetindex_lexer(t_lexer *head)
 {
-	t_lexer	*last;
+	// t_lexer	*last;
 	t_lexer	*tmp;
 
 	tmp = head;
-	last = ft_lstlast_lexer(head);
+	// last = ft_lstlast_lexer(head);
 	while (tmp->next)
 	{
 		tmp->next->i = tmp->i + 1;
@@ -88,6 +88,5 @@ void	ft_lexer_delone(t_lexer **curr_node, int i)
 	if ((*curr_node))
 		(*curr_node)->back = node_cmd;
 }
-
 
 // c'at' | ls < 'Ma'ke"fil"e > "out" | echo "'hey"|c'at' | ls < 'Ma'ke"fil"e>"out" | echo "'hey" | ls -la >> fichier | awk '{"$1 print >> <<"}' | "|" autre <<< fichier | ok ok ok ok ok ok ok ok ok ok ok ok okok o ko" oijf fioejw iowef iowejfowie f"

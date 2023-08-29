@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+         #
+#    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
 #    Updated: 2023/08/09 12:57:37 by eewu             ###   ########.fr        #
@@ -23,6 +23,11 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			parsing/checkorphans.c				\
 			parsing/lst_lexer.c					\
 			parsing/tokens.c					\
+			parsing/heredoc.c					\
+			parsing/heredoc_utils.c				\
+			parsing/expand.c					\
+			parsing/expand_dquote.c				\
+			parsing/expand_utils.c				\
 			builtins/builtins.c					\
 			builtins/builtins_cd.c				\
 			builtins/builtins_cd2.c				\
@@ -49,12 +54,12 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			utils/ft_split.c					\
 			errors/errors_1-5.c					\
 			utils/frees.c)
-	
+
 OBJ =		$(SRC:.c=.o)
 
 OBJDIR	=	obj
 
-CC =		cc 
+CC =		cc
 
 FLAGS =		-Wall -Wextra -Werror -g3
 
