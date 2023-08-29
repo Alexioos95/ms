@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   heredoc_file.c                                     :+:      :+:    :+:   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:06:46 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/15 10:08:48 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/29 09:47:38 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,6 @@ char	*ft_heredoc_expand(struct s_heredoc *hd, char *str)
 	ft_expand_initstruct(&exp, hd->ms, hd->ms->lexer);
 	exp.hd = hd;
 	exp.i = 0;
-	if (str[0] == '\0')
-	{
-		free(exp.buff);
-		return (str);
-	}
 	while (str[exp.i] != '\0')
 	{
 		exp.j = exp.i;
@@ -49,12 +44,14 @@ char	*ft_heredoc_expand(struct s_heredoc *hd, char *str)
 			if (exp.split[1] == NULL)
 				ft_expand_error(&exp);
 			exp.buff = ft_expand_join(&exp, exp.buff, exp.split[1]);
+			free(str);
 			return (exp.buff);
 		}
 		ft_expheredoc_init(&exp, str);
 		ft_expand_dollar(&exp, exp.split[0]);
 		exp.i = exp.j + 1;
 	}
+	free(str);
 	return (exp.buff);
 }
 
@@ -75,7 +72,7 @@ void	ft_heredoc_filename(struct s_shell *ms, char *str)
 	str[0] = '.';
 	while (i < 15)
 	{
-		str[i] = (str[i] % 26) + 'a';
+		str[i] = (str[i] % 25) + 'a';
 		i++;
 	}
 	str[i] = '.';

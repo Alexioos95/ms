@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_1-5.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 11:25:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/06/26 12:08:54 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/29 09:43:17 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_errors_1_5(int error, char *str)
 {
 	if (error == 0)
 	{
-		printf ("bash: syntax error near unexpected token `%s'\n", str);
+		printf ("minishell: syntax error near unexpected token `%s'\n", str);
 		return (-2);
 	}
 	else if (error == 1)

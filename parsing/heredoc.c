@@ -6,30 +6,38 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:06:19 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/15 11:48:01 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/29 09:45:23 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
+void	ft_heredoc_remove(struct s_lexer *lexer)
+{
+	while (lexer->next != NULL)
+	{
+		if (lexer->next->token.token != NULL \
+			&& ft_strncmp(lexer->next->token.token, "<<", 2) == 0)
+			lexer->next->token.token[1] = '\0';
+		lexer = lexer->next;
+	}
+}
 
 // Regarde si la boucle du heredoc doit être stoppé.
 int	ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 {
 	if (hd->line == NULL)
 	{
-		rl_replace_line("", 0);
+		close (hd->fd);
 		if (errno == ENOMEM)
-		{
-			close(hd->fd);
 			throwerror(ms, "readline");
-		}
-		if (errno == EBADF)
+		else if (errno == EBADF)
 			return (2);
-		printf("-minishell: warning: here-document at line ");
+		printf("minishell: warning: here-document at line ");
 		printf("%d delimited by end-of-file (wanted `%s')\n", hd->i, delim);
 		return (1);
 	}
-	if (ft_strncmp(hd->line, delim, ft_strlen(delim)) == 0)
+	else if (ft_strncmp(hd->line, delim, ft_strlen(delim)) == 0)
 	{
 		free(hd->line);
 		close(hd->fd);
@@ -101,6 +109,7 @@ void	ft_heredoc(struct s_lexer *lexer, struct s_shell *ms)
 			{
 				dup2(backup, 0);
 				printf("\n");
+				ft_heredoc_remove(lexer);
 				ms->status = -1;
 			}
 			free(lexer->token.file);

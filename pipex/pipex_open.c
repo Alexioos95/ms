@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/02 11:09:40 by apayen           ###   ########.fr       */
+/*   Updated: 2023/08/29 09:43:23 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ int	ft_error(char *file, char *error, int pid, t_pipex *m)
 	else
 	{
 		if (m->cmd->i == 13)
-			printf("bash: permission denied: %s\n", file);
+			printf("minishell: permission denied: %s\n", file);
 		else
-			printf("bash: %s: %s\n", file, error);
+			printf("minishell: %s: %s\n", file, error);
 		return (0);
 	}
 }
