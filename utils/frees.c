@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 14:36:20 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/02 09:57:25 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/01 14:05:28 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,14 @@ void	ft_lexerclear(t_lexer *lexer)
 			free(lexer->str);
 		if (lexer->tab)
 			freesplit(lexer->tab);
+		if (lexer->token.file)
+		{
+			if (ft_strcmp(lexer->token.token, "<<"))
+				unlink(lexer->token.file);
+			free(lexer->token.file);
+		}
 		if (lexer->token.token)
 			free(lexer->token.token);
-		if (lexer->token.file)
-			free(lexer->token.file);
 		if (lexer->token.pipe)
 			free(lexer->token.pipe);
 		free(lexer);
@@ -82,6 +86,8 @@ _Noreturn void	frees(struct s_shell *ms, int code)
 		free(ms->pwdpath);
 	if (ms->oldpwdpath != NULL)
 		free(ms->oldpwdpath);
+	if (ms->hd != NULL && ms->hd->backup >= 0)
+		close(ms->hd->backup);
 	rl_clear_history();
 	exit(code);
 }

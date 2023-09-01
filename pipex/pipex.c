@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/28 14:52:58 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/29 17:22:57 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_process(t_pipex *m, t_shell *ms)
 {
 	int			i;
-	// t_lexer		*redir;
+	t_lexer		*redir;
 
 	i = ft_fdspipe(m);
 	redir = ms->lexer;
@@ -72,13 +72,10 @@ void	ft_exec(t_pipex *m, t_shell *ms)
 
 void	ft_pipe_exec(t_pipex *m, t_shell *ms)
 {
-	// int	i;
-
-	// i = 0;
 	ft_mallocpipe(m);
 	ft_pipe(m);
 	while (m->nb_cmd >= 1)
-		ft_process(m);
+		ft_process(m, ms);
 }
 
 int	ft_end(t_shell *ms)
@@ -112,29 +109,30 @@ int	ft_end(t_shell *ms)
 int	ft_start(t_shell *ms)
 {
 	int			nb_cmd;
-	char		**env;
 	t_pipex		*m;
 	int			i;
 
 	i = 0;
-	env = listtotab(ms);
+	ms->tabenv = listtotab(ms);
 	m = NULL;
 	nb_cmd = ft_nb_cmd(ms->lexer);
-	m = ft_init(m, nb_cmd, env);
+	m = ft_init(m, nb_cmd, ms->tabenv);
 	ms->pex = m;
 	m->ms = ms;
 	if (!m)
 		return (1);
 	find_cmd(m, ms);
-	if (nb_cmd >= 2 && env)
+	if (nb_cmd >= 2 && ms->tabenv)
 		ft_pipe_exec(m, ms);
-	else if (nb_cmd == 1 && env)
+	else if (nb_cmd == 1 && ms->tabenv)
 		ft_exec(m, ms);
 	ft_closefds(m);
 	ft_end(ms);
-	// ft_lstclearpipex(&m->head);
-	// ft_free_process(m, errno);
+	free(ms->tabenv);
+	ft_free_process(m, errno);
 	return (1);
 }
 
-	// print_allcmd(m);
+// print_allcmd(m); 
+// fonction permettant de faire un test et 
+// print toutes les commandes de l'exec

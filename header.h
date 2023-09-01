@@ -43,17 +43,6 @@ typedef struct s_cmd
 	struct s_shell		*ms;
 }						t_cmd;
 
-typedef struct s_builtins
-{
-	int					cd;
-	int					pwd;
-	int					exit;
-	int					unset;
-	int					env;
-	int					echo;
-	int					export;
-}						t_builtins; // A quoi ca sert ?
-
 typedef struct s_expand
 {
 	int					i;
@@ -72,7 +61,9 @@ typedef struct s_heredoc
 {
 	int				i;
 	int				fd;
+	int				isend;
 	int				state;
+	int				backup;
 	char			*name;
 	char			*line;
 	struct s_shell	*ms;
@@ -158,6 +149,7 @@ typedef struct s_shell
 	char				*pwdpath;
 	char				*oldpwdpath;
 	char				**split;
+	char				**tabenv;
 	char				*tmp;
 	int					orphan;
 	int					nb_pipe;
@@ -166,6 +158,7 @@ typedef struct s_shell
 	struct s_lst		*env;
 	struct s_cmd		*cmd;
 	struct s_pipex		*pex;
+	struct s_heredoc	*hd;
 	struct s_lexer		*lexer;
 	struct s_cmd_lst	*cmd_lst;
 	struct sigaction	sigact[5];
@@ -173,7 +166,7 @@ typedef struct s_shell
 
 // ************************** INIT ************************** //
 // init/init.c
-void		ft_lstadd_back(struct s_lst **lst, struct s_lst *new);
+void		ft_lstadd_back(struct s_shell *ms, struct s_lst **lst, struct s_lst *new);
 t_lst		*ft_lstnew(struct s_shell *ms, char *str);
 t_tokens	ft_newtoken(char *token, char *file);
 void		init(struct s_shell *ms, char **envp);
@@ -196,10 +189,8 @@ int			ft_start(t_shell *ms);
 void		ft_pipe(t_pipex *m);
 int			ft_fdspipe(t_pipex *m);
 void		ft_fork(t_pipex *m);
-void		ft_childprocess(t_pipex *m)
-			__attribute__((noreturn));
-void		ft_cmdex(char **cmd, char **ev, t_pipex *m)
-			__attribute__((noreturn));
+void		ft_childprocess(t_pipex *m);
+void		ft_cmdex(char **cmd, char **ev, t_pipex *m);
 // pipex/pipex_util2.c
 char		*ft_pipex_strlcpy(char *dest, const char *src);
 char		*ft_pipex_strlcat(char *dest, const char *src, int size);
@@ -209,7 +200,7 @@ char		**ft_realloc_tab(char **tab, char **curr_tab);
 int			ft_openin(t_pipex *m, char *token, char *file);
 int			ft_openout(t_pipex *m, char *token, char *file);
 void		ft_dupcheck(int fd, int stdfd, t_pipex *m);
-int			ft_error(char *ft, char *error, int pid, t_pipex *m);
+void		ft_error(char *ft, char *error, int pid, t_pipex *m);
 // pipex/pipex_init.c
 void		ft_mallocpipe(t_pipex *m);
 void		ft_which_builtin(char **tab, t_shell *ms);
@@ -217,8 +208,7 @@ char		*ft_isabuiltin(char **tab, t_shell *ms);
 void		ft_exec(t_pipex *m, t_shell *ms);
 t_pipex		*ft_init(t_pipex *m, int nb_cmd, char **ev);
 // pipex/pipex_close.c
-void		ft_free_process(t_pipex *m, int r)
-			__attribute__((noreturn));
+void		ft_free_process(t_pipex *m, int r);
 void		ft_free_tab(char **tab);
 void		ft_closeoutin(t_pipex *m);
 void		ft_closefds(t_pipex *m);
@@ -269,7 +259,7 @@ void		ft_add_word_to_tab(t_lexer *lexer, t_shell *ms);
 void		ft_tabptr(t_shell *ms, t_lexer *cmd, t_lexer *cmd2, int nb_tab);
 // parsing/heredoc.c
 void		ft_heredoc(struct s_lexer *lexer, struct s_shell *ms);
-void		ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd);
+void		ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd, int b);
 int			ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd);
 int			ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd);
 void		ft_heredoc_remove(struct s_lexer *lexer);

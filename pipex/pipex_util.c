@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:01:50 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/09 15:47:26 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/29 16:59:31 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ void	ft_cmdex(char **cmd, char **ev, t_pipex *m)
 {
 	ft_closefds(m);
 	ft_closeoutin(m);
-	if (m->cmd->i > 0 && cmd)
-		ft_error(cmd[0], "error", m->pids[m->count], m);
-	else if ((m->out_rok == 0 && (m->in_rok == 0 || m->in_rok == -2)) \
+	ft_freefds(m);
+	if ((m->out_rok == 0 && (m->in_rok == 0 || m->in_rok == -2)) \
 			&& cmd && m->cmd->i == 0)
 		execve(m->cmd->name, cmd, ev);
-	ft_free_process(m, errno);
+	if (m->cmd->i > 0 && cmd)
+		ft_error(cmd[0], "error", 0, m);
 }

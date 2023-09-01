@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:07:57 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/28 11:48:12 by eewu             ###   ########.fr       */
+/*   Updated: 2023/08/29 15:10:27 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ char	**ft_realloc_tab(char **tab, char **curr_tab)
 		res[i++] = tab[j++];
 	while (curr_tab && curr_tab[k])
 		res[i++] = curr_tab[k++];
-	if (tab)
-		free (tab);
+	freesplit (tab);
 	return (res);
 }

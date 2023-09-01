@@ -6,18 +6,18 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/28 12:25:06 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/01 13:59:21 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-void	ft_lstadd_back(struct s_lst **lst, struct s_lst *new)
+void	ft_lstadd_back(struct s_shell *ms, t_lst **lst, t_lst *new)
 {
 	struct s_lst	*last;
 
 	if (new == NULL)
-		throwerror((*lst)->ms, "malloc");
+		throwerror(ms, "malloc");
 	if ((*lst) == NULL)
 	{
 		(*lst) = new;
@@ -68,6 +68,7 @@ void	init(struct s_shell *ms, char **envp)
 	ms->env = NULL;
 	ms->tmp = NULL;
 	ms->status = 0;
+	ms->hd = NULL;
 	ft_memset(&ms->sigact[0], 0, sizeof(ms->sigact[0]));
 	ms->sigact[0].sa_handler = SIG_DFL;
 	ft_memset(&ms->sigact[1], 0, sizeof(ms->sigact[1]));

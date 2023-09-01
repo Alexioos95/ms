@@ -6,7 +6,7 @@
 #    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/08/09 12:57:37 by eewu             ###   ########.fr        #
+#    Updated: 2023/09/01 13:43:55 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			signals.c							\
 			init/init.c							\
 			init/init_env.c						\
+			init/init_env2.c					\
 			parsing/parsing.c					\
 			parsing/checkorphans.c				\
 			parsing/lst_lexer.c					\
