@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 14:36:20 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/29 13:48:43 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/01 14:05:28 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ _Noreturn void	frees(struct s_shell *ms, int code)
 		free(ms->pwdpath);
 	if (ms->oldpwdpath != NULL)
 		free(ms->oldpwdpath);
+	if (ms->hd != NULL && ms->hd->backup >= 0)
+		close(ms->hd->backup);
 	rl_clear_history();
 	exit(code);
 }
