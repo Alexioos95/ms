@@ -61,7 +61,9 @@ typedef struct s_heredoc
 {
 	int				i;
 	int				fd;
+	int				isend;
 	int				state;
+	int				backup;
 	char			*name;
 	char			*line;
 	struct s_shell	*ms;
@@ -156,6 +158,7 @@ typedef struct s_shell
 	struct s_lst		*env;
 	struct s_cmd		*cmd;
 	struct s_pipex		*pex;
+	struct s_heredoc	*hd;
 	struct s_lexer		*lexer;
 	struct s_cmd_lst	*cmd_lst;
 	struct sigaction	sigact[5];
@@ -163,7 +166,7 @@ typedef struct s_shell
 
 // ************************** INIT ************************** //
 // init/init.c
-void		ft_lstadd_back(struct s_lst **lst, struct s_lst *new);
+void		ft_lstadd_back(struct s_shell *ms, struct s_lst **lst, struct s_lst *new);
 t_lst		*ft_lstnew(struct s_shell *ms, char *str);
 t_tokens	ft_newtoken(char *token, char *file);
 void		init(struct s_shell *ms, char **envp);
@@ -256,7 +259,7 @@ void		ft_add_word_to_tab(t_lexer *lexer, t_shell *ms);
 void		ft_tabptr(t_shell *ms, t_lexer *cmd, t_lexer *cmd2, int nb_tab);
 // parsing/heredoc.c
 void		ft_heredoc(struct s_lexer *lexer, struct s_shell *ms);
-void		ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd);
+void		ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd, int b);
 int			ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd);
 int			ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd);
 void		ft_heredoc_remove(struct s_lexer *lexer);
