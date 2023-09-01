@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:03:43 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/02 11:01:59 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/01 14:07:00 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_export_newnode(struct s_shell *ms, char *str)
 		free(new);
 		frees(ms, 1);
 	}
-	ft_lstadd_back(&ms->env, new);
+	ft_lstadd_back(ms, &ms->env, new);
 	return (0);
 }
 
