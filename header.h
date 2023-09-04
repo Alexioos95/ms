@@ -293,7 +293,7 @@ void		ft_print_lexerlst(t_lexer *lst);
 
 // ************************ BUILT-INS ************************ //
 // builtins/builtins.c
-void		ft_exit(struct s_shell *ms, char **tab);
+int			ft_exit(struct s_shell *ms, char **tab);
 int			ft_pwd(struct s_shell *ms);
 int			ft_unset(struct s_shell *ms, char **tab);
 int			ft_env(struct s_shell *ms, char **tab);

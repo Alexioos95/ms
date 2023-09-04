@@ -6,14 +6,14 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/09 13:21:22 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/04 10:01:07 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
 // Quitter proprement le programme.
-void	ft_exit(struct s_shell *ms, char **tab)
+int	ft_exit(struct s_shell *ms, char **tab)
 {
 	int	i;
 
@@ -21,7 +21,7 @@ void	ft_exit(struct s_shell *ms, char **tab)
 	printf("exit\n");
 	if (tab[1] == NULL)
 		frees(ms, ms->status);
-	if (i == 0 && (tab[1][0] == '-' || tab[1][0] == '+'))
+	if (tab[1][0] == '-' || tab[1][0] == '+')
 		i++;
 	while (tab[1][i] != '\0')
 	{
@@ -35,9 +35,10 @@ void	ft_exit(struct s_shell *ms, char **tab)
 	if (tab[2] != NULL)
 	{
 		printf("minishell: exit: too many arguments\n");
-		frees(ms, 1);
+		return (1);
 	}
 	frees(ms, ft_atoi(tab[1]));
+	return (0);
 }
 
 // Affiche le chemin actuel.

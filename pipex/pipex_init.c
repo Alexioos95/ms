@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/29 17:21:50 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/04 09:49:56 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_which_builtin(char **tab, t_shell *ms)
 	else if (ft_strncmp(tab[0], "cd", 2) == 0)
 		ms->status = ft_cd(ms, tab);
 	else if (ft_strncmp(tab[0], "exit", 4) == 0)
-		ft_exit(ms, tab);
+		ms->status = ft_exit(ms, tab);
 	else if (ft_strncmp(tab[0], "env", 3) == 0)
 		ms->status = ft_env(ms, tab);
 	else if (ft_strncmp(tab[0], "unset", 5) == 0)
