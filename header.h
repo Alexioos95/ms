@@ -52,7 +52,6 @@ typedef struct s_expand
 	char				*tmp;
 	char				*buff;
 	struct s_lst		*node;
-	struct s_lexer		*lex;
 	struct s_heredoc	*hd;
 	struct s_shell		*ms;
 }						t_expand;
@@ -71,6 +70,7 @@ typedef struct s_heredoc
 
 typedef struct s_tokens
 {
+	int					ambi;
 	char				*token;
 	char				*file;
 	char				*pipe;
@@ -278,6 +278,7 @@ void		ft_expand_dollar(struct s_expand *exp, char *str);
 // parsing/expand_dquote.c
 void		ft_expand_dquote(struct s_expand *exp, char *str);
 void		ft_expand_dquotereplace(struct s_expand *exp);
+int	ft_expand_ambiguous(struct s_expand *exp, char *str);
 // parsing/expand_utils.c
 void		ft_expand_initstruct(struct s_expand *exp, t_shell *ms, \
 			t_lexer *lex);
