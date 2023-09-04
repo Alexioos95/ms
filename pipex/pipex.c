@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/29 17:22:57 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/04 14:11:06 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void	ft_process(t_pipex *m, t_shell *ms)
 		if (m->cmd && m->cmd->i > 0 && m->cmd->tab)
 			ft_error(m->cmd->tab[0], "command not found", 42, m);
 		if (!m->cmd)
+		{
 			ft_errors_1_5(0, "|");
+			ms->status = 2;
+		}
 		if (m->cmd)
 			m->cmd = m->cmd->next;
 		m->nb_cmd--;
@@ -133,6 +136,6 @@ int	ft_start(t_shell *ms)
 	return (1);
 }
 
-// print_allcmd(m); 
-// fonction permettant de faire un test et 
+// print_allcmd(m);
+// fonction permettant de faire un test et
 // print toutes les commandes de l'exec

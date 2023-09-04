@@ -197,8 +197,8 @@ char		*ft_pipex_strlcat(char *dest, const char *src, int size);
 char		*ft_pipex_join(char *path, char *cmd);
 char		**ft_realloc_tab(char **tab, char **curr_tab);
 // pipex/pipex_open.c
-int			ft_openin(t_pipex *m, char *token, char *file);
-int			ft_openout(t_pipex *m, char *token, char *file);
+int			ft_openin(t_pipex *m, char *token, char *file, int ambi);
+int			ft_openout(t_pipex *m, char *token, char *file, int ambi);
 void		ft_dupcheck(int fd, int stdfd, t_pipex *m);
 void		ft_error(char *ft, char *error, int pid, t_pipex *m);
 // pipex/pipex_init.c

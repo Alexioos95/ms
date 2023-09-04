@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/29 16:20:47 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/04 14:09:05 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_access(t_pipex *m, char **tab, int j, int p)
 
 void	ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab)
 {
-	if (((int)ft_strlen(tab[0]) >= 1) && ((tab[0][0] == '.')))
+	if (((int)ft_strlen(tab[0]) >= 1) && (tab[0][0] == '.' || tab[0][0] == '/'))
 	{
 		if (!access(tab[0], X_OK))
 			m->eror = 0;

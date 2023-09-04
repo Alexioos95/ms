@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:21:57 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/04 13:50:05 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/04 14:10:52 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	ft_goodtoken(char *line, t_tokens *token, char **word, t_shell *ms)
 	curr_token = ft_subnstr(line, 0, i);
 	if (!ft_tabcmp(curr_token, good_tokens))
 	{
+		ms->status = 2;
 		ft_errors_1_5(0, curr_token);
 		free (curr_token);
 		curr_token = NULL;

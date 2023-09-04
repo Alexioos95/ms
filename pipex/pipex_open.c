@@ -3,37 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_open.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/29 12:41:42 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/04 14:52:41 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-int	ft_openin(t_pipex *m, char *token, char *file)
+int	ft_openin(t_pipex *m, char *token, char *file, int ambi)
 {
 	if (!token)
 		m->in[0] = open("/dev/stdin", O_RDONLY);
-	else if (token && (ft_strcmp(token, "<") || ft_strcmp(token, "<<")))
+	else if (token && ambi == 0 \
+		&& (ft_strcmp(token, "<") || ft_strcmp(token, "<<")))
 	{
 		m->in[0] = open(file, O_RDONLY);
 		if (m->in[0] >= 0)
 			m->in_rok = -2;
 	}
+	if (ambi == 1)
+		m->in[0] = -1;
 	if (m->in[0] >= 0 && m->in_rok != -2)
 		m->in_rok = 0;
 	else if (m->in[0] == -1 && m->in_rok != -2)
 	{
 		m->in_rok = errno;
-		ft_error(m->cmd->redirlst->token.file, strerror(m->in_rok), 42, m);
+		if (ambi == 0)
+			ft_error(m->cmd->redirlst->token.file, strerror(m->in_rok), 42, m);
+		else
+			ft_error(m->cmd->redirlst->token.file, "ambiguous redirection", 42, m);
 	}
 	return (m->in[0]);
 }
 
-int	ft_openout(t_pipex *m, char *token, char *file)
+int	ft_openout(t_pipex *m, char *token, char *file, int ambi)
 {
+	(void)ambi;
 	if (!token)
 		m->out = open("/dev/stdout", O_WRONLY);
 	else if (ft_strcmp(token, ">") || ft_strcmp(token, ">>"))
@@ -75,9 +82,9 @@ void	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
 		token = redir_tmp->token.token;
 		file = redir_tmp->token.file;
 		if (token && (ft_strcmp(token, "<") || ft_strcmp(token, "<<")))
-			i = ft_openin(m, token, file);
+			i = ft_openin(m, token, file, redir_tmp->token.ambi);
 		else if (token && (ft_strcmp(token, ">>") || ft_strcmp(token, ">")))
-			i = ft_openout(m, token, file);
+			i = ft_openout(m, token, file, redir_tmp->token.ambi);
 		redir_tmp = redir_tmp->next;
 	}
 }
@@ -92,8 +99,8 @@ void	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
 	if (!cmd)
 		return ;
 	m->bhole = open("/dev/null", O_WRONLY);
-	ft_openin(m, NULL, NULL);
-	ft_openout(m, NULL, NULL);
+	ft_openin(m, NULL, NULL, 0);
+	ft_openout(m, NULL, NULL, 0);
 	ft_open_redir(tmp, m);
 	if (m->in_rok > 0 || m->cmd->i != 0)
 		ft_dupcheck(m->bhole, STDIN_FILENO, m);
