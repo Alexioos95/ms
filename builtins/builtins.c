@@ -6,11 +6,34 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/04 10:01:07 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/04 12:19:21 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
+// Verifie que le tableau ne contient que des chiffres.
+void	ft_exit_checktab(struct s_shell *ms, char *str, int i)
+{
+	int	b;
+
+	b = 0;
+	ft_atoi(str, &b);
+	if (b == 1)
+	{
+		printf("minishell: exit: %s: numeric argument required\n", str);
+		frees(ms, 2);
+	}
+	while (str[i] != '\0')
+	{
+		if (str[i] < '0' || str[i] > '9')
+		{
+			printf("minishell: exit: %s: numeric argument required\n", str);
+			frees(ms, 2);
+		}
+		i++;
+	}
+}
 
 // Quitter proprement le programme.
 int	ft_exit(struct s_shell *ms, char **tab)
@@ -23,21 +46,13 @@ int	ft_exit(struct s_shell *ms, char **tab)
 		frees(ms, ms->status);
 	if (tab[1][0] == '-' || tab[1][0] == '+')
 		i++;
-	while (tab[1][i] != '\0')
-	{
-		if (tab[1][i] < '0' || tab[1][i] > '9')
-		{
-			printf("minishell: exit: %s: numeric argument required\n", tab[1]);
-			frees(ms, 2);
-		}
-		i++;
-	}
+	ft_exit_checktab(ms, tab[1], i);
 	if (tab[2] != NULL)
 	{
 		printf("minishell: exit: too many arguments\n");
 		return (1);
 	}
-	frees(ms, ft_atoi(tab[1]));
+	frees(ms, ft_atoi(tab[1], &i));
 	return (0);
 }
 

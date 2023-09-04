@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:18:09 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/02 11:01:36 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/04 12:19:29 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ char	*ft_strdup(char *s)
 	return (s1);
 }
 
-int	ft_atoi(char *nptr)
+long long int	ft_atoi(char *nptr, int *b)
 {
-	int	i;
-	int	sign;
-	int	result;
+	int				i;
+	long long int	sign;
+	long long int	result;
 
 	i = 0;
 	sign = 1;
@@ -104,6 +104,8 @@ int	ft_atoi(char *nptr)
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		result = result * 10 + (nptr[i] - '0');
+		if (result >= 922337203685477580 && nptr[i] >= '7')
+			*b = 1;
 		i++;
 	}
 	return (sign * result);

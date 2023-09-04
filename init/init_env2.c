@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 13:41:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/01 13:41:42 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/04 11:26:00 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	increaseshlvl(struct s_shell *ms)
 	node = ft_getenv(ms, "SHLVL");
 	if (node == NULL)
 		return ((void)ft_export(ms, tab));
-	nb = ft_atoi(&node->line[6]);
-	if (nb < 1 || nb == 2147483647)
+	nb = ft_atoi(&node->line[6], &nb);
+	if (nb < 1 || nb >= 2147483647)
 		ft_export(ms, tab);
 	itoa = ft_itoa(nb + 1);
 	if (itoa == NULL)

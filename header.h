@@ -325,7 +325,7 @@ void		ft_cd_actualizeenv(struct s_shell *ms, char *tmp);
 int			ft_strlen(char *str);
 char		*ft_strjoin(char *s1, char *s2);
 char		*ft_strdup(char *s);
-int			ft_atoi(char *nptr);
+long long int			ft_atoi(char *nptr, int *b);
 int			ft_tablen(char **str);
 int			ft_strncmp(char *s1, char *s2, size_t n);
 // utils/utils_env.c
