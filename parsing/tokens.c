@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:21:57 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/29 10:43:23 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/04 13:50:05 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	ft_add_tokenword(t_lexer *lexer, t_shell *ms)
 		{
 			tmp = lexer->next->next;
 			lexer->token.file = lexer->next->str;
+			lexer->token.ambi = 0;
 			lexer->next->str = NULL;
 			free (lexer->next);
 			lexer->next = tmp;

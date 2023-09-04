@@ -121,11 +121,11 @@ void	ft_expand(struct s_lexer *lexer, struct s_shell *ms)
 			}
 		}
 		else if (lexer->token.token != NULL \
-			&& ft_strncmp(lexer->token.token, "<<", 2) != 0 \
-			&& lexer->token.file != NULL)
+			&& ft_strncmp(lexer->token.token, "<<", 2) != 0)
 		{
 			ft_expand_initstruct(&exp, ms, lexer);
-			lexer->token.file = ft_expand_start(&exp, lexer->token.file);
+			if (lexer->token.ambi == 0)
+				lexer->token.file = ft_expand_start(&exp, lexer->token.file);
 		}
 		lexer = lexer->next;
 	}
