@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/01 13:59:21 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/11 15:19:55 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_tokens	ft_newtoken(char *token, char *file)
 
 	new.pipe = NULL;
 	new.token = NULL;
+	new.ambi = 0;
 	if (ft_strcmp(token, "|"))
 		new.pipe = token;
 	else

@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 11:25:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 11:50:37 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 16:02:44 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_exitchild(t_pipex *m, int status_code)
 	ft_closefds(m);
 	ft_freefds(m);
 	ft_closeoutin(m);
-	ft_lstclearpipex(&m->cmd, ms->lexer);
+	ft_lstclearpipex(&m->headplus, ms->lexer);
 	free(ms->tabenv);
 	free (m);
 	// ft_lexerclear(m->ms, ms->lexer);

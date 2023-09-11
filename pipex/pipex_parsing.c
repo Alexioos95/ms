@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 14:04:19 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 16:12:01 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_access(t_pipex *m, char **tab, int j, int p)
 	}
 	else
 	{
-		while (m->s_ev[j] && p != 0 && (int)ft_strlen(tab[0]) >= 1)
+		while ((m->s_ev[j] && p != 0 && (int)ft_strlen(tab[0]) >= 1) && m->eror != -1)
 		{
 			name = ft_pipex_join(m->s_ev[j++], tab[0]);
 			if (access(name, X_OK) != 0)
@@ -58,13 +58,20 @@ void	ft_access(t_pipex *m, char **tab, int j, int p)
 
 void	ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab)
 {
+	struct stat	dir;
+
 	if (((int)ft_strlen(tab[0]) >= 1) && ((tab[0][0] == '.') || \
 		(tab[0][0] == '/')))
 	{
+
+		if (lstat(tab[0], &dir) == -1 && errno == ENOMEM)
+			ft_free_process(m, 1);
 		if (!access(tab[0], X_OK))
 			m->eror = 0;
 		else
 			m->eror = errno;
+		if (S_ISDIR(dir.st_mode) || S_ISLNK(dir.st_mode))
+			m->eror = -1;
 	}
 	else
 	{

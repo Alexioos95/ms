@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:01:50 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 13:34:48 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 16:11:27 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ void	ft_cmdex(char **cmd, char **ev, t_pipex *m)
 	char	*error_type;
 
 	error_type = "command not found";
+	if (m->cmd->i == -1)
+		error_type = "Is a directory";
+	// printf("minishell: %s: Is a directory\n", path);
 	ft_closefds(m);
 	ft_closeoutin(m);
 	ft_freefds(m);
