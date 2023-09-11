@@ -244,6 +244,7 @@ int			ft_istoken(char c);
 int			ft_isthereatoken(char *line, t_lexer **lexer, t_shell *ms);
 void		ft_browse(t_shell *ms);
 // parsing/checkorphans
+int			checkorphans(char *line);
 int			isspecial(char c);
 // parsing/lst_lexer.c
 t_lexer		*ft_lexer_new(char *str, t_tokens token);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/28 16:36:49 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 10:19:31 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	parser(struct s_shell *ms)
 	}
 	if (ms->line == NULL)
 		return (0);
-	if (checkorphanbracket(ms->line) == 1 || checkorphanquote(ms->line) == 1)
+	if (checkorphans(ms->line) == 1)
 		return (2);
 	ft_browse(ms);
 	if (ms->lexer)
