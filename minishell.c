@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/15 10:11:06 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/11 15:25:15 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	loop(struct s_shell *ms)
 }
 
 int	g_glob = 0;
+
 int	main(int argc, char **argv, char **envp)
 {
 	struct s_shell	ms;

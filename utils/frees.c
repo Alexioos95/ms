@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 14:36:20 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/11 14:06:16 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 15:25:47 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	ft_lexerclear(struct s_shell *ms, t_lexer *lexer)
 			free(lexer->str);
 		if (lexer->tab)
 			freesplit(lexer->tab);
-		// printf("address1: %p\naddress2: %p\n", );
 		if (lexer->token.file)
 		{
 			if (ft_strcmp(lexer->token.token, "<<"))

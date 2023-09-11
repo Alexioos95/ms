@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:06:46 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/01 10:02:20 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/11 15:31:04 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 void	ft_expheredoc_init(struct s_expand *exp, char *str)
 {
 	if (exp->i != exp->j)
-		exp->buff = ft_expand_join(exp, exp->buff, ft_substr(str, exp->j, exp->i - exp->j));
+		exp->buff = ft_expand_join(exp, exp->buff, ft_substr(str, exp->j, \
+			exp->i - exp->j));
 	exp->j = exp->i;
 	while (isexp(exp, str, exp->i, exp->j + 1) == 0)
 		exp->j++;
