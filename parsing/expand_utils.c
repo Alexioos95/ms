@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:41:57 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/04 14:35:55 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/11 15:30:39 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	isexp(struct s_expand *exp, char *str, int i, int j)
 // Initialise les variables necessaires.
 void	ft_expand_initstruct(struct s_expand *exp, t_shell *ms, t_lexer *lex)
 {
-
 	if (ft_expand_ambiguous(exp, lex->token.file) == 1)
 	{
 		lex->token.ambi = 1;

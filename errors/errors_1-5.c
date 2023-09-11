@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_1-5.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 11:25:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 11:50:37 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 15:30:15 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void	ft_exitchild(t_pipex *m, int status_code)
 
 void	ft_error(char *file, char *error, int pid, t_pipex *m)
 {
-	// if (pid == 0)
-	// {
 	ft_dupcheck(2, 1, m);
 	printf("minishell: %s: %s\n", file, error);
 	// printf("in: %d\nout: %d\ncmd: %d\n", m->in_rok, m->out_rok, m->cmd->i);
@@ -55,6 +53,4 @@ void	ft_error(char *file, char *error, int pid, t_pipex *m)
 		ft_exitchild(m, 126);
 	else if ((m->cmd->i > 0) && pid == 0)
 		ft_exitchild(m, 127);
-		// ft_exitchild(m, m->ms->status);
-	// }
 }

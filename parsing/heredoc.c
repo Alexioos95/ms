@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:06:19 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/01 13:59:26 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/11 15:32:45 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 }
 
 // Initialise les variables.
-void	ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd, int  b)
+void	ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd, int b)
 {
 	if (b == 0)
 	{
