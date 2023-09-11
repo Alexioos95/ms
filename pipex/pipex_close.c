@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 18:53:15 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 13:36:43 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 14:23:01 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void	ft_closefds(t_pipex *m)
 	i = 0;
 	while (i < m->pipe)
 	{
-		if (m->fds[i][1] >= 0)
+		if (m->fds && m->fds[i][1] >= 0)
 			close(m->fds[i][1]);
-		if (m->fds[i][0] >= 0)
+		if (m->fds && m->fds[i][0] >= 0)
 			close(m->fds[i][0]);
 		i++;
 	}
@@ -73,11 +73,12 @@ void	ft_freefds(t_pipex *m)
 	int	i;
 
 	i = 0;
-	while (i < m->pipe)
+	while (i < m->pipe && m->fds)
 		free(m->fds[i++]);
 	if (m->pipe)
 		free(m->fds);
 	if (m->pids)
 		free(m->pids);
+	m->pids = NULL;
 	m->fds = NULL;
 }
