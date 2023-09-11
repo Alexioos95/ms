@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:06:19 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/29 13:20:03 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/01 13:59:26 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
+// Altere la liste chainee, pour retirer tous
+// les heredocs apres celui qui a ete CTRL+C.
 void	ft_heredoc_remove(struct s_lexer *lexer)
 {
 	while (lexer->next != NULL)
@@ -30,7 +32,11 @@ int	ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 	{
 		close (hd->fd);
 		if (errno == ENOMEM)
+		{
+			unlink(hd->name);
+			free(hd->name);
 			throwerror(ms, "readline");
+		}
 		else if (errno == EBADF)
 			return (2);
 		printf("minishell: warning: here-document at line ");
@@ -49,8 +55,6 @@ int	ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 // Boucle du heredoc.
 int	ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 {
-	int	isend;
-
 	hd->i = 0;
 	hd->fd = open(hd->name, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (hd->fd == -1)
@@ -61,10 +65,10 @@ int	ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 	while (1)
 	{
 		hd->line = readline("> ");
-		isend = ft_heredoc_end(ms, delim, hd);
-		if (isend == 1)
+		hd->isend = ft_heredoc_end(ms, delim, hd);
+		if (hd->isend == 1)
 			return (0);
-		else if (isend == 2)
+		else if (hd->isend == 2)
 			return (1);
 		if (hd->state == 0)
 			hd->line = ft_heredoc_expand(hd, hd->line);
@@ -77,45 +81,55 @@ int	ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 }
 
 // Initialise les variables.
-void	ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd)
+void	ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd, int  b)
 {
-	hd->i = 0;
-	hd->fd = -1;
-	hd->line = NULL;
-	hd->name = malloc(sizeof(char) * 20);
-	if (hd->name == NULL)
-		throwerror(ms, "malloc");
-	hd->ms = ms;
-	ft_memset(hd->name, 0, 20);
-	ft_heredoc_filename(ms, hd->name);
+	if (b == 0)
+	{
+		hd->i = 0;
+		hd->fd = -1;
+		hd->isend = 0;
+		hd->line = NULL;
+		hd->name = malloc(sizeof(char) * 20);
+		if (hd->name == NULL)
+			throwerror(ms, "malloc");
+		hd->ms = ms;
+		ft_memset(hd->name, 0, 20);
+		ft_heredoc_filename(ms, hd->name);
+	}
+	else
+	{
+		if (dup2(hd->backup, 0) == -1)
+			throwerror(ms, "dup2");
+		printf("\n");
+		ms->status = -1;
+	}
 }
 
 // Parcours la liste chaînée, et fais autant de heredoc que necessaire.
 void	ft_heredoc(struct s_lexer *lexer, struct s_shell *ms)
 {
-	int					backup;
 	struct s_heredoc	hd;
 
-	backup = dup(0);
+	hd.backup = dup(0);
+	if (hd.backup == -1)
+		throwerror(ms, "dup");
 	setsigaction(ms, 3);
 	while (lexer != NULL && ms->status != -1)
 	{
 		if (lexer->token.token != NULL \
 			&& ft_strncmp(lexer->token.token, "<<", 2) == 0)
 		{
-			ft_heredoc_init(ms, &hd);
+			ft_heredoc_init(ms, &hd, 0);
 			hd.state = ft_heredoc_delim(lexer->token.file);
 			if (ft_heredoc_loop(ms, lexer->token.file, &hd) == 1)
 			{
-				dup2(backup, 0);
-				printf("\n");
+				ft_heredoc_init(ms, &hd, 1);
 				ft_heredoc_remove(lexer);
-				ms->status = -1;
 			}
 			free(lexer->token.file);
 			lexer->token.file = hd.name;
 		}
 		lexer = lexer->next;
 	}
-	close(backup);
+	close(hd.backup);
 }

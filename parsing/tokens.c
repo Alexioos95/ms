@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:21:57 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 12:57:23 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 14:03:13 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	ft_goodtoken(char *line, t_tokens *token, char **word, t_shell *ms)
 	curr_token = ft_subnstr(line, 0, i);
 	if (!ft_tabcmp(curr_token, good_tokens))
 	{
+		ms->status = 2;
 		ft_errors_1_5(0, curr_token);
 		free (curr_token);
 		curr_token = NULL;
@@ -63,6 +64,7 @@ void	ft_add_tokenword(t_lexer *lexer, t_shell *ms)
 		{
 			tmp = lexer->next->next;
 			lexer->token.file = lexer->next->str;
+			lexer->token.ambi = 0;
 			lexer->next->str = NULL;
 			free (lexer->next);
 			lexer->next = tmp;

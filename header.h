@@ -52,7 +52,6 @@ typedef struct s_expand
 	char				*tmp;
 	char				*buff;
 	struct s_lst		*node;
-	struct s_lexer		*lex;
 	struct s_heredoc	*hd;
 	struct s_shell		*ms;
 }						t_expand;
@@ -61,7 +60,9 @@ typedef struct s_heredoc
 {
 	int				i;
 	int				fd;
+	int				isend;
 	int				state;
+	int				backup;
 	char			*name;
 	char			*line;
 	struct s_shell	*ms;
@@ -69,6 +70,7 @@ typedef struct s_heredoc
 
 typedef struct s_tokens
 {
+	int					ambi;
 	char				*token;
 	char				*file;
 	char				*pipe;
@@ -158,6 +160,7 @@ typedef struct s_shell
 	struct s_lst		*env;
 	struct s_cmd		*cmd;
 	struct s_pipex		*pex;
+	struct s_heredoc	*hd;
 	struct s_lexer		*lexer;
 	struct s_cmd_lst	*cmd_lst;
 	struct sigaction	sigact[5];
@@ -165,7 +168,7 @@ typedef struct s_shell
 
 // ************************** INIT ************************** //
 // init/init.c
-void		ft_lstadd_back(struct s_lst **lst, struct s_lst *new);
+void		ft_lstadd_back(struct s_shell *ms, struct s_lst **lst, struct s_lst *new);
 t_lst		*ft_lstnew(struct s_shell *ms, char *str);
 t_tokens	ft_newtoken(char *token, char *file);
 void		init(struct s_shell *ms, char **envp);
@@ -196,8 +199,8 @@ char		*ft_pipex_strlcat(char *dest, const char *src, int size);
 char		*ft_pipex_join(char *path, char *cmd);
 char		**ft_realloc_tab(char **tab, char **curr_tab);
 // pipex/pipex_open.c
-int			ft_openin(t_pipex *m, char *token, char *file);
-int			ft_openout(t_pipex *m, char *token, char *file);
+int			ft_openin(t_pipex *m, char *token, char *file, int ambi);
+int			ft_openout(t_pipex *m, char *token, char *file, int ambi);
 void		ft_dupcheck(int fd, int stdfd, t_pipex *m);
 void		ft_error(char *ft, char *error, int pid, t_pipex *m);
 void		ft_exitchild(t_pipex *m, int status_code);
@@ -259,7 +262,7 @@ void		ft_add_word_to_tab(t_lexer *lexer, t_shell *ms);
 void		ft_tabptr(t_shell *ms, t_lexer *cmd, t_lexer *cmd2, int nb_tab);
 // parsing/heredoc.c
 void		ft_heredoc(struct s_lexer *lexer, struct s_shell *ms);
-void		ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd);
+void		ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd, int b);
 int			ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd);
 int			ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd);
 void		ft_heredoc_remove(struct s_lexer *lexer);
@@ -278,6 +281,7 @@ void		ft_expand_dollar(struct s_expand *exp, char *str);
 // parsing/expand_dquote.c
 void		ft_expand_dquote(struct s_expand *exp, char *str);
 void		ft_expand_dquotereplace(struct s_expand *exp);
+int	ft_expand_ambiguous(struct s_expand *exp, char *str);
 // parsing/expand_utils.c
 void		ft_expand_initstruct(struct s_expand *exp, t_shell *ms, \
 			t_lexer *lex);
