@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/04 09:49:56 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/11 14:15:37 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,28 @@ void	ft_which_builtin(char **tab, t_shell *ms)
 		ms->status = ft_export(ms, tab);
 }
 
-char	*ft_isabuiltin(char **tab, t_shell *ms)
+char	*ft_isabuiltin(char **tab, t_shell *ms, int state)
 {
 	char	**built;
 	char	*is;
 	int		in;
 	int		out;
 
+	(void)ms;
 	if (!tab)
 		return (0);
-	in = dup(STDIN_FILENO);
-	out = dup(STDOUT_FILENO);
 	built = ft_split("cd echo env exit export pwd unset", ' ');
 	is = ft_tabcmp(tab[0], built);
-	if (is)
-		ft_dup_redir(ms->pex, ms->pex->cmd);
-	ft_which_builtin(tab, ms);
-	ft_dupcheck(in, STDIN_FILENO, ms->pex);
-	ft_dupcheck(out, STDOUT_FILENO, ms->pex);
+	if (is && state == 1 && ft_dup_redir(ms->pex, ms->pex->cmd) >= 0)
+	{
+		in = dup(STDIN_FILENO);
+		out = dup(STDOUT_FILENO);
+		ft_which_builtin(tab, ms);
+		ft_dupcheck(in, STDIN_FILENO, ms->pex);
+		ft_dupcheck(out, STDOUT_FILENO, ms->pex);
+		close(in);
+		close(out);
+	}
 	return (freesplit(built), is);
 }
 

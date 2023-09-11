@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:01:50 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/29 16:59:31 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 13:34:48 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,29 @@ void	ft_childprocess(t_pipex *m)
 	if (m->i == 0)
 		i = 1;
 	setsigaction(m->ms, 0);
-	ft_dup_redir(m, m->cmd);
 	if (m->count > 0 && m->in_rok != -2)
 		ft_dupcheck(m->fds[i][0], STDIN_FILENO, m);
 	if (m->nb_cmd > 1 && m->out_red != 1)
 		ft_dupcheck(m->fds[m->i][1], STDOUT_FILENO, m);
+	ft_dup_redir(m, m->cmd);
 	ft_cmdex(m->cmd->tab, m->ev, m);
 }
 
 void	ft_cmdex(char **cmd, char **ev, t_pipex *m)
 {
+	char	*error_type;
+
+	error_type = "command not found";
 	ft_closefds(m);
 	ft_closeoutin(m);
 	ft_freefds(m);
 	if ((m->out_rok == 0 && (m->in_rok == 0 || m->in_rok == -2)) \
-			&& cmd && m->cmd->i == 0)
+			&& cmd && m->cmd->i == 0 \
+			&& !(ft_isabuiltin(m->cmd->tab, m->ms, 1)))
 		execve(m->cmd->name, cmd, ev);
-	if (m->cmd->i > 0 && cmd)
-		ft_error(cmd[0], "error", 0, m);
+	if (m->cmd->i == 13)
+		error_type = strerror(m->cmd->i);
+	if (!(ft_isabuiltin(m->cmd->tab, m->ms, 0)))
+		ft_error(cmd[0], error_type, 0, m);
+	ft_exitchild(m, m->ms->status);
 }

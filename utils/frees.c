@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 14:36:20 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/01 14:05:28 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/11 14:06:16 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ void	ft_lstclear(struct s_lst *lst)
 	}
 }
 
-void	ft_lexerclear(t_lexer *lexer)
+void	ft_lexerclear(struct s_shell *ms, t_lexer *lexer)
 {
 	t_lexer		*tmp;
 
+	(void)ms;
 	if (lexer == NULL)
 		return ;
 	while (lexer)
@@ -40,6 +41,7 @@ void	ft_lexerclear(t_lexer *lexer)
 			free(lexer->str);
 		if (lexer->tab)
 			freesplit(lexer->tab);
+		// printf("address1: %p\naddress2: %p\n", );
 		if (lexer->token.file)
 		{
 			if (ft_strcmp(lexer->token.token, "<<"))

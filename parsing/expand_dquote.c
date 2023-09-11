@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:42:43 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/04 14:01:11 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/04 14:35:42 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_expand_ambiguous(struct s_expand *exp, char *str)
 	{
 		while (isexp(exp, str, i, i + 1) == 0)
 			i++;
-		if (str[i] == '\0')
+		if (str[i + 1] == '\0')
 			return (1);
 	}
 	return (0);
