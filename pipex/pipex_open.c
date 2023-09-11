@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 15:52:33 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 20:03:27 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,5 +118,3 @@ int	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
 		ft_dupcheck(m->out, STDOUT_FILENO, m);
 	return (i);
 }
-
-

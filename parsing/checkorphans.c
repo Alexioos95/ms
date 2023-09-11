@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkorphans.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:07:37 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/11 15:31:29 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/11 20:00:35 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,48 +126,3 @@ int	checkorphanquote(char *line)
 }
 
 // Cherche un '[' qui n'est pas ferme.
-int	checkorphanbracket(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] != '\0')
-	{
-		if (line[i] == '[')
-		{
-			i++;
-			while (line[i] != '\0' && line[i] != ']')
-				i++;
-			if (line[i] == '\0')
-			{
-				printf("minishell: [: missing `]'\n");
-				return (1);
-			}
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	checkorphans(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] == ' ')
-		i++;
-	if (line[i] == '|')
-	{
-		printf("minishell: syntax error near unexpected token '|'\n");
-		return (1);
-	}
-	if (checkorphanbracket(line) == 1)
-		return (1);
-	if (checkorphanquote(line) == 1)
-		return (1);
-	if (checkorphanpipe(line) == 1)
-		return (1);
-	if (checkorphanredir(line) == 1)
-		return (1);
-	return (0);
-}

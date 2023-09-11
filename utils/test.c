@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 14:19:34 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/19 11:54:02 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 19:55:44 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 void	ft_print_lexerlst(t_lexer *lst)
 {
 	int		i;
-	// int		c;
 	t_lexer	*tmp;
 
 	tmp = lst;
-	// c = tmp->len;
 	printf("Taille du Lexer: %d\n", lst->len);
 	while (tmp)
 	{
@@ -32,7 +30,5 @@ void	ft_print_lexerlst(t_lexer *lst)
 		printf("Pipe: %s\n", tmp->token.pipe);
 		printf("---------\n");
 		tmp = tmp->next;
-		// printf("Index: %d\n", tmp->back->i);
-		// i++;
 	}
 }

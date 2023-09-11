@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/11 14:15:18 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/11 20:01:44 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,16 @@ int	parser(struct s_shell *ms)
 		}
 		setsigaction(ms, 2);
 		ft_expand(lexer, ms);
-		// ft_print_lexerlst(ms->lexer);
 		ft_start(ms);
-		// ft_lstclearpipex (&ms->pex->cmd);
 		ft_lstclearpipex(&ms->pex->headplus, ms->head);
-		// free (ms->lexer);
 		ms->pex->cmd = NULL;
 		free(ms->pex);
 		ms->pex = NULL;
-		// ft_lexerclear(ms, ms->lexer);
-		// ms->lexer = NULL;
 	}
 	return (ms->status);
 }
+
+// ft_print_lexerlst(ms->lexer);
 
 int	ft_state(char c, int state)
 {

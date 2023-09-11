@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 14:05:39 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 19:52:50 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,6 @@ void	ft_process(t_pipex *m, t_shell *ms)
 		close(m->fds[i][0]);
 		if (pipe(m->fds[i]) == -1)
 			ft_free_process(m, errno);
-		// if (m->cmd && m->cmd->i > 0 && m->cmd->tab)
-		// 	ft_error(m->cmd->tab[0], "command not found22", 42, m);
-		if (!m->cmd)
-		{
-			ft_errors_1_5(0, "|");
-			ms->status = 2;
-		}
 		if (m->cmd)
 			m->cmd = m->cmd->next;
 		m->nb_cmd--;

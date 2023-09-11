@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 16:12:01 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 20:03:08 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	ft_access(t_pipex *m, char **tab, int j, int p)
 	}
 	else
 	{
-		while ((m->s_ev[j] && p != 0 && (int)ft_strlen(tab[0]) >= 1) && m->eror != -1)
+		while ((m->s_ev[j] && p != 0 && (int)ft_strlen(tab[0]) >= 1) \
+			&& m->eror != -1)
 		{
 			name = ft_pipex_join(m->s_ev[j++], tab[0]);
 			if (access(name, X_OK) != 0)
@@ -63,7 +64,6 @@ void	ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab)
 	if (((int)ft_strlen(tab[0]) >= 1) && ((tab[0][0] == '.') || \
 		(tab[0][0] == '/')))
 	{
-
 		if (lstat(tab[0], &dir) == -1 && errno == ENOMEM)
 			ft_free_process(m, 1);
 		if (!access(tab[0], X_OK))
@@ -78,7 +78,6 @@ void	ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab)
 		access(tab[0], X_OK);
 		m->eror = errno;
 	}
-	// printf("coucou erno: %d\n", m->eror);
 	ft_access(m, tab, 0, m->eror);
 	while ((*lexer) && !((*lexer)->token.pipe))
 		(*lexer) = (*lexer)->next;
@@ -95,16 +94,16 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 		tab = ft_find_nodecmd(&lexer);
 		if (tab)
 			ft_checkaccees(m, &lexer, tab);
-		// else
-		// {
-		// 	tab = ft_calloc (sizeof (char *), 2);
-		// 	if (!tab)
-		// 		return ;
-		// 	tab[0] = ft_calloc(sizeof(char), 1);
-		// 	if (!tab[0])
-		// 		return ;
-		// 	ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, tab[0], -4), m);
-		// }
+		else
+		{
+			tab = ft_calloc (sizeof (char *), 2);
+			if (!tab)
+				return ;
+			tab[0] = ft_calloc(sizeof(char), 1);
+			if (!tab[0])
+				return ;
+			ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, tab[0], -4), m);
+		}
 		if (lexer)
 			lexer = lexer->next;
 	}
@@ -129,6 +128,7 @@ void	find_cmd(t_pipex *m, t_shell *ms)
 	}
 	ft_cmd_list(m, ms);
 	ft_redir_list(m, ms);
-	// print_allcmd(m);
 	ft_free_tab(m->s_ev);
 }
+
+	// print_allcmd(m);

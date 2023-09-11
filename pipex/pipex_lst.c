@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:48:23 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 12:44:36 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 18:44:57 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	ft_lstclearpipex(t_cmd_lst **lst, t_lexer *lexer)
 
 	if (!lst)
 		return ;
-	while (*lst && lexer)
+	while (*lst)
 	{
 		i = 0;
 		tmplex = lexer->next;
@@ -71,6 +71,8 @@ void	ft_lstclearpipex(t_cmd_lst **lst, t_lexer *lexer)
 		{
 			while ((*lst)->tab && (*lst)->tab[i])
 				free((*lst)->tab[i++]);
+			if ((*lst)->redirlst->token.token)
+				free ((*lst)->redirlst->token.token);
 			free ((*lst)->redirlst);
 			// freesplit((*lst)->tab);
 		}
@@ -81,6 +83,8 @@ void	ft_lstclearpipex(t_cmd_lst **lst, t_lexer *lexer)
 			if ((lexer->tab && (*lst)->tab) && lexer->tab[i] && (lexer->tab[i] != (*lst)->tab[i]))
 				free(lexer->tab[i]);
 			i++;
+			while (lexer->tab[i] != NULL)
+				i++;
 		}
 		if ((*lst)->tab)
 		{
@@ -112,6 +116,8 @@ void	ft_lstclearpipex(t_cmd_lst **lst, t_lexer *lexer)
 		*lst = tmp;
 		free (lexer);
 		lexer = tmplex;
+		// if (!lexer)
+		// 	break;
 	}
 }
 

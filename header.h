@@ -168,7 +168,8 @@ typedef struct s_shell
 
 // ************************** INIT ************************** //
 // init/init.c
-void		ft_lstadd_back(struct s_shell *ms, struct s_lst **lst, struct s_lst *new);
+void		ft_lstadd_back(struct s_shell *ms, struct s_lst **lst, \
+				struct s_lst *new);
 t_lst		*ft_lstnew(struct s_shell *ms, char *str);
 t_tokens	ft_newtoken(char *token, char *file);
 void		init(struct s_shell *ms, char **envp);
@@ -247,8 +248,12 @@ int			ft_istoken(char c);
 int			ft_isthereatoken(char *line, t_lexer **lexer, t_shell *ms);
 void		ft_browse(t_shell *ms);
 // parsing/checkorphans
-int			checkorphans(char *line);
+int			checkorphanquote(char *line);
 int			isspecial(char c);
+int			checkorphanpipe(char *line);
+int			checkorphanredir(char *line);
+int			printsyntaxerror(char *line, int i);
+int			checkorphans(char *line);
 // parsing/lst_lexer.c
 t_lexer		*ft_lexer_new(char *str, t_tokens token);
 t_lexer		*ft_lstlast_lexer(t_lexer *head);
@@ -264,8 +269,10 @@ void		ft_tabptr(t_shell *ms, t_lexer *cmd, t_lexer *cmd2, int nb_tab);
 // parsing/heredoc.c
 void		ft_heredoc(struct s_lexer *lexer, struct s_shell *ms);
 void		ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd, int b);
-int			ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd);
-int			ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd);
+int			ft_heredoc_loop(struct s_shell *ms, char *delim, \
+				struct s_heredoc *hd);
+int			ft_heredoc_end(struct s_shell *ms, char *delim, \
+				struct s_heredoc *hd);
 void		ft_heredoc_remove(struct s_lexer *lexer);
 // parsing/heredoc_utils.c
 int			ft_heredoc_delim(char *str);
@@ -282,7 +289,7 @@ void		ft_expand_dollar(struct s_expand *exp, char *str);
 // parsing/expand_dquote.c
 void		ft_expand_dquote(struct s_expand *exp, char *str);
 void		ft_expand_dquotereplace(struct s_expand *exp);
-int	ft_expand_ambiguous(struct s_expand *exp, char *str);
+int			ft_expand_ambiguous(struct s_expand *exp, char *str);
 // parsing/expand_utils.c
 void		ft_expand_initstruct(struct s_expand *exp, t_shell *ms, \
 			t_lexer *lex);

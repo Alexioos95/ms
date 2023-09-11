@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
+#    By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/09/01 13:43:55 by apayen           ###   ########.fr        #
+#    Updated: 2023/09/11 19:49:11 by eewu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			init/init_env2.c					\
 			parsing/parsing.c					\
 			parsing/checkorphans.c				\
+			parsing/checkorphans2.c				\
 			parsing/lst_lexer.c					\
 			parsing/tokens.c					\
 			parsing/heredoc.c					\
