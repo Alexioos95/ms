@@ -136,6 +136,7 @@ typedef struct s_pipex
 	char				**ev;
 	char				**av;
 	struct s_cmd_lst	*head;
+	struct s_cmd_lst	*headplus;
 	struct s_cmd_lst	*cmd;
 	struct s_redir		*tokenhead;
 	struct s_shell		*ms;
@@ -153,6 +154,7 @@ typedef struct s_shell
 	int					nb_pipe;
 	int					status;
 	struct s_tokens		token;
+	struct s_lexer		*head;
 	struct s_lst		*env;
 	struct s_cmd		*cmd;
 	struct s_pipex		*pex;
@@ -177,7 +179,7 @@ void		ft_setenv(struct s_shell *ms, char **envp);
 
 // ************************ PIPEX ************************ //
 // pipex/pipex.c
-void		ft_dup_redir(t_pipex *m, t_cmd_lst *cmd);
+int			ft_dup_redir(t_pipex *m, t_cmd_lst *cmd);
 void		ft_process(t_pipex *m, t_shell *ms);
 void		ft_pipe_exec(t_pipex *m, t_shell *ms);
 int			ft_end(t_shell *ms);
@@ -198,10 +200,11 @@ int			ft_openin(t_pipex *m, char *token, char *file);
 int			ft_openout(t_pipex *m, char *token, char *file);
 void		ft_dupcheck(int fd, int stdfd, t_pipex *m);
 void		ft_error(char *ft, char *error, int pid, t_pipex *m);
+void		ft_exitchild(t_pipex *m, int status_code);
 // pipex/pipex_init.c
 void		ft_mallocpipe(t_pipex *m);
 void		ft_which_builtin(char **tab, t_shell *ms);
-char		*ft_isabuiltin(char **tab, t_shell *ms);
+char		*ft_isabuiltin(char **tab, t_shell *ms, int state);
 void		ft_exec(t_pipex *m, t_shell *ms);
 t_pipex		*ft_init(t_pipex *m, int nb_cmd, char **ev);
 // pipex/pipex_close.c
@@ -214,7 +217,7 @@ void		ft_freefds(t_pipex *m);
 t_cmd_lst	*ft_pipex_lstnew(char **cmd, char *name, int i);
 t_cmd_lst	*ft_lstlast(t_cmd_lst *lst);
 void		ft_pipex_lstadd_back(t_cmd_lst **lst, t_cmd_lst *new, t_pipex *m);
-void		ft_lstclearpipex(t_cmd_lst **lst);
+void		ft_lstclearpipex(t_cmd_lst **lst, t_lexer *lexer);
 int			ft_lstsize(t_cmd_lst *lst);
 // pipex/pipex_parsing.c
 char		**ft_find_nodecmd(t_lexer **lexer);
@@ -245,7 +248,7 @@ int			isspecial(char c);
 // parsing/lst_lexer.c
 t_lexer		*ft_lexer_new(char *str, t_tokens token);
 t_lexer		*ft_lstlast_lexer(t_lexer *head);
-void		ft_lexer_addback(t_lexer **head, t_lexer *new);
+void		ft_lexer_addback(t_lexer **head, t_lexer *new, t_shell *ms);
 void		ft_lstresetindex_lexer(t_lexer *head);
 void		ft_lexer_delone(t_lexer **curr_node, int i);
 // parsing/tokens.c
@@ -339,7 +342,7 @@ char		*ft_subnstr(char *s, unsigned int start, size_t len);
 char		**ft_split(char *s, char c);
 // utils/frees.c
 void		ft_lstclear(struct s_lst *lst);
-void		ft_lexerclear(t_lexer *lexer);
+void		ft_lexerclear(struct s_shell *ms, t_lexer *lexer);
 void		freesplit(char **strmalloc);
 void		frees(struct s_shell *ms, int code);
 void		throwerror(struct s_shell *ms, char *str);

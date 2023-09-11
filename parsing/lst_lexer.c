@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_lexer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:47:00 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/02 11:08:28 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/11 12:37:58 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,14 @@ t_lexer	*ft_lexer_new(char *str, t_tokens token)
 	return (new);
 }
 
-void	ft_lexer_addback(t_lexer **head, t_lexer *new)
+void	ft_lexer_addback(t_lexer **head, t_lexer *new, t_shell *ms)
 {
 	t_lexer	*last;
 
 	if (!(*head))
 	{
 		(*head) = new;
+		ms->head = new;
 		return ;
 	}
 	(*head)->len++;

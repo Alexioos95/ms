@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/28 16:36:49 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 12:58:25 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,21 @@ int	parser(struct s_shell *ms)
 		ft_heredoc(lexer, ms);
 		if (ms->status == -1)
 		{
-			ft_lexerclear(ms->lexer);
+			ft_lexerclear(ms, ms->lexer);
 			return (130);
 		}
 		setsigaction(ms, 2);
 		ft_expand(lexer, ms);
 		// ft_print_lexerlst(ms->lexer);
 		ft_start(ms);
-		ft_lexerclear(ms->lexer);
+		// ft_lstclearpipex (&ms->pex->cmd);
+		ft_lstclearpipex(&ms->pex->headplus, ms->head);
+		// free (ms->lexer);
+		ms->pex->cmd = NULL;
+		free(ms->pex);
+		ms->pex = NULL;
+		// ft_lexerclear(ms, ms->lexer);
+		// ms->lexer = NULL;
 	}
 	return (ms->status);
 }
@@ -93,7 +100,7 @@ int	ft_isthereatoken(char *line, t_lexer **lexer, t_shell *ms)
 	else if (!ft_istoken(line[i]) || ft_state(line[i], s) > 0)
 		i = ft_goodword(line, &token, &word, s);
 	if (0 != i)
-		ft_lexer_addback(lexer, ft_lexer_new(word, token));
+		ft_lexer_addback(lexer, ft_lexer_new(word, token), ms);
 	return (i);
 }
 

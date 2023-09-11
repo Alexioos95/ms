@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/29 17:22:57 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 10:05:01 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	ft_process(t_pipex *m, t_shell *ms)
 		close(m->fds[i][0]);
 		if (pipe(m->fds[i]) == -1)
 			ft_free_process(m, errno);
-		if (m->cmd && m->cmd->i > 0 && m->cmd->tab)
-			ft_error(m->cmd->tab[0], "command not found", 42, m);
+		// if (m->cmd && m->cmd->i > 0 && m->cmd->tab)
+		// 	ft_error(m->cmd->tab[0], "command not found22", 42, m);
 		if (!m->cmd)
 			ft_errors_1_5(0, "|");
 		if (m->cmd)
@@ -46,19 +46,18 @@ void	ft_process(t_pipex *m, t_shell *ms)
 
 void	ft_exec(t_pipex *m, t_shell *ms)
 {
-	int		i;
+	char	*builtins;
 
-	i = 0;
-	m->pids[i] = -1;
-	if (!(ft_isabuiltin(m->cmd->tab, ms)))
+	builtins = NULL;
+	m->pids[0] = -1;
+	builtins = (ft_isabuiltin(m->cmd->tab, ms, 1));
+	if (builtins == NULL)
 	{
 		ft_fork(m);
 		if (m->pids[m->count] == 0)
 			ft_childprocess(m);
 		else
 		{
-			if (m->cmd->i > 0 && m->cmd->tab)
-				ft_error(m->cmd->tab[0], "command not found", 42, m);
 			m->cmd = m->cmd->next;
 			m->nb_cmd--;
 			m->count++;
@@ -68,6 +67,8 @@ void	ft_exec(t_pipex *m, t_shell *ms)
 			m->in[0] = -1;
 		}
 	}
+	else if (builtins && (m->in_rok > 0 || m->out_rok > 0))
+		m->ms->status = 1;
 }
 
 void	ft_pipe_exec(t_pipex *m, t_shell *ms)
@@ -89,14 +90,14 @@ int	ft_end(t_shell *ms)
 	i = 0;
 	m = ms->pex;
 	ft_closefds(m);
-	while (1)
+	while (1 && m->pids[0] != -1)
 	{
 		if (i == m->count)
 			i = 0;
 		if (waitpid(m->pids[i], &tmpstatus, WNOHANG) > 0)
 		{
 			n++;
-			if (i == m->count)
+			if (i == m->count - 1)
 				ms->status = tmpstatus;
 		}
 		if (n == m->count)

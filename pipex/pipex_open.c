@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/29 12:41:42 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 10:06:34 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	ft_openin(t_pipex *m, char *token, char *file)
 	else if (m->in[0] == -1 && m->in_rok != -2)
 	{
 		m->in_rok = errno;
-		ft_error(m->cmd->redirlst->token.file, strerror(m->in_rok), 42, m);
+		// m->cmd->i = errno;
+		ft_error(m->cmd->redirlst->token.file, strerror(m->in_rok), (int)m->pids[m->count], m);
 	}
 	return (m->in[0]);
 }
@@ -49,7 +50,8 @@ int	ft_openout(t_pipex *m, char *token, char *file)
 		else
 		{
 			m->out_rok = errno;
-			ft_error(file, strerror(errno), 42, m);
+			// m->cmd->i = errno;
+			ft_error(file, strerror(m->out_rok), (int)m->pids[m->count], m);
 		}
 	}
 	return (m->out);
@@ -61,7 +63,7 @@ void	ft_dupcheck(int fd, int stdfd, t_pipex *m)
 		ft_free_process(m, errno);
 }
 
-void	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
+int	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
 {
 	char		*token;
 	char		*file;
@@ -80,9 +82,10 @@ void	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
 			i = ft_openout(m, token, file);
 		redir_tmp = redir_tmp->next;
 	}
+	return (i);
 }
 
-void	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
+int	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
 {
 	t_cmd_lst	*tmp;
 	int			i;
@@ -90,17 +93,18 @@ void	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
 	i = 0;
 	tmp = cmd;
 	if (!cmd)
-		return ;
+		return (-1);
 	m->bhole = open("/dev/null", O_WRONLY);
 	ft_openin(m, NULL, NULL);
 	ft_openout(m, NULL, NULL);
-	ft_open_redir(tmp, m);
+	i = ft_open_redir(tmp, m);
 	if (m->in_rok > 0 || m->cmd->i != 0)
 		ft_dupcheck(m->bhole, STDIN_FILENO, m);
 	if (m->in[0] >= 0)
 		ft_dupcheck(m->in[0], STDIN_FILENO, m);
 	if (m->out >= 0)
 		ft_dupcheck(m->out, STDOUT_FILENO, m);
+	return (i);
 }
 
 

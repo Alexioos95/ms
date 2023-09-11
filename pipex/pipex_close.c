@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 18:53:15 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/29 17:30:04 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 13:36:43 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,16 @@ void	ft_free_process(t_pipex *m, int r)
 	s = m->ms->status;
 	(void)r;
 	ft_closefds(m);
-	ft_freefds(m);
 	ft_closeoutin(m);
-	ft_lstclearpipex(&m->head);
-	// if (m->nb_cmd == 1 && m->out < 0)
-	// {
-	// 	free(m);
-	// 	exit (1);
-	// }
-	if (WIFEXITED(s))
+	// ft_lstclearpipex(&m->head);
+	if (WIFEXITED(s) && m->pids[0] != -1)
 		m->ms->status = (WEXITSTATUS(s));
-	// else
-	// 	exit(r);
-	free(m);
+	else if (WIFSIGNALED(s) && m->pids[0] != -1)
+		m->ms->status = 128 + WTERMSIG(s);
+	ft_freefds(m);
+	if (m->ms->status == 131)
+		printf("Quit (core dumped)\n");
+	// free(m);
 }
 
 void	ft_free_tab(char **tab)
@@ -79,8 +76,8 @@ void	ft_freefds(t_pipex *m)
 	while (i < m->pipe)
 		free(m->fds[i++]);
 	if (m->pipe)
-	{
 		free(m->fds);
+	if (m->pids)
 		free(m->pids);
-	}
+	m->fds = NULL;
 }

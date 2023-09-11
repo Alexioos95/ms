@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:48:23 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/29 16:03:20 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/11 12:44:36 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,33 +44,74 @@ void	ft_pipex_lstadd_back(t_cmd_lst **lst, t_cmd_lst *new, t_pipex *m)
 	{
 		*lst = new;
 		m->head = *lst;
+		m->headplus = *lst;
 		return ;
 	}
 	last = ft_lstlast(*lst);
 	last->next = new;
 }
 
-void	ft_lstclearpipex(t_cmd_lst **lst)
+void	ft_lstclearpipex(t_cmd_lst **lst, t_lexer *lexer)
 {
 	t_cmd_lst	*tmp;
+	t_lexer		*tmplex;
 	int			i;
 
 	if (!lst)
 		return ;
-	while (*lst)
+	while (*lst && lexer)
 	{
 		i = 0;
+		tmplex = lexer->next;
 		tmp = (*lst)->next;
-		// while ((*lst)->tab && (*lst)->tab[i])
-		// 	free((*lst)->tab[i++]);
 		// freesplit((*lst)->tab);
-		free ((*lst)->name);
+		// if (lexer->str)
+		// 	free(lexer->str);
+		if ((*lst)->tab)
+		{
+			while ((*lst)->tab && (*lst)->tab[i])
+				free((*lst)->tab[i++]);
+			free ((*lst)->redirlst);
+			// freesplit((*lst)->tab);
+		}
+		// if (lexer->tab)
+		i = 0;
+		while (lexer->tab && lexer->tab[i] != NULL)
+		{
+			if ((lexer->tab && (*lst)->tab) && lexer->tab[i] && (lexer->tab[i] != (*lst)->tab[i]))
+				free(lexer->tab[i]);
+			i++;
+		}
+		if ((*lst)->tab)
+		{
+			free((*lst)->tab);
+			(*lst)->tab = NULL;
+		}
+		free(lexer->tab);
+		if (lexer->token.file)
+		{
+			if (ft_strcmp(lexer->token.token, "<<"))
+				unlink(lexer->token.file);
+			free(lexer->token.file);
+		}
+		if (lexer->token.token)
+			free(lexer->token.token);
+		if (lexer->token.pipe)
+			free(lexer->token.pipe);
+		// freesplit(lexer->tab);
+		// free(lexer->tab);
+		if ((*lst)->name)
+			free ((*lst)->name);
 		(*lst)->name = NULL;
-		free((*lst)->tab);
 		(*lst)->tab = NULL;
-		free(*lst);
+		if ((*lst))
+			free(*lst);
 		(*lst) = NULL;
+		// free ((*lst)->redirlst);
+		// (*lst)->redirlst = NULL;
 		*lst = tmp;
+		free (lexer);
+		lexer = tmplex;
 	}
 }
 
