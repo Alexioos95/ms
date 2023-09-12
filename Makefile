@@ -6,7 +6,7 @@
 #    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/09/12 12:41:01 by apayen           ###   ########.fr        #
+#    Updated: 2023/09/12 12:45:54 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			utils/lst.c							\
 			utils/minilib.c						\
 			utils/ft_split.c					\
-			errors/errors_1-5.c					\
+			utils/errors_1-5.c					\
 			utils/frees.c)
 
 OBJ =		$(SRC:.c=.o)
