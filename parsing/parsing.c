@@ -3,56 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/11 20:01:44 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/12 12:40:24 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
-
-// Hub du parser.
-int	parser(struct s_shell *ms)
-{
-	t_lexer	*lexer;
-
-	if (g_glob > 1)
-		ms->status = 130;
-	g_glob = 0;
-	if (ms->split != NULL)
-	{
-		freesplit(ms->split);
-		ms->split = NULL;
-	}
-	if (ms->line == NULL)
-		return (0);
-	if (checkorphans(ms->line) == 1)
-		return (2);
-	ft_browse(ms);
-	if (ms->lexer)
-	{
-		lexer = ms->lexer;
-		ft_add_tokenword(lexer, ms);
-		ft_add_word_to_tab(lexer, ms);
-		ft_heredoc(lexer, ms);
-		if (ms->status == -1)
-		{
-			ft_lexerclear(ms, ms->lexer);
-			return (130);
-		}
-		setsigaction(ms, 2);
-		ft_expand(lexer, ms);
-		ft_start(ms);
-		ft_lstclearpipex(&ms->pex->headplus, ms->head);
-		ms->pex->cmd = NULL;
-		free(ms->pex);
-		ms->pex = NULL;
-	}
-	return (ms->status);
-}
-
-// ft_print_lexerlst(ms->lexer);
 
 int	ft_state(char c, int state)
 {
@@ -93,7 +51,7 @@ int	ft_isthereatoken(char *line, t_lexer **lexer, t_shell *ms)
 	i = 0;
 	s = ft_state(line[i], 0);
 	if (ft_istoken(line[i]) && s == 0)
-		i = ft_goodtoken(line, &token, &word, ms);
+		i = ft_goodtoken(line, &token, &word);
 	else if (!ft_istoken(line[i]) || ft_state(line[i], s) > 0)
 		i = ft_goodword(line, &token, &word, s);
 	if (0 != i)

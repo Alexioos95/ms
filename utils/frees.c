@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 14:36:20 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/11 15:25:47 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 12:37:39 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@ void	ft_lstclear(struct s_lst *lst)
 	}
 }
 
-void	ft_lexerclear(struct s_shell *ms, t_lexer *lexer)
+void	ft_lexerclear(t_lexer *lexer)
 {
 	t_lexer		*tmp;
 
-	(void)ms;
 	if (lexer == NULL)
 		return ;
 	while (lexer)

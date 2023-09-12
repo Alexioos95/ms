@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:21:57 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 18:35:02 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/12 12:31:38 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-int	ft_goodtoken(char *line, t_tokens *token, char **word, t_shell *ms)
+int	ft_goodtoken(char *line, t_tokens *token, char **word)
 {
 	int		i;
 	int		state;
@@ -27,14 +27,6 @@ int	ft_goodtoken(char *line, t_tokens *token, char **word, t_shell *ms)
 	while ((ft_istoken(line[i]) && state == 0) && line[i] && (c == line[i]))
 		state = ft_state(line[++i], state);
 	curr_token = ft_subnstr(line, 0, i);
-	if (!ft_tabcmp(curr_token, good_tokens))
-	{
-		ms->status = 2;
-		ft_errors_1_5(0, curr_token);
-		free (curr_token);
-		curr_token = NULL;
-		loop(ms);
-	}
 	freesplit (good_tokens);
 	*token = ft_newtoken(curr_token, NULL);
 	*word = NULL;

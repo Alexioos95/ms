@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 20:03:08 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/12 12:41:25 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab)
 void	ft_cmd_list(t_pipex *m, t_shell *ms)
 {
 	char	**tab;
+	char	*name;
 	t_lexer	*lexer;
 
 	lexer = ms->lexer;
@@ -102,7 +103,8 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 			tab[0] = ft_calloc(sizeof(char), 1);
 			if (!tab[0])
 				return ;
-			ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, tab[0], -4), m);
+			name = ft_strdup(tab[0]);
+			ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, name, -4), m);
 		}
 		if (lexer)
 			lexer = lexer->next;

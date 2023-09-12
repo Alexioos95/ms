@@ -261,7 +261,7 @@ void		ft_lexer_addback(t_lexer **head, t_lexer *new, t_shell *ms);
 void		ft_lstresetindex_lexer(t_lexer *head);
 void		ft_lexer_delone(t_lexer **curr_node, int i);
 // parsing/tokens.c
-int			ft_goodtoken(char *line, t_tokens *token, char **word, t_shell *ms);
+int			ft_goodtoken(char *line, t_tokens *token, char **word);
 int			ft_goodword(char *line, t_tokens *token, char **word, int state);
 void		ft_add_tokenword(t_lexer *lexer, t_shell *ms);
 void		ft_add_word_to_tab(t_lexer *lexer, t_shell *ms);
@@ -354,7 +354,7 @@ char		*ft_subnstr(char *s, unsigned int start, size_t len);
 char		**ft_split(char *s, char c);
 // utils/frees.c
 void		ft_lstclear(struct s_lst *lst);
-void		ft_lexerclear(struct s_shell *ms, t_lexer *lexer);
+void		ft_lexerclear(t_lexer *lexer);
 void		freesplit(char **strmalloc);
 void		frees(struct s_shell *ms, int code);
 void		throwerror(struct s_shell *ms, char *str);

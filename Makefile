@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+         #
+#    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/09/11 19:49:11 by eewu             ###   ########.fr        #
+#    Updated: 2023/09/12 12:41:01 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,9 @@ NAME =		minishell
 HEADER =	header.h
 
 SRC = 		$(addprefix $(OBJDIR)/,				\
-			minishell.c							\
-			signals.c							\
+			program/minishell.c					\
+			program/loop.c						\
+			program/signals.c					\
 			init/init.c							\
 			init/init_env.c						\
 			init/init_env2.c					\
@@ -44,7 +45,6 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			pipex/pipex_parsing2.c				\
 			pipex/pipex_open.c					\
 			pipex/pipex_close.c					\
-			pipex/pipex_gnl.c					\
 			pipex/pipex_lst.c					\
 			pipex/pipex_init.c					\
 			utils/utils.c						\

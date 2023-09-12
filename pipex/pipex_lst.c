@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:48:23 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 18:44:57 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/12 12:38:26 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,72 +53,26 @@ void	ft_pipex_lstadd_back(t_cmd_lst **lst, t_cmd_lst *new, t_pipex *m)
 
 void	ft_lstclearpipex(t_cmd_lst **lst, t_lexer *lexer)
 {
-	t_cmd_lst	*tmp;
-	t_lexer		*tmplex;
-	int			i;
+	t_cmd_lst	*exec;
+	t_redir		*redir;
 
 	if (!lst)
 		return ;
 	while (*lst)
 	{
-		i = 0;
-		tmplex = lexer->next;
-		tmp = (*lst)->next;
-		// freesplit((*lst)->tab);
-		// if (lexer->str)
-		// 	free(lexer->str);
-		if ((*lst)->tab)
+		exec = (*lst)->next;
+		free((*lst)->tab);
+		free((*lst)->name);
+		while ((*lst)->redirlst)
 		{
-			while ((*lst)->tab && (*lst)->tab[i])
-				free((*lst)->tab[i++]);
-			if ((*lst)->redirlst->token.token)
-				free ((*lst)->redirlst->token.token);
-			free ((*lst)->redirlst);
-			// freesplit((*lst)->tab);
+			redir = (*lst)->redirlst->next;
+			free((*lst)->redirlst);
+			(*lst)->redirlst = redir;
 		}
-		// if (lexer->tab)
-		i = 0;
-		while (lexer->tab && lexer->tab[i] != NULL)
-		{
-			if ((lexer->tab && (*lst)->tab) && lexer->tab[i] && (lexer->tab[i] != (*lst)->tab[i]))
-				free(lexer->tab[i]);
-			i++;
-			while (lexer->tab[i] != NULL)
-				i++;
-		}
-		if ((*lst)->tab)
-		{
-			free((*lst)->tab);
-			(*lst)->tab = NULL;
-		}
-		free(lexer->tab);
-		if (lexer->token.file)
-		{
-			if (ft_strcmp(lexer->token.token, "<<"))
-				unlink(lexer->token.file);
-			free(lexer->token.file);
-		}
-		if (lexer->token.token)
-			free(lexer->token.token);
-		if (lexer->token.pipe)
-			free(lexer->token.pipe);
-		// freesplit(lexer->tab);
-		// free(lexer->tab);
-		if ((*lst)->name)
-			free ((*lst)->name);
-		(*lst)->name = NULL;
-		(*lst)->tab = NULL;
-		if ((*lst))
-			free(*lst);
-		(*lst) = NULL;
-		// free ((*lst)->redirlst);
-		// (*lst)->redirlst = NULL;
-		*lst = tmp;
-		free (lexer);
-		lexer = tmplex;
-		// if (!lexer)
-		// 	break;
+		free((*lst));
+		(*lst) = exec;
 	}
+	ft_lexerclear(lexer);
 }
 
 int	ft_lstsize(t_cmd_lst *lst)
