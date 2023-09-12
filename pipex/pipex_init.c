@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 13:19:06 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 13:20:26 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ char	*ft_isabuiltin(char **tab, t_shell *ms, int state)
 	int		in;
 	int		out;
 
-	(void)ms;
 	if (!tab)
 		return (0);
 	in = dup(STDIN_FILENO);
@@ -66,7 +65,6 @@ char	*ft_isabuiltin(char **tab, t_shell *ms, int state)
 		ft_which_builtin(tab, ms);
 		ft_dupcheck(in, STDIN_FILENO, ms->pex);
 		ft_dupcheck(out, STDOUT_FILENO, ms->pex);
-		dprintf(2, "HEREEEEEEEE\n");
 	}
 	close(in);
 	close(out);

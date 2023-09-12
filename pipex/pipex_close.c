@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_close.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 18:53:15 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 19:49:59 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/12 13:20:33 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ft_free_process(t_pipex *m, int r)
 	int	s;
 
 	s = m->ms->status;
-	(void)r;
 	ft_closefds(m);
 	ft_closeoutin(m);
 	if (WIFEXITED(s) && m->pids[0] != -1)

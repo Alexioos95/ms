@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 13:18:00 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 13:21:02 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,9 @@ int	ft_openin(t_pipex *m, char *token, char *file, int ambi)
 
 int	ft_openout(t_pipex *m, char *token, char *file, int ambi)
 {
-	(void)ambi;
 	if (!token)
 		m->out = open("/dev/stdout", O_WRONLY);
-	else if ((ft_strcmp(token, ">") || ft_strcmp(token, ">>")))
+	else if (ambi == 0 && (ft_strcmp(token, ">") || ft_strcmp(token, ">>")))
 	{
 		if (ft_strcmp(token, ">"))
 			m->out = open(file, O_WRONLY | O_TRUNC);
@@ -64,9 +63,9 @@ int	ft_openout(t_pipex *m, char *token, char *file, int ambi)
 			(int)m->pids[m->count], m);
 		}
 	}
-	// else if (ambi == 1)
-	// 	ft_error(m->cmd->redirlst->token.file, "ambiguous redirection", \
-	// 	(int)m->pids[m->count], m);
+	else if (ambi == 1)
+		ft_error(m->cmd->redirlst->token.file, "ambiguous redirection", \
+		(int)m->pids[m->count], m);
 	return (m->out);
 }
 
