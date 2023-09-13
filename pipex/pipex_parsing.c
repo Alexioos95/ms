@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 18:58:43 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/13 13:47:03 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,11 @@ void	ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab)
 		(tab[0][0] == '/')))
 	{
 		if (lstat(tab[0], &dir) == -1 && errno == ENOMEM)
+		{
+			m->ms->error = 1;
 			ft_free_process(m);
+			return ;
+		}
 		if (!access(tab[0], X_OK))
 			m->eror = 0;
 		else
@@ -80,7 +84,8 @@ void	ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab)
 		access(tab[0], X_OK);
 		m->eror = errno;
 	}
-	ft_access(m, tab, 0, m->eror);
+	if (m->ms->error == 0)
+		ft_access(m, tab, 0, m->eror);
 	while ((*lexer) && !((*lexer)->token.pipe))
 		(*lexer) = (*lexer)->next;
 }
@@ -107,6 +112,8 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 				return ;
 			name = ft_strdup(tab[0]);
 			ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, name, -4), m);
+			if (ms->error == 1)
+				return (free(tab));
 		}
 		if (lexer)
 			lexer = lexer->next;
@@ -120,20 +127,29 @@ void	find_cmd(t_pipex *m, t_shell *ms)
 
 	node_env = ft_getenv(ms, "PATH");
 	if (node_env && node_env->print == 1)
+	{
 		m->s_ev = ft_split(&node_env->line[5], ':');
+		if (m->s_ev == NULL)
+			return (free(ms->tabenv));
+	}
 	else
 	{
 		m->s_ev = ft_calloc(sizeof(char *), 2);
 		if (!m->s_ev)
-			ft_free_process(m);
+			return (free(ms->tabenv));
 		m->s_ev[0] = ft_calloc(sizeof(char), 1);
 		if (!m->s_ev[0])
-			ft_free_process(m);
+		{
+			free(ms->tabenv);
+			freesplit(m->s_ev);
+			m->s_ev = NULL;
+			return ;
+		}
 	}
 	ft_cmd_list(m, ms);
 	if (ms->error == 0)
 		ft_redir_list(m, ms);
-	print_allcmd(m);
+	// print_allcmd(m);
 	ft_free_tab(m->s_ev);
 }
 // print_allcmd(m);

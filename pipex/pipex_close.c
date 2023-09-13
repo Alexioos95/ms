@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_close.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 18:53:15 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 15:23:06 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/13 14:05:21 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	ft_free_process(t_pipex *m)
 	s = m->ms->status;
 	ft_closefds(m);
 	ft_closeoutin(m);
-	if (WIFEXITED(s) && m->pids[0] != -1)
+	if (WIFEXITED(s) && m->pids && m->pids[0] != -1)
 		m->ms->status = (WEXITSTATUS(s));
-	else if (WIFSIGNALED(s) && m->pids[0] != -1)
+	else if (WIFSIGNALED(s) && m->pids && m->pids[0] != -1)
 		m->ms->status = 128 + WTERMSIG(s);
 	ft_freefds(m);
 	if (m->ms->status == 131)

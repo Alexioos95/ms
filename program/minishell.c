@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/12 15:34:43 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/13 14:30:56 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,43 +31,6 @@ void	setsigaction(struct s_shell *ms, int b)
 		|| sigaction(SIGQUIT, &ms->sigact[0], NULL) == -1 \
 		|| sigaction(SIGTSTP, &ms->sigact[0], NULL) == -1))
 		throwerror(ms, "sigaction");
-}
-
-// Regarde pourquoi la line est a NULL, et agit en consequence.
-void	nullonreadline(struct s_shell *ms)
-{
-	if (errno == ENOMEM)
-		throwerror(ms, "readline");
-	else
-	{
-		if (isatty(0) == 1)
-			printf("exit\n");
-		frees(ms, ms->status);
-	}
-}
-
-// Boucle du shell.
-// Lire une ligne > parser > executer.
-void	loop(struct s_shell *ms)
-{
-	while (1)
-	{
-		setsigaction(ms, 1);
-		if (ms->line != NULL)
-			free(ms->line);
-		if (isatty(0) == 1)
-			ms->line = readline("apayen&eewu@minishell$ ");
-		else
-			ms->line = readline("");
-		if (ms->line == NULL)
-			nullonreadline(ms);
-		if (ms->line[0] != '\0')
-			add_history(ms->line);
-		if (g_glob > 1)
-			ms->status = 130;
-		g_glob = 0;
-		ms->status = parser(ms);
-	}
 }
 
 int	g_glob = 0;

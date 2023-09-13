@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:01:50 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 19:08:58 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/13 14:29:23 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,14 @@ void	ft_pipe(t_pipex *m)
 		if (i < 2)
 		{
 			if (pipe(m->fds[i]) == -1)
-				ft_free_process(m);
+			{
+				free(m->fds[0]);
+				free(m->fds[1]);
+				free(m->fds);
+				m->fds = NULL;
+				m->ms->error = 1;
+				return ;
+			}
 			m->pipe++;
 		}
 		i++;
@@ -48,8 +55,11 @@ void	ft_fork(t_pipex *m)
 		m->pids[m->count] = fork();
 		if (m->pids[m->count] == -1)
 		{
-			perror("fork");
+			m->ms->error = 1;
+			ft_lstclearpipex(&m->cmd);
+			free(m->ms->tabenv);
 			ft_free_process(m);
+			throwerror(m->ms, "fork");
 		}
 	}
 }
@@ -64,10 +74,13 @@ void	ft_childprocess(t_pipex *m)
 	setsigaction(m->ms, 0);
 	if (m->count > 0 && m->in_rok != -2)
 		ft_dupcheck(m->fds[i][0], STDIN_FILENO, m);
-	if (m->nb_cmd > 1 && m->out_red != 1)
+	if (m->ms->error == 0 && m->nb_cmd > 1 && m->out_red != 1)
 		ft_dupcheck(m->fds[m->i][1], STDOUT_FILENO, m);
+	if (m->ms->error == 1)
+		return ;
 	ft_dup_redir(m, m->cmd);
-	ft_cmdex(m->cmd->tab, m->ev, m);
+	if (m->ms->error == 0)
+		ft_cmdex(m->cmd->tab, m->ev, m);
 }
 
 void	ft_cmdex(char **cmd, char **ev, t_pipex *m)
@@ -80,14 +93,13 @@ void	ft_cmdex(char **cmd, char **ev, t_pipex *m)
 	error_type = "command not found";
 	if (m->cmd->i == -1)
 		error_type = "Is a directory";
-	dprintf(2, "out_rok:%d\nin_rok:%d\ncmdi:%d\n", m->out_rok, m->in_rok, m->cmd->i);
 	if ((m->out_rok == 0 && (m->in_rok == 0 || m->in_rok == -2)) \
 			&& cmd && m->cmd->i == 0 \
-			&& !(ft_isabuiltin(m->cmd->tab, m->ms, 1)))
+			&& !(ft_isabuiltin(m->cmd->tab, m->ms, 1)) && m->ms->error == 0)
 		execve(m->cmd->name, cmd, ev);
 	if (m->cmd->i == 13)
 		error_type = strerror(m->cmd->i);
-	if (!(ft_isabuiltin(m->cmd->tab, m->ms, 0)))
+	if (!(ft_isabuiltin(m->cmd->tab, m->ms, 0)) && m->ms->error == 0)
 		ft_error(cmd[0], error_type, 0, m);
 	ft_exitchild(m, m->ms->status);
 }

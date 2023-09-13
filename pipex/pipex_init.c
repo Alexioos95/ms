@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 19:14:26 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/13 14:38:46 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,23 @@ void	ft_mallocpipe(t_pipex *m)
 	i = 0;
 	m->fds = malloc (sizeof(int *) * (unsigned long)(2));
 	if (!m->fds)
+	{
 		ft_free_process(m);
+		m->ms->error = 1;
+		return ;
+	}
 	while (i < 2)
 	{
 		m->fds[i] = malloc (sizeof(int) * 2);
 		if (!m->fds[i])
+		{
+			free(m->fds[0]);
+			free(m->fds);
 			ft_free_process(m);
+			m->fds = NULL;
+			m->ms->error = 1;
+			return ;
+		}
 		i++;
 	}
 }
@@ -59,6 +70,11 @@ char	*ft_isabuiltin(char **tab, t_shell *ms, int state)
 	in = dup(STDIN_FILENO);
 	out = dup(STDOUT_FILENO);
 	built = ft_split("cd echo env exit export pwd unset", ' ');
+	if (built == NULL)
+	{
+		ms->error = 1;
+		return (close(in), close(out), NULL);
+	}
 	is = ft_tabcmp(tab[0], built);
 	if (is && state == 1 && ft_dup_redir(ms->pex, ms->pex->cmd) >= 0)
 	{
@@ -96,6 +112,6 @@ t_pipex	*ft_init(t_pipex *m, int nb_cmd, char **env)
 	m->i = m->nb_cmd % 2;
 	m->pids = malloc (sizeof(pid_t) * (unsigned long)m->nb_cmd);
 	if (!m->pids)
-		ft_free_process(m);
+		return (free(m), free(env), NULL);
 	return (m);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_open.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 19:18:31 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/13 14:26:39 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	ft_openin(t_pipex *m, char *token, char *file, int ambi)
 {
-	dprintf(2, "Ambi:%d\n", ambi);
 	if (!token)
 		m->in[0] = open("/dev/stdin", O_RDONLY);
 	else if (token && ambi == 0 \
@@ -46,12 +45,8 @@ int	ft_openin(t_pipex *m, char *token, char *file, int ambi)
 
 int	ft_openout(t_pipex *m, char *token, char *file, int ambi)
 {
-	dprintf(2, "Ambi:%d\n", ambi);
 	if (!token)
-	{
-		dprintf(2, "Notoken");
 		m->out = open("/dev/stdout", O_WRONLY);
-	}
 	else if (ambi == 0 && (ft_strcmp(token, ">") || ft_strcmp(token, ">>")))
 	{
 		if (ft_strcmp(token, ">"))
@@ -78,7 +73,13 @@ int	ft_openout(t_pipex *m, char *token, char *file, int ambi)
 void	ft_dupcheck(int fd, int stdfd, t_pipex *m)
 {
 	if (dup2(fd, stdfd) == -1)
+	{
 		ft_free_process(m);
+		ft_lstclearpipex(&m->headplus);
+		m->ms->error = 1;
+		free(m->ms->tabenv);
+		throwerror(m->ms, "dup2");
+	}
 }
 
 int	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
@@ -113,6 +114,11 @@ int	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
 	if (!cmd)
 		return (-1);
 	m->bhole = open("/dev/null", O_WRONLY);
+	if (m->bhole == -1)
+	{
+		m->ms->error = 1;
+		return (-1);
+	}
 	// ft_openin(m, NULL, NULL, 0);
 	// ft_openout(m, NULL, NULL, 0);
 	i = ft_open_redir(tmp, m);

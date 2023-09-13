@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 19:21:58 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/13 14:30:20 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,12 @@ void	ft_exec(t_pipex *m, t_shell *ms)
 void	ft_pipe_exec(t_pipex *m, t_shell *ms)
 {
 	ft_mallocpipe(m);
+	if (ms->error == 1)
+		return ;
 	ft_pipe(m);
-	while (m->nb_cmd >= 1)
+	if (ms->error == 1)
+		return ;
+	while (m->nb_cmd >= 1 && ms->error == 0)
 		ft_process(m, ms);
 }
 
@@ -112,25 +116,31 @@ int	ft_start(t_shell *ms)
 
 	i = 0;
 	ms->tabenv = listtotab(ms);
+	if (ms->tabenv == NULL)
+		return (1);
 	m = NULL;
 	nb_cmd = ft_nb_cmd(ms->lexer);
 	m = ft_init(m, nb_cmd, ms->tabenv);
-	ms->pex = m;
-	m->ms = ms;
 	if (!m)
 		return (1);
+	ms->pex = m;
+	m->ms = ms;
 	find_cmd(m, ms);
-	if (ms->error == 1)
-		ft_free_process(m);
-	if (nb_cmd >= 2 && ms->tabenv)
+	if (m->s_ev == NULL || ms->error == 1)
+		return (ft_free_process(m), free(m), free(ms->tabenv), 1);
+	if (nb_cmd >= 2)
+	{
 		ft_pipe_exec(m, ms);
-	else if (nb_cmd == 1 && ms->tabenv)
+		if (ms->error == 1)
+			return (ft_lstclearpipex(&m->cmd), ft_free_process(m), free(m), free(ms->tabenv), 1);
+	}
+	else if (nb_cmd == 1)
 		ft_exec(m, ms);
 	ft_closefds(m);
 	ft_end(ms);
 	free(ms->tabenv);
 	ft_free_process(m);
-	return (1);
+	return (0);
 }
 
 // print_allcmd(m);

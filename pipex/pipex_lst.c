@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:48:23 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 18:16:27 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/13 13:49:09 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ t_cmd_lst	*ft_pipex_lstnew(char **cmd, char *name, int i)
 
 	new = malloc(sizeof(t_cmd_lst));
 	if (!new)
+	{
+		free(name);
 		return (0);
+	}
 	new->tab = cmd;
 	new->name = name;
 	new->redirlst = NULL;
@@ -40,6 +43,11 @@ void	ft_pipex_lstadd_back(t_cmd_lst **lst, t_cmd_lst *new, t_pipex *m)
 {
 	t_cmd_lst	*last;
 
+	if (new == NULL)
+	{
+		m->ms->error = 1;
+		return ;
+	}
 	if (*lst == NULL)
 	{
 		*lst = new;
