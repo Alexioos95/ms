@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:48:23 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 12:38:26 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 18:16:27 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ void	ft_pipex_lstadd_back(t_cmd_lst **lst, t_cmd_lst *new, t_pipex *m)
 	last->next = new;
 }
 
-void	ft_lstclearpipex(t_cmd_lst **lst, t_lexer *lexer)
+void	ft_lstclearpipex(t_cmd_lst **lst)
 {
 	t_cmd_lst	*exec;
 	t_redir		*redir;
 
-	if (!lst)
+	if (!(*lst))
 		return ;
 	while (*lst)
 	{
@@ -72,7 +72,6 @@ void	ft_lstclearpipex(t_cmd_lst **lst, t_lexer *lexer)
 		free((*lst));
 		(*lst) = exec;
 	}
-	ft_lexerclear(lexer);
 }
 
 int	ft_lstsize(t_cmd_lst *lst)

@@ -153,6 +153,7 @@ typedef struct s_shell
 	char				**tabenv;
 	char				*tmp;
 	int					orphan;
+	int					error;
 	int					nb_pipe;
 	int					status;
 	struct s_tokens		token;
@@ -212,7 +213,7 @@ char		*ft_isabuiltin(char **tab, t_shell *ms, int state);
 void		ft_exec(t_pipex *m, t_shell *ms);
 t_pipex		*ft_init(t_pipex *m, int nb_cmd, char **ev);
 // pipex/pipex_close.c
-void		ft_free_process(t_pipex *m, int r);
+void		ft_free_process(t_pipex *m);
 void		ft_free_tab(char **tab);
 void		ft_closeoutin(t_pipex *m);
 void		ft_closefds(t_pipex *m);
@@ -221,10 +222,10 @@ void		ft_freefds(t_pipex *m);
 t_cmd_lst	*ft_pipex_lstnew(char **cmd, char *name, int i);
 t_cmd_lst	*ft_lstlast(t_cmd_lst *lst);
 void		ft_pipex_lstadd_back(t_cmd_lst **lst, t_cmd_lst *new, t_pipex *m);
-void		ft_lstclearpipex(t_cmd_lst **lst, t_lexer *lexer);
+void		ft_lstclearpipex(t_cmd_lst **lst);
 int			ft_lstsize(t_cmd_lst *lst);
 // pipex/pipex_parsing.c
-char		**ft_find_nodecmd(t_lexer **lexer);
+char		**ft_find_nodecmd(t_lexer **lexer, t_shell *ms);
 void		ft_access(t_pipex *m, char **tab_cmd, int j, int p);
 void		ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab);
 void		ft_cmd_list(t_pipex *m, t_shell *ms);
@@ -261,7 +262,7 @@ void		ft_lexer_addback(t_lexer **head, t_lexer *new, t_shell *ms);
 void		ft_lstresetindex_lexer(t_lexer *head);
 void		ft_lexer_delone(t_lexer **curr_node, int i);
 // parsing/tokens.c
-int			ft_goodtoken(char *line, t_tokens *token, char **word);
+int			ft_goodtoken(t_shell *ms, char *line, t_tokens *token, char **word);
 int			ft_goodword(char *line, t_tokens *token, char **word, int state);
 void		ft_add_tokenword(t_lexer *lexer, t_shell *ms);
 void		ft_add_word_to_tab(t_lexer *lexer, t_shell *ms);

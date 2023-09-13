@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_close.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 18:53:15 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 13:20:33 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 15:23:06 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-void	ft_free_process(t_pipex *m, int r)
+void	ft_free_process(t_pipex *m)
 {
 	int	s;
 

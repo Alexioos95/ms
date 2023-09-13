@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:07:37 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/11 20:00:35 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/12 16:18:51 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	checkorphanquote(char *line)
 	char	c;
 
 	i = 0;
-	while (line[i] != '\0')
+	while (line[0] != '\0' && line[i] != '\0')
 	{
 		if (isspecial(line[i]) == 1)
 			return (1);

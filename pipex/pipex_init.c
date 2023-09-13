@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 13:20:26 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 19:14:26 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	ft_mallocpipe(t_pipex *m)
 	i = 0;
 	m->fds = malloc (sizeof(int *) * (unsigned long)(2));
 	if (!m->fds)
-		ft_free_process(m, errno);
+		ft_free_process(m);
 	while (i < 2)
 	{
 		m->fds[i] = malloc (sizeof(int) * 2);
 		if (!m->fds[i])
-			ft_free_process(m, errno);
+			ft_free_process(m);
 		i++;
 	}
 }
@@ -84,7 +84,7 @@ t_pipex	*ft_init(t_pipex *m, int nb_cmd, char **env)
 	m->out_red = 0;
 	m->out_rok = 0;
 	m->bhole = -1;
-	m->in_rok = -1;
+	m->in_rok = 0;
 	m->cmd_i = 0;
 	m->cmd_join = NULL;
 	m->limit = NULL;
@@ -96,6 +96,6 @@ t_pipex	*ft_init(t_pipex *m, int nb_cmd, char **env)
 	m->i = m->nb_cmd % 2;
 	m->pids = malloc (sizeof(pid_t) * (unsigned long)m->nb_cmd);
 	if (!m->pids)
-		ft_free_process(m, errno);
+		ft_free_process(m);
 	return (m);
 }

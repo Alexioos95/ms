@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_parsing2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 12:50:02 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 09:32:53 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 17:19:53 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ void	ft_redir_lstadd_back(t_redir **lst, t_redir *new, t_pipex *m)
 {
 	t_redir	*last;
 
+	if (!new)
+	{
+		m->ms->error = 1;
+		return ;
+	}
 	if (*lst == NULL)
 	{
 		*lst = new;
@@ -52,7 +57,7 @@ void	ft_redir_in_cmd(t_pipex *m, t_lexer **lexer, t_cmd_lst *cmd)
 	t_redir		*redir;
 
 	redir = NULL;
-	while ((*lexer) && !((*lexer)->token.pipe))
+	while ((*lexer) && !((*lexer)->token.pipe) && m->ms->error == 0)
 	{
 		if ((*lexer)->token.token)
 			ft_redir_lstadd_back(&redir, ft_redir_lstnew((*lexer)->token), m);
@@ -68,7 +73,7 @@ void	ft_redir_list(t_pipex *m, t_shell *ms)
 
 	lexer = ms->lexer;
 	cmd = m->cmd;
-	while (lexer && cmd)
+	while (lexer && cmd && ms->error == 0)
 	{
 		ft_redir_in_cmd(m, &lexer, cmd);
 		while (lexer && (lexer->token.pipe))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:01:50 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 13:13:12 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 19:08:58 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_pipe(t_pipex *m)
 		if (i < 2)
 		{
 			if (pipe(m->fds[i]) == -1)
-				ft_free_process(m, errno);
+				ft_free_process(m);
 			m->pipe++;
 		}
 		i++;
@@ -49,7 +49,7 @@ void	ft_fork(t_pipex *m)
 		if (m->pids[m->count] == -1)
 		{
 			perror("fork");
-			ft_free_process(m, errno);
+			ft_free_process(m);
 		}
 	}
 }
@@ -80,6 +80,7 @@ void	ft_cmdex(char **cmd, char **ev, t_pipex *m)
 	error_type = "command not found";
 	if (m->cmd->i == -1)
 		error_type = "Is a directory";
+	dprintf(2, "out_rok:%d\nin_rok:%d\ncmdi:%d\n", m->out_rok, m->in_rok, m->cmd->i);
 	if ((m->out_rok == 0 && (m->in_rok == 0 || m->in_rok == -2)) \
 			&& cmd && m->cmd->i == 0 \
 			&& !(ft_isabuiltin(m->cmd->tab, m->ms, 1)))

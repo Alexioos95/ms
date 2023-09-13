@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 14:36:20 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/12 12:37:39 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 16:04:24 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ void	freesplit(char **strmalloc)
 // Free toutes les variables.
 _Noreturn void	frees(struct s_shell *ms, int code)
 {
+	if (ms->head)
+		ft_lexerclear(ms->head);
 	if (ms->line != NULL)
 		free(ms->line);
-	if (ms->split != NULL)
-		freesplit(ms->split);
 	if (ms->env != NULL)
 		ft_lstclear(ms->env);
 	if (ms->tmp != NULL)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:40:00 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/12 12:40:35 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 18:32:42 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@ int	execution(struct s_shell *ms, struct s_lexer *lexer)
 {
 	ft_add_tokenword(lexer, ms);
 	ft_add_word_to_tab(lexer, ms);
+	// ft_print_lexerlst(ms->lexer);
+	if (ms->error == 1)
+		return (1);
 	ft_heredoc(lexer, ms);
 	if (ms->status == -1)
 	{
-		ft_lexerclear(ms->lexer);
+		ms->status = 130;
 		return (1);
 	}
 	setsigaction(ms, 2);
@@ -33,28 +36,24 @@ int	parser(struct s_shell *ms)
 {
 	t_lexer	*lexer;
 
-	if (g_glob > 1)
-		ms->status = 130;
-	g_glob = 0;
-	if (ms->split != NULL)
-	{
-		freesplit(ms->split);
-		ms->split = NULL;
-	}
+	ms->error = 0;
 	if (ms->line == NULL)
 		return (0);
 	if (checkorphans(ms->line) == 1)
 		return (2);
 	ft_browse(ms);
-	if (ms->lexer)
+	if (ms->lexer && ms->error == 0)
 	{
 		lexer = ms->lexer;
-		if (execution(ms, lexer) == 1)
-			return (130);
-		ft_lstclearpipex(&ms->pex->headplus, ms->head);
-		free(ms->pex);
-		ms->pex = NULL;
+		if (execution(ms, lexer) == 0)
+		{
+			ft_lstclearpipex(&ms->pex->headplus);
+			free(ms->pex);
+			ms->pex = NULL;	
+		}
 	}
+	ft_lexerclear(ms->head);
+	ms->head = NULL;
 	return (ms->status);
 }
 // ft_print_lexerlst(ms->lexer);

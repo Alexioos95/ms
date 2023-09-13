@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 12:53:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/12 12:40:24 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 17:41:06 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,17 @@ int	ft_isthereatoken(char *line, t_lexer **lexer, t_shell *ms)
 	char		*word;
 
 	i = 0;
+	word = NULL;
 	s = ft_state(line[i], 0);
 	if (ft_istoken(line[i]) && s == 0)
-		i = ft_goodtoken(line, &token, &word);
+		i = ft_goodtoken(ms, line, &token, &word);
 	else if (!ft_istoken(line[i]) || ft_state(line[i], s) > 0)
+	{
 		i = ft_goodword(line, &token, &word, s);
-	if (0 != i)
+		if (!word)
+			ms->error = 1;
+	}
+	if (0 != i && (word || token.token || token.pipe))
 		ft_lexer_addback(lexer, ft_lexer_new(word, token), ms);
 	return (i);
 }
@@ -69,11 +74,18 @@ void	ft_browse(t_shell *ms)
 	i = 0;
 	lexer = NULL;
 	split = ft_split(ms->line, ' ');
+	if (!split)
+	{
+		ms->error = 1;
+		return ;
+	}
 	while (split[i])
 	{
 		n = 0;
-		while (n != ft_strlen(split[i]))
+		while (n != ft_strlen(split[i]) && ms->error == 0)
 			n += ft_isthereatoken(&split[i][n], &lexer, ms);
+		if (ms->error == 1)
+			break ;
 		i++;
 	}
 	freesplit (split);

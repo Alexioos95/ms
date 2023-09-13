@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_util2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:07:57 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 10:47:15 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 18:25:36 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,6 @@ char	**ft_realloc_tab(char **tab, char **curr_tab)
 		res[i++] = tab[j++];
 	while (curr_tab && curr_tab[k])
 		res[i++] = curr_tab[k++];
-	freesplit (tab);
+	free (tab);
 	return (res);
 }

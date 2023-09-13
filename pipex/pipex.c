@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 12:49:51 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 19:21:58 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_process(t_pipex *m, t_shell *ms)
 		close(m->fds[i][1]);
 		close(m->fds[i][0]);
 		if (pipe(m->fds[i]) == -1)
-			ft_free_process(m, errno);
+			ft_free_process(m);
 		if (m->cmd)
 			m->cmd = m->cmd->next;
 		m->nb_cmd--;
@@ -54,7 +54,8 @@ void	ft_exec(t_pipex *m, t_shell *ms)
 			ft_childprocess(m);
 		else
 		{
-			m->cmd = m->cmd->next;
+			if (m->cmd)
+				m->cmd = m->cmd->next;
 			m->nb_cmd--;
 			m->count++;
 			m->in_rok = 0;
@@ -119,6 +120,8 @@ int	ft_start(t_shell *ms)
 	if (!m)
 		return (1);
 	find_cmd(m, ms);
+	if (ms->error == 1)
+		ft_free_process(m);
 	if (nb_cmd >= 2 && ms->tabenv)
 		ft_pipe_exec(m, ms);
 	else if (nb_cmd == 1 && ms->tabenv)
@@ -126,7 +129,7 @@ int	ft_start(t_shell *ms)
 	ft_closefds(m);
 	ft_end(ms);
 	free(ms->tabenv);
-	ft_free_process(m, errno);
+	ft_free_process(m);
 	return (1);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_lexer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:47:00 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 15:32:13 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 15:55:54 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,11 @@ void	ft_lexer_addback(t_lexer **head, t_lexer *new, t_shell *ms)
 {
 	t_lexer	*last;
 
+	if (!new)
+	{
+		ms->error = 1;
+		return ;
+	}
 	if (!(*head))
 	{
 		(*head) = new;

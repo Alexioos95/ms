@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 09:24:52 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/12 13:21:04 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/12 15:34:43 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ void	loop(struct s_shell *ms)
 			nullonreadline(ms);
 		if (ms->line[0] != '\0')
 			add_history(ms->line);
+		if (g_glob > 1)
+			ms->status = 130;
+		g_glob = 0;
 		ms->status = parser(ms);
 	}
 }

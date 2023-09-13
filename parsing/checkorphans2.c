@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 16:38:16 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/11 16:38:38 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/12 16:18:34 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,16 @@ int	checkorphans(char *line)
 		printf("minishell: syntax error near unexpected token '|'\n");
 		return (1);
 	}
-	if (checkorphanbracket(line) == 1)
-		return (1);
-	if (checkorphanquote(line) == 1)
-		return (1);
-	if (checkorphanpipe(line) == 1)
-		return (1);
-	if (checkorphanredir(line) == 1)
-		return (1);
+	if (line != NULL && line[0] != '\0')
+	{
+		if (checkorphanbracket(line) == 1)
+			return (1);
+		if (checkorphanquote(line) == 1)
+			return (1);
+		if (checkorphanpipe(line) == 1)
+			return (1);
+		if (checkorphanredir(line) == 1)
+			return (1);
+	}
 	return (0);
 }
