@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:05:22 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/02 11:22:08 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 13:05:13 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,32 @@ char	*ft_strjoinenv(char *s1, char c, char *s2)
 	}
 	strmalloc[i + j + 1] = '\0';
 	return (strmalloc);
+}
+
+char	*ft_itoa(int nb)
+{
+	int				tmp;
+	int				len;
+	char			*str;
+
+	len = 1;
+	tmp = nb;
+	while (tmp > 9)
+	{
+		tmp = tmp / 10;
+		len++;
+	}
+	str = malloc(sizeof(char) * ((unsigned long)len + 1));
+	if (str == NULL)
+		return (NULL);
+	str[len] = '\0';
+	while (len > 0)
+	{
+		str[len - 1] = nb % 10 + '0';
+		nb = nb / 10;
+		len--;
+	}
+	return (str);
 }
 
 char	*ft_substr(char *s, int start, int len)
@@ -107,30 +133,4 @@ struct s_lst	*ft_getenv(struct s_shell *ms, char *str)
 		tmp = tmp->next;
 	}
 	return (tmp);
-}
-
-char	*ft_itoa(int nb)
-{
-	int				tmp;
-	int				len;
-	char			*str;
-
-	len = 1;
-	tmp = nb;
-	while (tmp > 9)
-	{
-		tmp = tmp / 10;
-		len++;
-	}
-	str = malloc(sizeof(char) * ((unsigned long)len + 1));
-	if (str == NULL)
-		return (NULL);
-	str[len] = '\0';
-	while (len > 0)
-	{
-		str[len - 1] = nb % 10 + '0';
-		nb = nb / 10;
-		len--;
-	}
-	return (str);
 }

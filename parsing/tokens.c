@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 11:21:57 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 17:34:00 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/14 15:32:56 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_goodtoken(t_shell *ms, char *line, t_tokens *token, char **word)
 	c = line[i];
 	while ((ft_istoken(line[i]) && state == 0) && line[i] && (c == line[i]))
 		state = ft_state(line[++i], state);
-	curr_token = ft_subnstr(line, 0, i);
+	curr_token = ft_subnstr(line, 0, (size_t)i);
 	if (!curr_token)
 		ms->error = 1;
 	*token = ft_newtoken(curr_token, NULL);
@@ -40,7 +40,7 @@ int	ft_goodword(char *line, t_tokens *token, char **word, int state)
 	while ((!ft_istoken(line[i]) || state > 0) && line[i])
 		state = ft_state(line[++i], state);
 	*token = ft_newtoken(NULL, NULL);
-	*word = ft_subnstr(line, 0, i);
+	*word = ft_subnstr(line, 0, (size_t)i);
 	return (i);
 }
 
@@ -94,7 +94,7 @@ void	ft_tabptr(t_shell *ms, t_lexer *node_cmd, t_lexer *tmp, int nb_tab)
 
 	i = 0;
 	(tmp) = node_cmd;
-	(node_cmd)->tab = ft_calloc(sizeof (char *), (nb_tab + 1));
+	(node_cmd)->tab = ft_calloc(sizeof (char *), (size_t)(nb_tab + 1));
 	if (!(node_cmd)->tab)
 	{
 		ms->error = 1;

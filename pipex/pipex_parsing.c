@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/14 10:25:19 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 15:47:35 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@ void	ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab)
 		if (lstat(tab[0], &dir) == -1 && errno == ENOMEM)
 		{
 			m->ms->error = 1;
-			ft_free_process(m);
-			return ;
+			return ((void)ft_free_process(m));
 		}
 		if (!access(tab[0], X_OK))
 			m->eror = 0;
@@ -120,7 +119,7 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 			}
 			ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, name, 0), m);
 			if (ms->error == 1)
-				return (free(tab));
+				return ((void)free(tab));
 		}
 		if (lexer)
 			lexer = lexer->next;
@@ -137,26 +136,24 @@ void	find_cmd(t_pipex *m, t_shell *ms)
 	{
 		m->s_ev = ft_split(&node_env->line[5], ':');
 		if (m->s_ev == NULL)
-			return (free(ms->tabenv));
+			return ((void)free(ms->tabenv));
 	}
 	else
 	{
 		m->s_ev = ft_calloc(sizeof(char *), 2);
 		if (!m->s_ev)
-			return (free(ms->tabenv));
+			return ((void)free(ms->tabenv));
 		m->s_ev[0] = ft_calloc(sizeof(char), 1);
 		if (!m->s_ev[0])
 		{
-			free(ms->tabenv);
 			freesplit(m->s_ev);
 			m->s_ev = NULL;
-			return ;
+			return ((void)free(ms->tabenv));
 		}
 	}
 	ft_cmd_list(m, ms);
-	if (ms->error == 0)
-		ft_redir_list(m, ms);
-	// print_allcmd(m);
+	ft_redir_list(m, ms);
 	ft_free_tab(m->s_ev);
 }
+
 // print_allcmd(m);

@@ -6,7 +6,7 @@
 #    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/09/12 12:45:54 by apayen           ###   ########.fr        #
+#    Updated: 2023/09/14 15:48:48 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,8 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			program/minishell.c					\
 			program/loop.c						\
 			program/signals.c					\
-			init/init.c							\
-			init/init_env.c						\
-			init/init_env2.c					\
+			program/init.c						\
+			program/init_env.c					\
 			parsing/parsing.c					\
 			parsing/checkorphans.c				\
 			parsing/checkorphans2.c				\
@@ -48,7 +47,6 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			pipex/pipex_lst.c					\
 			pipex/pipex_init.c					\
 			utils/utils.c						\
-			utils/test.c						\
 			utils/utils_env.c					\
 			utils/utils_env2.c					\
 			utils/lst.c							\

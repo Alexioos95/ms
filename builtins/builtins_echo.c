@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:37:39 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/15 10:04:27 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 15:36:19 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	ft_echo(char **tab)
 	i = ft_echo_option(tab, &n);
 	while (tab[i] != NULL)
 	{
-		write(1, tab[i], ft_strlen(tab[i]));
+		write(1, tab[i], (size_t)ft_strlen(tab[i]));
 		if (errno == ENOSPC)
 		{
 			write(2, "-minishell: echo: write error: No space left on device\n" \

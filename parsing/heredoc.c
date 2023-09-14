@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:06:19 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/12 16:23:09 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/14 15:35:29 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 		printf("%d delimited by end-of-file (wanted `%s')\n", hd->i, delim);
 		return (1);
 	}
-	else if (ft_strncmp(hd->line, delim, ft_strlen(delim)) == 0)
+	else if (ft_strncmp(hd->line, delim, (size_t)ft_strlen(delim)) == 0)
 	{
 		free(hd->line);
 		close(hd->fd);
@@ -72,12 +72,11 @@ int	ft_heredoc_loop(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 			return (1);
 		if (hd->state == 0)
 			hd->line = ft_heredoc_expand(hd, hd->line);
-		write(hd->fd, hd->line, ft_strlen(hd->line));
+		write(hd->fd, hd->line, (size_t)ft_strlen(hd->line));
 		write(hd->fd, "\n", 1);
 		free(hd->line);
 		hd->i++;
 	}
-	return (0);
 }
 
 // Initialise les variables.

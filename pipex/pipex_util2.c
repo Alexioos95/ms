@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_util2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 14:07:57 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/12 18:25:36 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/14 15:39:38 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*ft_pipex_join(char *path, char *cmd)
 	len_path = 0;
 	len_buf = 0;
 	if (path)
-		len_path = ft_strlen(path) + 1;
+		len_path = (size_t)ft_strlen(path) + 1;
 	if (cmd)
 		len_buf = (size_t)ft_strlen(cmd);
 	join = ft_calloc(sizeof(char), (len_path + len_buf + 1));
@@ -75,7 +75,7 @@ char	**ft_realloc_tab(char **tab, char **curr_tab)
 		j++;
 	while (curr_tab && curr_tab[k])
 		k++;
-	res = ft_calloc (sizeof(char *), (j + k + 1));
+	res = ft_calloc (sizeof(char *), (size_t)(j + k + 1));
 	if (!res)
 		return (NULL);
 	j = 0;

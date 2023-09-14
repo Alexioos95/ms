@@ -6,11 +6,25 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/22 11:21:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/13 16:09:48 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 16:20:28 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
+int	ft_nb_cmd(t_lexer *lexer)
+{
+	int	i;
+
+	i = 1;
+	while (lexer)
+	{
+		if (lexer->token.pipe)
+			i++;
+		lexer = lexer->next;
+	}
+	return (i);
+}
 
 void	ft_lstadd_back(struct s_shell *ms, t_lst **lst, t_lst *new)
 {
@@ -64,7 +78,6 @@ void	init(struct s_shell *ms, char **envp)
 	ms->line = NULL;
 	ms->pwdpath = NULL;
 	ms->oldpwdpath = NULL;
-	ms->orphan = -1;
 	ms->env = NULL;
 	ms->tmp = NULL;
 	ms->status = 0;
@@ -73,8 +86,6 @@ void	init(struct s_shell *ms, char **envp)
 	ms->pex = NULL;
 	ms->lexer = NULL;
 	ms->head = NULL;
-	ms->cmd = NULL;
-	ms->cmd_lst = NULL;
 	ft_memset(&ms->sigact[0], 0, sizeof(ms->sigact[0]));
 	ms->sigact[0].sa_handler = SIG_DFL;
 	ft_memset(&ms->sigact[1], 0, sizeof(ms->sigact[1]));
@@ -86,18 +97,4 @@ void	init(struct s_shell *ms, char **envp)
 	ft_memset(&ms->sigact[4], 0, sizeof(ms->sigact[4]));
 	ms->sigact[4].sa_handler = SIG_IGN;
 	ft_setenv(ms, envp);
-}
-
-int	ft_nb_cmd(t_lexer *lexer)
-{
-	int	i;
-
-	i = 1;
-	while (lexer)
-	{
-		if (lexer->token.pipe)
-			i++;
-		lexer = lexer->next;
-	}
-	return (i);
 }

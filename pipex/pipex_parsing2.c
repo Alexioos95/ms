@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 12:50:02 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/14 09:56:19 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 15:46:41 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	ft_redir_list(t_pipex *m, t_shell *ms)
 	t_lexer		*lexer;
 	t_cmd_lst	*cmd;
 
+	if (ms->error == 1)
+		return ;
 	lexer = ms->lexer;
 	cmd = m->cmd;
 	while (lexer && cmd && ms->error == 0)

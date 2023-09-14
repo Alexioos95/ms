@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/13 14:54:32 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 15:44:28 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ char	*ft_isabuiltin(char **tab, t_shell *ms, int state)
 	if (built == NULL)
 	{
 		ms->error = 1;
-		return (close(in), close(out), NULL);
+		close(in);
+		close(out);
+		return (NULL);
 	}
 	is = ft_tabcmp(tab[0], built);
 	if (is && state == 1 && ft_dup_redir(ms->pex, ms->pex->cmd) >= 0)
@@ -82,9 +84,7 @@ char	*ft_isabuiltin(char **tab, t_shell *ms, int state)
 		ft_dupcheck(in, STDIN_FILENO, ms->pex);
 		ft_dupcheck(out, STDOUT_FILENO, ms->pex);
 	}
-	close(in);
-	close(out);
-	return (freesplit(built), is);
+	return ((void)close(in), (void)close(out), (void)freesplit(built), is);
 }
 
 t_pipex	*ft_init(t_pipex *m, int nb_cmd, char **env)
@@ -112,6 +112,6 @@ t_pipex	*ft_init(t_pipex *m, int nb_cmd, char **env)
 	m->i = m->nb_cmd % 2;
 	m->pids = malloc (sizeof(pid_t) * (unsigned long)m->nb_cmd);
 	if (!m->pids)
-		return (free(m), free(env), NULL);
+		return ((void)free(m), (void)free(env), NULL);
 	return (m);
 }

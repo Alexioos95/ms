@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:40:00 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/14 10:40:58 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 15:26:05 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	nullonreadline(struct s_shell *ms)
 
 // Boucle du shell.
 // Lire une ligne > parser > executer.
-void	loop(struct s_shell *ms)
+_Noreturn void	loop(struct s_shell *ms)
 {
 	while (1)
 	{

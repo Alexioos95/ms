@@ -6,22 +6,11 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/14 11:10:13 by eewu              #+#    #+#             */
-/*   Updated: 2023/08/02 10:59:45 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 13:06:11 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*tab;
-
-	if (size != 0 && nmemb > SIZE_MAX / size)
-		return (NULL);
-	tab = malloc(size * nmemb);
-	ft_bzero(tab, size * nmemb);
-	return (tab);
-}
 
 void	ft_bzero(void *s, size_t n)
 {
@@ -35,6 +24,17 @@ void	ft_bzero(void *s, size_t n)
 		str[i] = '\0';
 		i++;
 	}
+}
+
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	void	*tab;
+
+	if (size != 0 && nmemb > SIZE_MAX / size)
+		return (NULL);
+	tab = malloc(size * nmemb);
+	ft_bzero(tab, size * nmemb);
+	return (tab);
 }
 
 int	ft_strcmp(char *s1, char *s2)

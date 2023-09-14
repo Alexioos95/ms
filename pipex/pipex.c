@@ -6,19 +6,17 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/14 10:41:24 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 16:22:24 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-void	ft_process(t_pipex *m, t_shell *ms)
+void	ft_process(t_pipex *m)
 {
 	int			i;
-	t_lexer		*redir;
 
 	i = ft_fdspipe(m);
-	redir = ms->lexer;
 	if (m->cmd)
 		ft_fork(m);
 	if (m->cmd && m->pids[m->count] == 0)
@@ -82,7 +80,7 @@ void	ft_pipe_exec(t_pipex *m, t_shell *ms)
 	if (ms->error == 1)
 		return ;
 	while (m->nb_cmd >= 1 && ms->error == 0)
-		ft_process(m, ms);
+		ft_process(m);
 }
 
 int	ft_end(t_shell *ms)
@@ -117,9 +115,7 @@ int	ft_start(t_shell *ms)
 {
 	int			nb_cmd;
 	t_pipex		*m;
-	int			i;
 
-	i = 0;
 	ms->tabenv = listtotab(ms);
 	if (ms->tabenv == NULL)
 		return (1);
@@ -132,12 +128,14 @@ int	ft_start(t_shell *ms)
 	m->ms = ms;
 	find_cmd(m, ms);
 	if (m->s_ev == NULL || ms->error == 1)
-		return (ft_free_process(m), free(m), free(ms->tabenv), 1);
+		return ((void)ft_free_process(m), (void)free(m), \
+			(void)free(ms->tabenv), 1);
 	if (nb_cmd >= 2)
 	{
 		ft_pipe_exec(m, ms);
 		if (ms->error == 1)
-			return (ft_lstclearpipex(&m->cmd), ft_free_process(m), free(m), free(ms->tabenv), 1);
+			return ((void)ft_lstclearpipex(&m->cmd), (void)ft_free_process(m), \
+				(void)free(m), (void)free(ms->tabenv), 1);
 	}
 	else if (nb_cmd == 1)
 		ft_exec(m, ms);

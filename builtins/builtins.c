@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/04 12:19:21 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 15:36:07 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	ft_exit(struct s_shell *ms, char **tab)
 		printf("minishell: exit: too many arguments\n");
 		return (1);
 	}
-	frees(ms, ft_atoi(tab[1], &i));
+	frees(ms, (int)ft_atoi(tab[1], &i));
 	return (0);
 }
 
