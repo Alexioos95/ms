@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_test.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:58:01 by eewu              #+#    #+#             */
-/*   Updated: 2023/07/20 14:56:12 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/14 09:31:51 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,10 @@ void	print_allcmd(t_pipex *m)
 	{
 		j = 0;
 		while (tmp->tab && tmp->tab[j])
-		{
-			dprintf(2, "tab[%d][%d]:%s Bool[%d]\n", k, j, tmp->tab[j], tmp->i);
 			j++;
-		}
 		red = tmp->redirlst;
 		while (red)
-		{
-			dprintf(2, "Dir: %s\nFile: %s\n", red->token.token, red->token.file);
 			red = red->next;
-		}
 		tmp = tmp->next;
 		k++;
 	}

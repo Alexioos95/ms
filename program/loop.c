@@ -6,12 +6,13 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:40:00 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/13 14:37:28 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 10:40:58 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
+// Hub de l'executeur. Il trie le parsing, et l'execute.
 int	execution(struct s_shell *ms, struct s_lexer *lexer)
 {
 	ft_add_tokenword(lexer, ms);
@@ -35,7 +36,7 @@ int	execution(struct s_shell *ms, struct s_lexer *lexer)
 	return (0);
 }
 
-// Hub du parser.
+// Hub du parser, qui envoie le resultat dans l'executeur.
 int	parser(struct s_shell *ms)
 {
 	t_lexer	*lexer;
@@ -57,8 +58,6 @@ int	parser(struct s_shell *ms)
 	}
 	ft_lexerclear(ms->head);
 	ms->head = NULL;
-	if (ms->error == 1)
-		throwerror(ms, "a critical error occured");
 	return (ms->status);
 }
 

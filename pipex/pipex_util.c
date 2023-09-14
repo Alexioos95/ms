@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:01:50 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/13 14:29:23 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 10:36:02 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,18 @@ void	ft_cmdex(char **cmd, char **ev, t_pipex *m)
 		error_type = "Is a directory";
 	if ((m->out_rok == 0 && (m->in_rok == 0 || m->in_rok == -2)) \
 			&& cmd && m->cmd->i == 0 \
+			&& m->cmd->tab[0][0] != '\0'
 			&& !(ft_isabuiltin(m->cmd->tab, m->ms, 1)) && m->ms->error == 0)
 		execve(m->cmd->name, cmd, ev);
 	if (m->cmd->i == 13)
 		error_type = strerror(m->cmd->i);
-	if (!(ft_isabuiltin(m->cmd->tab, m->ms, 0)) && m->ms->error == 0)
+	if (m->ms->error == 0 && m->cmd->tab[0][0] != '\0' && !(ft_isabuiltin(m->cmd->tab, m->ms, 0)))
 		ft_error(cmd[0], error_type, 0, m);
+	while (m->cmd)
+	{
+		if (m->cmd->tab[0][0] == '\0')
+			free(m->cmd->tab[0]);
+		m->cmd = m->cmd->next;
+	}
 	ft_exitchild(m, m->ms->status);
 }

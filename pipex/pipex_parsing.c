@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/13 13:47:03 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 10:25:19 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ char	**ft_find_nodecmd(t_lexer **lexer, t_shell *ms)
 	while ((*lexer) && !((*lexer)->token.pipe) && ms->error == 0)
 	{
 		if ((*lexer)->tab)
+		{
 			tab = ft_realloc_tab(tab, (*lexer)->tab);
-		if (!tab)
-			ms->error = 1;
+			if (!tab)
+				ms->error = 1;
+		}
 		(*lexer) = (*lexer)->next;
 	}
 	return (tab);
@@ -111,7 +113,12 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 			if (!tab[0])
 				return ;
 			name = ft_strdup(tab[0]);
-			ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, name, -4), m);
+			if (name == NULL)
+			{
+				ms->error = 1;
+				return ;
+			}
+			ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, name, 0), m);
 			if (ms->error == 1)
 				return (free(tab));
 		}

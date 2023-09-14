@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 10:43:38 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/12 12:41:08 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/13 15:58:42 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_sigquit(int sig)
 	(void)sig;
 }
 
-// Deplace la ligne pour la boucle du shell.
+// Close le stdin pour le heredoc.
 void	ft_sigint_heredoc(int sig)
 {
 	(void)sig;

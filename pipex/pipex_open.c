@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/13 14:26:39 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 09:31:38 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	ft_openin(t_pipex *m, char *token, char *file, int ambi)
 			ft_error(m->cmd->redirlst->token.file, "ambiguous redirection", \
 			(int)m->pids[m->count], m);
 	}
-	dprintf(2, "OpENIN:%d\n", m->in_rok);
 	return (m->in[0]);
 }
 

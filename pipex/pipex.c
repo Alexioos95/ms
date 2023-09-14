@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/13 14:30:20 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 10:41:24 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ void	ft_process(t_pipex *m, t_shell *ms)
 	{
 		close(m->fds[i][1]);
 		close(m->fds[i][0]);
+		if (m->cmd->tab[0][0] == '\0')
+		{
+			free(m->cmd->tab[0]);
+			free(m->cmd->tab[1]);
+		}
 		if (pipe(m->fds[i]) == -1)
 			ft_free_process(m);
 		if (m->cmd)

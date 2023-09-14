@@ -6,15 +6,13 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 13:41:32 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/04 11:26:00 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/14 10:37:54 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
 // Augmente la valeur de SHLVL de 1.
-// S'il est a une valeur qui n'est pas entre 1 et INT_MAX
-// avant le lancement de minishell, elle devient 2 par defaut.
 void	increaseshlvl(struct s_shell *ms)
 {
 	int				nb;
