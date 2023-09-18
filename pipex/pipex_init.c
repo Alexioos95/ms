@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/14 15:44:28 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/18 13:05:57 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
+int	ft_init_cmd(t_pipex *m, t_shell *ms, int nb_cmd)
+{
+	if (nb_cmd >= 2)
+	{
+		ft_pipe_exec(m, ms);
+		if (ms->error == 1)
+			return (1);
+	}
+	else if (nb_cmd == 1)
+		ft_exec(m, ms);
+	return (0);
+}
 
 void	ft_mallocpipe(t_pipex *m)
 {
@@ -20,7 +33,6 @@ void	ft_mallocpipe(t_pipex *m)
 	m->fds = malloc (sizeof(int *) * (unsigned long)(2));
 	if (!m->fds)
 	{
-		ft_free_process(m);
 		m->ms->error = 1;
 		return ;
 	}

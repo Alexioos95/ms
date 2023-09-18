@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/18 09:40:41 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/18 13:06:32 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,22 @@ void	ft_pipe_exec(t_pipex *m, t_shell *ms)
 {
 	ft_mallocpipe(m);
 	if (ms->error == 1)
+	{
+		ft_lstclearpipex(&m->cmd);
+		ft_free_process(m);
+		free(m);
+		free(ms->tabenv);
 		return ;
+	}
 	ft_pipe(m);
 	if (ms->error == 1)
+	{
+		ft_lstclearpipex(&m->cmd);
+		ft_free_process(m);
+		free(m);
+		free(ms->tabenv);
 		return ;
+	}
 	while (m->nb_cmd >= 1 && ms->error == 0)
 		ft_process(m);
 }
@@ -127,15 +139,8 @@ int	ft_start(t_shell *ms)
 	if (m->s_ev == NULL || ms->error == 1)
 		return ((void)ft_free_process(m), (void)free(m), \
 			(void)free(ms->tabenv), 1);
-	if (nb_cmd >= 2)
-	{
-		ft_pipe_exec(m, ms);
-		if (ms->error == 1)
-			return ((void)ft_lstclearpipex(&m->cmd), (void)ft_free_process(m), \
-				(void)free(m), (void)free(ms->tabenv), 1);
-	}
-	else if (nb_cmd == 1)
-		ft_exec(m, ms);
+	if (ft_init_cmd(m, ms, nb_cmd) == 1)
+		return (1);
 	ft_closefds(m);
 	ft_end(ms);
 	free(ms->tabenv);

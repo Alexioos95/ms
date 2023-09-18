@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
+#    By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/09/14 15:48:48 by apayen           ###   ########.fr        #
+#    Updated: 2023/09/18 12:55:08 by eewu             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			pipex/pipex_util2.c					\
 			pipex/pipex_parsing.c				\
 			pipex/pipex_parsing2.c				\
+			pipex/pipex_parsing3.c				\
 			pipex/pipex_open.c					\
 			pipex/pipex_close.c					\
 			pipex/pipex_lst.c					\

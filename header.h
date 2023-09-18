@@ -211,7 +211,7 @@ char			*ft_expand_join(struct s_expand *exp, char *s1, char *s2);
 int				ft_isalnum(int c);
 int				isexp(struct s_expand *exp, char *str, int i, int j);
 void			ft_expand_initstruct(struct s_expand *exp, t_shell *ms, \
-	t_lexer *lex);
+				t_lexer *lex);
 // parsing/expand.c
 void			ft_expand_dollar(struct s_expand *exp, char *str);
 void			ft_expand_replace(struct s_expand *exp, char *str);
@@ -227,11 +227,11 @@ int				ft_heredoc_delim(char *str);
 // parsing/heredoc.c
 void			ft_heredoc_remove(struct s_lexer *lexer);
 int				ft_heredoc_end(struct s_shell *ms, char *delim, \
-	struct s_heredoc *hd);
+				struct s_heredoc *hd);
 int				ft_heredoc_loop(struct s_shell *ms, char *delim, \
-	struct s_heredoc *hd);
+				struct s_heredoc *hd);
 void			ft_heredoc_init(struct s_shell *ms, struct s_heredoc *hd, \
-	int b);
+				int b);
 void			ft_heredoc(struct s_lexer *lexer, struct s_shell *ms);
 // parsing/lst_lexer.c
 t_lexer			*ft_lstlast_lexer(t_lexer *head);
@@ -246,13 +246,13 @@ int				ft_isthereatoken(char *line, t_lexer **lexer, t_shell *ms);
 void			ft_browse(t_shell *ms);
 // parsing/tokens.c
 int				ft_goodtoken(t_shell *ms, char *line, t_tokens *token, \
-	char **word);
+				char **word);
 int				ft_goodword(char *line, t_tokens *token, char **word, \
-	int state);
+				int state);
 void			ft_add_tokenword(t_lexer *lexer, t_shell *ms);
 void			ft_add_word_to_tab(t_lexer *lexer, t_shell *ms);
 void			ft_tabptr(t_shell *ms, t_lexer *node_cmd, t_lexer *tmp, \
-	int nb_tab);
+				int nb_tab);
 
 // *************************   PIPEX   ************************* //
 // pipex/pipex_close.c
@@ -262,6 +262,7 @@ void			ft_closeoutin(t_pipex *m);
 void			ft_closefds(t_pipex *m);
 void			ft_freefds(t_pipex *m);
 // pipex/pipex_init.c
+int				ft_init_cmd(t_pipex *m, t_shell *ms, int nb_cmd);
 void			ft_mallocpipe(t_pipex *m);
 void			ft_which_builtin(char **tab, t_shell *ms);
 char			*ft_isabuiltin(char **tab, t_shell *ms, int state);
@@ -270,7 +271,7 @@ t_pipex			*ft_init(t_pipex *m, int nb_cmd, char **env);
 t_cmd_lst		*ft_pipex_lstnew(char **cmd, char *name, int i);
 t_cmd_lst		*ft_lstlast(t_cmd_lst *lst);
 void			ft_pipex_lstadd_back(t_cmd_lst **lst, t_cmd_lst *new, \
-	t_pipex *m);
+				t_pipex *m);
 void			ft_lstclearpipex(t_cmd_lst **lst);
 int				ft_lstsize(t_cmd_lst *lst);
 // pipex/pipex_open.c
@@ -281,16 +282,21 @@ int				ft_open_redir(t_cmd_lst *tmp, t_pipex *m);
 int				ft_dup_redir(t_pipex *m, t_cmd_lst *cmd);
 // pipex/pipex_parsing.c
 char			**ft_find_nodecmd(t_lexer **lexer, t_shell *ms);
-void			ft_access(t_pipex *m, char **tab, int j, int p);
+void			ft_access_while(t_pipex *m, char **tab, int p);
+void			ft_access(t_pipex *m, char **tab, int p);
 void			ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab);
-void			ft_cmd_list(t_pipex *m, t_shell *ms);
-void			find_cmd(t_pipex *m, t_shell *ms);
+void			ft_fake_command(t_pipex *m, t_shell *ms, char **tab, \
+				char *name);
 // pipex/pipex_parsing2.c
 t_redir			*ft_redir_lstnew(t_tokens token);
 t_redir			*ft_redir_lstlast(t_redir *lst);
 void			ft_redir_lstadd_back(t_redir **lst, t_redir *new, t_pipex *m);
 void			ft_redir_in_cmd(t_pipex *m, t_lexer **lexer, t_cmd_lst *cmd);
 void			ft_redir_list(t_pipex *m, t_shell *ms);
+// pipex/pipex_parsing3.c
+void			ft_cmd_list(t_pipex *m, t_shell *ms);
+void			find_cmd(t_pipex *m, t_shell *ms);
+
 // pipex/pipex_util.c
 void			ft_pipe(t_pipex *m);
 int				ft_fdspipe(t_pipex *m);
