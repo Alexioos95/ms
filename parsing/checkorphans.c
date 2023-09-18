@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 10:07:37 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/14 10:40:09 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/18 13:19:14 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	checkorphans(char *line)
 		printf("minishell: syntax error near unexpected token '|'\n");
 		return (1);
 	}
-	if (line != NULL && line[0] != '\0')
+	if (line != NULL && line[i] != '\0')
 	{
 		if (checkorphanbracket(line) == 1)
 			return (1);

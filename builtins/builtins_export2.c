@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/15 13:35:18 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/09 13:32:27 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/18 14:41:48 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_export_searchequal(char *str)
 		return (-1);
 	while (str[i] != '\0' && str[i] != '=')
 		i++;
-	if (str[i] == '\0')
+	if (str[i] == '\0' && i > 0)
 		return (-1);
 	if (i == 0)
 		printf("minishell: export: `%s': not a valid identifier\n", str);
@@ -56,7 +56,7 @@ int	ft_export_parsing(char *str)
 	i = equal;
 	while (i > -1)
 	{
-		if (ft_export_isvalid(str[i], i) == 0)
+		if (str[0] == '\0' || ft_export_isvalid(str[i], i) == 0)
 		{
 			printf("minishell: export: `%s': not a valid identifier\n", str);
 			return (0);

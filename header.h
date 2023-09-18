@@ -386,4 +386,5 @@ char			*ft_strjoin(char *s1, char *s2);
 char			*ft_strdup(char *s);
 long long int	ft_atoi(char *nptr, int *b);
 
+void			print_allcmd(t_pipex *m);
 #endif
