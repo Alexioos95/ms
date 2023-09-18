@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/14 16:22:24 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/18 09:40:41 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ void	ft_process(t_pipex *m)
 		close(m->fds[i][1]);
 		close(m->fds[i][0]);
 		if (m->cmd->tab[0][0] == '\0')
-		{
 			free(m->cmd->tab[0]);
-			free(m->cmd->tab[1]);
-		}
 		if (pipe(m->fds[i]) == -1)
 			ft_free_process(m);
 		if (m->cmd)
@@ -116,10 +113,10 @@ int	ft_start(t_shell *ms)
 	int			nb_cmd;
 	t_pipex		*m;
 
+	m = NULL;
 	ms->tabenv = listtotab(ms);
 	if (ms->tabenv == NULL)
 		return (1);
-	m = NULL;
 	nb_cmd = ft_nb_cmd(ms->lexer);
 	m = ft_init(m, nb_cmd, ms->tabenv);
 	if (!m)
@@ -145,7 +142,3 @@ int	ft_start(t_shell *ms)
 	ft_free_process(m);
 	return (0);
 }
-
-// print_allcmd(m);
-// fonction permettant de faire un test et
-// print toutes les commandes de l'exec

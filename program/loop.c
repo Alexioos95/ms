@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 12:40:00 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/14 15:26:05 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/18 09:26:16 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	execution(struct s_shell *ms, struct s_lexer *lexer)
 {
 	ft_add_tokenword(lexer, ms);
 	ft_add_word_to_tab(lexer, ms);
-	// ft_print_lexerlst(ms->lexer);
 	if (ms->error == 1)
 		return (1);
 	ft_heredoc(lexer, ms);

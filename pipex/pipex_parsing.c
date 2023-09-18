@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/14 15:47:35 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/18 09:33:51 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	ft_access(t_pipex *m, char **tab, int j, int p)
 {
 	char	*name;
 
+	if (m->ms->error == 1)
+		return ;
 	if (p == 0 || (ft_isabuiltin(tab, m->ms, 0)))
 	{
 		name = ft_strdup(tab[0]);
@@ -85,10 +87,29 @@ void	ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab)
 		access(tab[0], X_OK);
 		m->eror = errno;
 	}
-	if (m->ms->error == 0)
-		ft_access(m, tab, 0, m->eror);
+	ft_access(m, tab, 0, m->eror);
 	while ((*lexer) && !((*lexer)->token.pipe))
 		(*lexer) = (*lexer)->next;
+}
+
+void	ft_fake_command(t_pipex *m, t_shell *ms, char **tab, char *name)
+{
+	tab = ft_calloc (sizeof (char *), 2);
+	if (!tab)
+		return ;
+	tab[0] = ft_calloc(sizeof(char), 1);
+	if (!tab[0])
+	{
+		ms->error = 1;
+		return ;
+	}
+	name = ft_strdup(tab[0]);
+	if (name == NULL)
+	{
+		ms->error = 1;
+		return ;
+	}
+	ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, name, 0), m);
 }
 
 void	ft_cmd_list(t_pipex *m, t_shell *ms)
@@ -98,6 +119,7 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 	t_lexer	*lexer;
 
 	lexer = ms->lexer;
+	name = NULL;
 	while (lexer && ms->error == 0)
 	{
 		tab = ft_find_nodecmd(&lexer, ms);
@@ -105,19 +127,7 @@ void	ft_cmd_list(t_pipex *m, t_shell *ms)
 			ft_checkaccees(m, &lexer, tab);
 		else if (!tab && ms->error == 0)
 		{
-			tab = ft_calloc (sizeof (char *), 2);
-			if (!tab)
-				return ;
-			tab[0] = ft_calloc(sizeof(char), 1);
-			if (!tab[0])
-				return ;
-			name = ft_strdup(tab[0]);
-			if (name == NULL)
-			{
-				ms->error = 1;
-				return ;
-			}
-			ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, name, 0), m);
+			ft_fake_command(m, ms, tab, name);
 			if (ms->error == 1)
 				return ((void)free(tab));
 		}
@@ -155,5 +165,3 @@ void	find_cmd(t_pipex *m, t_shell *ms)
 	ft_redir_list(m, ms);
 	ft_free_tab(m->s_ev);
 }
-
-// print_allcmd(m);
