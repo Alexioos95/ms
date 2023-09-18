@@ -282,7 +282,7 @@ int				ft_open_redir(t_cmd_lst *tmp, t_pipex *m);
 int				ft_dup_redir(t_pipex *m, t_cmd_lst *cmd);
 // pipex/pipex_parsing.c
 char			**ft_find_nodecmd(t_lexer **lexer, t_shell *ms);
-void			ft_access_while(t_pipex *m, char **tab, int p);
+int				ft_access_while(t_pipex *m, char **tab, int p);
 void			ft_access(t_pipex *m, char **tab, int p);
 void			ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab);
 void			ft_fake_command(t_pipex *m, t_shell *ms, char **tab, \
@@ -386,4 +386,5 @@ char			*ft_strjoin(char *s1, char *s2);
 char			*ft_strdup(char *s);
 long long int	ft_atoi(char *nptr, int *b);
 
+void			print_allcmd(t_pipex *m);
 #endif

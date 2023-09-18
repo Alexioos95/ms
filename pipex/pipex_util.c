@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:01:50 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/14 15:48:37 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/18 16:24:43 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,12 @@ void	ft_cmdex(char **cmd, char **ev, t_pipex *m)
 		execve(m->cmd->name, cmd, ev);
 	if (m->cmd->i == 13)
 		error_type = strerror(m->cmd->i);
-	if (m->ms->error == 0 && m->cmd->tab[0][0] != '\0' \
+	if (m->ms->error == 0 && (m->cmd->tab[0][0] != '\0' || m->cmd->i != 0) \
 		&& !(ft_isabuiltin(m->cmd->tab, m->ms, 0)))
 		ft_error(cmd[0], error_type, 0, m);
 	while (m->cmd)
 	{
-		if (m->cmd->tab[0][0] == '\0')
+		if (m->cmd->tab[0][0] == '\0' && m->cmd->i == 0)
 			free(m->cmd->tab[0]);
 		m->cmd = m->cmd->next;
 	}

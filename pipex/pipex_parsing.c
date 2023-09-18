@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/18 12:46:14 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/18 16:55:59 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**ft_find_nodecmd(t_lexer **lexer, t_shell *ms)
 	return (tab);
 }
 
-void	ft_access_while(t_pipex *m, char **tab, int p)
+int	ft_access_while(t_pipex *m, char **tab, int p)
 {
 	char	*name;
 	int		j;
@@ -48,6 +48,7 @@ void	ft_access_while(t_pipex *m, char **tab, int p)
 			ft_pipex_lstadd_back(&m->cmd, ft_pipex_lstnew(tab, name, p), m);
 		}
 	}
+	return (p);
 }
 
 void	ft_access(t_pipex *m, char **tab, int p)
@@ -63,7 +64,7 @@ void	ft_access(t_pipex *m, char **tab, int p)
 	}
 	else
 	{
-		ft_access_while(m, tab, p);
+		p = ft_access_while(m, tab, p);
 		if (p != 0)
 		{
 			name = ft_strdup(tab[0]);
@@ -92,10 +93,7 @@ void	ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab)
 			m->eror = -1;
 	}
 	else
-	{
-		access(tab[0], X_OK);
-		m->eror = errno;
-	}
+		m->eror = 2;
 	ft_access(m, tab, m->eror);
 	while ((*lexer) && !((*lexer)->token.pipe))
 		(*lexer) = (*lexer)->next;
