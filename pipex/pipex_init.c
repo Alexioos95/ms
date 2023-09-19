@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/19 10:54:49 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/19 11:11:55 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ t_pipex	*ft_init(t_pipex *m, int nb_cmd, char **env)
 	m->cmd = NULL;
 	m->nb_cmd = nb_cmd;
 	m->i = m->nb_cmd % 2;
-	m->pids = malloc (sizeof(pid_t) * (unsigned long)m->nb_cmd);
+	m->pids = ft_calloc (sizeof(pid_t), (unsigned long)m->nb_cmd);
 	if (!m->pids)
 		return ((void)free(m), (void)free(env), NULL);
 	return (m);

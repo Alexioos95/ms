@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/19 10:56:14 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/19 11:12:52 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_process(t_pipex *m)
 	{
 		close(m->fds[i][1]);
 		close(m->fds[i][0]);
-		if (m->cmd->tab[0][0] == '\0')
+		if (m->cmd->i == 0 && m->cmd->tab[0][0] == '\0')
 			free(m->cmd->tab[0]);
 		if (pipe(m->fds[i]) == -1)
 			ft_free_process(m);
@@ -44,7 +44,6 @@ void	ft_exec(t_pipex *m, t_shell *ms)
 {
 	char	*builtins;
 
-	builtins = NULL;
 	m->pids[0] = -1;
 	builtins = (ft_isabuiltin(m->cmd->tab, ms, 1));
 	if (builtins == NULL)
@@ -54,6 +53,8 @@ void	ft_exec(t_pipex *m, t_shell *ms)
 			ft_childprocess(m);
 		else
 		{
+			if (m->cmd->i == 0 && m->cmd->tab[0][0] == '\0')
+				free(m->cmd->tab[0]);
 			if (m->cmd)
 				m->cmd = m->cmd->next;
 			m->nb_cmd--;
