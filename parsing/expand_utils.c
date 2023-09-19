@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 22:41:57 by marvin            #+#    #+#             */
-/*   Updated: 2023/09/11 15:30:39 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/18 14:17:57 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ int	ft_isalnum(int c)
 // Regarde si l'index i de la str est arrive a l'expand suivant.
 int	isexp(struct s_expand *exp, char *str, int i, int j)
 {
-	if (str[i] == '$' && str[i + 1] == '?')
+	if (str[i] == '$' \
+		&& (str[i + 1] == '?' || (str[i + 1] >= '0' && str[i + 1] <= '9')))
 	{
 		exp->j++;
 		return (1);

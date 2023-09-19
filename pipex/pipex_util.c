@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:01:50 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/18 16:24:43 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/19 10:52:54 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	ft_cmdex(char **cmd, char **ev, t_pipex *m)
 		ft_error(cmd[0], error_type, 0, m);
 	while (m->cmd)
 	{
-		if (m->cmd->tab[0][0] == '\0' && m->cmd->i == 0)
+		if (m->cmd->i == 0 && m->cmd->tab[0][0] == '\0')
 			free(m->cmd->tab[0]);
 		m->cmd = m->cmd->next;
 	}
