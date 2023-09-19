@@ -330,6 +330,10 @@ char			*ft_cd_proteccwd(struct s_shell *ms, char **tab, char *tmp);
 int				ft_echo_isfulln(char *str);
 int				ft_echo_option(char	**tab, int *n);
 int				ft_echo(char **tab);
+// builtins/builtins_exit.c
+void			ft_exit_free(struct s_shell *ms);
+void			ft_exit_checktab(struct s_shell *ms, char *str, int i);
+int				ft_exit(struct s_shell *ms, char **tab);
 // builtins/builtins_export.c
 int				ft_export_newnode(struct s_shell *ms, char *str);
 int				ft_export_oldnode(struct s_lst *node, char *str);
@@ -340,8 +344,6 @@ int				ft_export_isvalid(char c, int i);
 int				ft_export_searchequal(char *str);
 int				ft_export_parsing(char *str);
 // builtins/builtins.c
-void			ft_exit_checktab(struct s_shell *ms, char *str, int i);
-int				ft_exit(struct s_shell *ms, char **tab);
 int				ft_pwd(struct s_shell *ms);
 int				ft_unset(struct s_shell *ms, char **tab);
 int				ft_env(struct s_shell *ms, char **tab);
