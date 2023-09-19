@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+         #
+#    By: apayen <apayen@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/23 11:13:47 by apayen            #+#    #+#              #
-#    Updated: 2023/09/18 12:55:08 by eewu             ###   ########.fr        #
+#    Updated: 2023/09/19 09:42:19 by apayen           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ SRC = 		$(addprefix $(OBJDIR)/,				\
 			builtins/builtins_cd.c				\
 			builtins/builtins_cd2.c				\
 			builtins/builtins_echo.c			\
+			builtins/builtins_exit.c			\
 			builtins/builtins_export.c			\
 			builtins/builtins_export2.c			\
 			pipex/pipex.c						\

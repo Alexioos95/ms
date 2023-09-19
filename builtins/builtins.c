@@ -6,55 +6,11 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/23 09:24:40 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/18 15:33:41 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/19 09:39:21 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
-
-// Verifie que le tableau ne contient que des chiffres.
-void	ft_exit_checktab(struct s_shell *ms, char *str, int i)
-{
-	int	b;
-
-	b = 0;
-	ft_atoi(str, &b);
-	if (b == 1)
-	{
-		printf("minishell: exit: %s: numeric argument required\n", str);
-		frees(ms, 2);
-	}
-	while (str[i] != '\0')
-	{
-		if (str[i] < '0' || str[i] > '9')
-		{
-			printf("minishell: exit: %s: numeric argument required\n", str);
-			frees(ms, 2);
-		}
-		i++;
-	}
-}
-
-// Quitter proprement le programme.
-int	ft_exit(struct s_shell *ms, char **tab)
-{
-	int	i;
-
-	i = 0;
-	printf("exit\n");
-	if (tab[1] == NULL)
-		frees(ms, ms->status);
-	if (tab[1][0] == '-' || tab[1][0] == '+')
-		i++;
-	ft_exit_checktab(ms, tab[1], i);
-	if (tab[2] != NULL)
-	{
-		printf("minishell: exit: too many arguments\n");
-		return (1);
-	}
-	frees(ms, (int)ft_atoi(tab[1], &i));
-	return (0);
-}
 
 // Affiche le chemin actuel.
 int	ft_pwd(struct s_shell *ms)

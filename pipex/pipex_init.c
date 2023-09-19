@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/18 16:31:08 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/19 10:54:49 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	ft_mallocpipe(t_pipex *m)
 	}
 }
 
-void	ft_which_builtin(char **tab, t_shell *ms)
+void	ft_which_builtin(char **tab, t_shell *ms, char **built)
 {
 	if (ft_strncmp(tab[0], "echo", 4) == 0)
 		ms->status = ft_echo(tab);
@@ -61,7 +61,10 @@ void	ft_which_builtin(char **tab, t_shell *ms)
 	else if (ft_strncmp(tab[0], "cd", 2) == 0)
 		ms->status = ft_cd(ms, tab);
 	else if (ft_strncmp(tab[0], "exit", 4) == 0)
+	{
+		freesplit(built);
 		ms->status = ft_exit(ms, tab);
+	}
 	else if (ft_strncmp(tab[0], "env", 3) == 0)
 		ms->status = ft_env(ms, tab);
 	else if (ft_strncmp(tab[0], "unset", 5) == 0)
@@ -92,7 +95,7 @@ char	*ft_isabuiltin(char **tab, t_shell *ms, int state)
 	is = ft_tabcmp(tab[0], built);
 	if (is && state == 1 && ft_dup_redir(ms->pex, ms->pex->cmd) >= 0)
 	{
-		ft_which_builtin(tab, ms);
+		ft_which_builtin(tab, ms, built);
 		ft_dupcheck(in, STDIN_FILENO, ms->pex);
 		ft_dupcheck(out, STDOUT_FILENO, ms->pex);
 	}

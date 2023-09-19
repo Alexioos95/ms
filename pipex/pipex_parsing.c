@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 11:14:53 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/19 10:51:46 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/19 10:54:21 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ void	ft_checkaccees(t_pipex *m, t_lexer **lexer, char **tab)
 {
 	struct stat	dir;
 
-	if (((int)ft_strlen(tab[0]) >= 1) && ((tab[0][0] == '.') || \
-		(tab[0][0] == '/')))
+	ft_memset(&dir, 0, sizeof(struct stat));
+	if (tab && tab[0] && (tab[0][0] == '.' || tab[0][0] == '/'))
 	{
 		if (lstat(tab[0], &dir) == -1 && errno == ENOMEM)
 		{

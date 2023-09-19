@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 13:09:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/19 10:52:12 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/19 10:56:14 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	ft_start(t_shell *ms)
 	nb_cmd = ft_nb_cmd(ms->lexer);
 	m = ft_init(m, nb_cmd, ms->tabenv);
 	if (!m)
-		return (1);
+		return ((void)free(ms->tabenv), 1);
 	ms->pex = m;
 	m->ms = ms;
 	find_cmd(m, ms);
