@@ -264,7 +264,7 @@ void			ft_freefds(t_pipex *m);
 // pipex/pipex_init.c
 int				ft_init_cmd(t_pipex *m, t_shell *ms, int nb_cmd);
 void			ft_mallocpipe(t_pipex *m);
-void			ft_which_builtin(char **tab, t_shell *ms);
+void			ft_which_builtin(char **tab, t_shell *ms, char **built);
 char			*ft_isabuiltin(char **tab, t_shell *ms, int state);
 t_pipex			*ft_init(t_pipex *m, int nb_cmd, char **env);
 // pipex/pipex_lst.c
