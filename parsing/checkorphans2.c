@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 16:38:16 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/19 15:15:33 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/20 10:15:42 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ int	checkorphanredir_skip(char *str, int i)
 	{
 		c = str[i];
 		i++;
-		while (str[i] != c)
+		while (str[i] != '\0' && str[i] != c)
 			i++;
+		if (str[i] == '\0')
+			return (i);
 		i++;
 	}
 	return (i);

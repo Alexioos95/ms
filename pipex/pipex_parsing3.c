@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 12:43:32 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/20 10:05:36 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/20 10:39:50 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,23 @@
 
 int	ft_exitprotection(t_shell *ms, char **tab, int in, int out)
 {
+	int	i;
+
+	i = 0;
 	if (ft_strncmp(tab[0], "exit", 4) == 0)
 	{
-		if (tab[1] == NULL || (tab[1] != NULL && tab[2] == NULL))
+		while (tab[1] != NULL && tab[1][i] != '\0' && tab[1][i] >= '0' \
+			&& tab[1][i] <= '9')
+			i++;
+		if (tab[1] == NULL || (tab[1] != NULL && tab[2] == NULL) \
+			|| (tab[1] != NULL && tab[1][i] != '\0'))
 		{
 			close(in);
 			close(out);
 			close(ms->pex->bhole);
 		}
+		if (tab[1] != NULL && tab[2] != NULL && tab[1][i] == '\0')
+			return (0);
 		return (1);
 	}
 	return (0);
