@@ -6,11 +6,35 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 12:43:32 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/20 16:29:29 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/20 17:53:24 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
+int	ft_exitprotection(t_shell *ms, char **tab, int in, int out)
+{
+	int	i;
+
+	i = 0;
+	if (ft_strncmp(tab[0], "exit", 4) == 0)
+	{
+		while (tab[1] != NULL && tab[1][i] != '\0' && tab[1][i] >= '0' \
+			&& tab[1][i] <= '9')
+			i++;
+		if (tab[1] == NULL || (tab[1] != NULL && tab[2] == NULL) \
+			|| (tab[1] != NULL && tab[1][i] != '\0'))
+		{
+			close(in);
+			close(out);
+			close(ms->pex->bhole);
+		}
+		if (tab[1] != NULL && tab[2] != NULL && tab[1][i] == '\0')
+			return (0);
+		return (1);
+	}
+	return (0);
+}
 
 void	ft_cmd_list(t_pipex *m, t_shell *ms)
 {
