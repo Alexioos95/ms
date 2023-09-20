@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 12:43:32 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/19 10:55:06 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/20 16:29:29 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ void	find_cmd(t_pipex *m, t_shell *ms)
 	}
 	ft_cmd_list(m, ms);
 	ft_redir_list(m, ms);
-	ft_free_tab(m->s_ev);
+	freesplit(m->s_ev);
 }

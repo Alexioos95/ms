@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 18:53:15 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/19 11:08:17 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/20 16:27:08 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,21 @@ void	ft_free_process(t_pipex *m)
 		printf("Quit (core dumped)\n");
 }
 
-void	ft_free_tab(char **tab)
+void	ft_close_file(t_cmd_lst *cmd)
 {
-	int	i;
+	int		*fd;
+	int		i;
 
+	if (cmd)
+		fd = cmd->fd;
+	else
+		return ;
 	i = 0;
-	while (tab && tab[i])
-		free(tab[i++]);
-	free(tab);
+	while (fd && fd[i])
+	{
+		if (fd[i] >= 0)
+			close(fd[i++]);
+	}
 }
 
 void	ft_closeoutin(t_pipex *m)

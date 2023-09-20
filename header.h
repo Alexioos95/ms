@@ -28,6 +28,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 extern int				g_glob;
 
@@ -101,6 +102,7 @@ typedef struct s_redir
 {
 	struct s_tokens		token;
 	struct s_redir		*next;
+	struct s_redir		*back;
 }						t_redir;
 
 typedef struct s_cmd_lst
@@ -110,6 +112,7 @@ typedef struct s_cmd_lst
 	struct s_redir		*redirlst;
 	struct s_cmd_lst	*next;
 	int					i;
+	int					*fd;
 	char				pad[4];
 }						t_cmd_lst;
 
@@ -257,7 +260,7 @@ void			ft_tabptr(t_shell *ms, t_lexer *node_cmd, t_lexer *tmp, \
 // *************************   PIPEX   ************************* //
 // pipex/pipex_close.c
 void			ft_free_process(t_pipex *m);
-void			ft_free_tab(char **tab);
+void			ft_close_file(t_cmd_lst *cmd);
 void			ft_closeoutin(t_pipex *m);
 void			ft_closefds(t_pipex *m);
 void			ft_freefds(t_pipex *m);
@@ -273,10 +276,10 @@ t_cmd_lst		*ft_lstlast(t_cmd_lst *lst);
 void			ft_pipex_lstadd_back(t_cmd_lst **lst, t_cmd_lst *new, \
 				t_pipex *m);
 void			ft_lstclearpipex(t_cmd_lst **lst);
-int				ft_lstsize(t_cmd_lst *lst);
+int				ft_lstsize(t_redir *lst);
 // pipex/pipex_open.c
-int				ft_openin(t_pipex *m, char *token, char *file, int ambi);
-int				ft_openout(t_pipex *m, char *token, char *file, int ambi);
+int				ft_openin(t_pipex *m, t_redir *redir, t_cmd_lst *cmd);
+int				ft_openout(t_pipex *m, t_redir *redir, t_cmd_lst *cmd);
 void			ft_dupcheck(int fd, int stdfd, t_pipex *m);
 int				ft_open_redir(t_cmd_lst *tmp, t_pipex *m);
 int				ft_dup_redir(t_pipex *m, t_cmd_lst *cmd);
@@ -350,7 +353,8 @@ int				ft_env(struct s_shell *ms, char **tab);
 
 // *************************   UTILS   ************************* //
 // utils/errors_1-5.c
-int				ft_errors_1_5(int error, char *str);
+void			ft_errors_redir(t_pipex *m, t_redir *redir, \
+				int in_out, t_cmd_lst *cmd);
 void			ft_exitchild(t_pipex *m, int status_code);
 void			ft_error(char *file, char *error, int pid, t_pipex *m);
 // utils/frees.c

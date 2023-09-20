@@ -6,45 +6,50 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/19 17:46:08 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/20 17:46:29 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
 
-int	ft_openin(t_pipex *m, char *token, char *file, int ambi)
+int	ft_openin(t_pipex *m, t_redir *redir, t_cmd_lst *cmd)
 {
+	char	*token;
+	char	*file;
+	bool	bol;
+
+	token = redir->token.token;
+	file = redir->token.file;
+	bol = (bool)redir->token.ambi;
 	if (!token)
 		m->in[0] = open("/dev/stdin", O_RDONLY);
-	else if (token && ambi == 0 \
-		&& (ft_strcmp(token, "<") || ft_strcmp(token, "<<")))
+	else if (token && !bol && (ft_strcmp(token, "<") || ft_strcmp(token, "<<")))
 	{
 		m->in[0] = open(file, O_RDONLY);
 		if (m->in[0] >= 0)
 			m->in_rok = -2;
 	}
-	if (ambi == 1)
+	if (bol)
 		m->in[0] = -1;
 	if (m->in[0] >= 0 && m->in_rok != -2)
 		m->in_rok = 0;
 	else if (m->in[0] == -1)
-	{
-		if (ambi == 0)
-		{
-			m->in_rok = errno;
-			ft_error(file, strerror(m->in_rok), (int)m->pids[m->count], m);
-		}
-		else
-			ft_error(file, "ambiguous redirection", (int)m->pids[m->count], m);
-	}
+		ft_errors_redir(m, redir, 0, cmd);
 	return (m->in[0]);
 }
 
-int	ft_openout(t_pipex *m, char *token, char *file, int ambi)
+int	ft_openout(t_pipex *m, t_redir *redir, t_cmd_lst *cmd)
 {
+	char	*token;
+	char	*file;
+	int		bol;
+
+	token = redir->token.token;
+	file = redir->token.file;
+	bol = (bool)redir->token.ambi;
 	if (!token)
 		m->out = open("/dev/stdout", O_WRONLY);
-	else if (ambi == 0 && (ft_strcmp(token, ">") || ft_strcmp(token, ">>")))
+	else if (!bol && (ft_strcmp(token, ">") || ft_strcmp(token, ">>")))
 	{
 		if (ft_strcmp(token, ">"))
 			m->out = open(file, O_WRONLY | O_TRUNC);
@@ -55,13 +60,10 @@ int	ft_openout(t_pipex *m, char *token, char *file, int ambi)
 		if (m->out >= 0)
 			m->out_red = 1;
 		else
-		{
-			m->out_rok = errno;
-			ft_error(file, strerror(m->out_rok), (int)m->pids[m->count], m);
-		}
+			ft_errors_redir(m, redir, 1, cmd);
 	}
-	else if (ambi == 1)
-		ft_error(file, "ambiguous redirection", (int)m->pids[m->count], m);
+	else if (bol)
+		ft_errors_redir(m, redir, 1, cmd);
 	return (m->out);
 }
 
@@ -77,26 +79,30 @@ void	ft_dupcheck(int fd, int stdfd, t_pipex *m)
 	}
 }
 
-int	ft_open_redir(t_cmd_lst *tmp, t_pipex *m)
+int	ft_open_redir(t_cmd_lst *cmd, t_pipex *m)
 {
 	char		*token;
-	char		*file;
 	t_redir		*redir_tmp;
 	int			i;
 
 	i = 0;
-	redir_tmp = tmp->redirlst;
-	while (redir_tmp && i >= 0)
+	redir_tmp = cmd->redirlst;
+	cmd->fd = malloc(sizeof(int) * ft_lstsize(redir_tmp));
+	if (!cmd->fd)
+		return (-1);
+	while (cmd->fd && i < ft_lstsize(redir_tmp))
+		cmd->fd[i++] = 0;
+	i = 0;
+	while (redir_tmp && cmd->fd[i] >= 0)
 	{
 		token = redir_tmp->token.token;
-		file = redir_tmp->token.file;
 		if (token && (ft_strcmp(token, "<") || ft_strcmp(token, "<<")))
-			i = ft_openin(m, token, file, redir_tmp->token.ambi);
+			cmd->fd[i++] = ft_openin(m, redir_tmp, cmd);
 		else if (token && (ft_strcmp(token, ">>") || ft_strcmp(token, ">")))
-			i = ft_openout(m, token, file, redir_tmp->token.ambi);
+			cmd->fd[i++] = ft_openout(m, redir_tmp, cmd);
 		redir_tmp = redir_tmp->next;
 	}
-	return (i);
+	return (1);
 }
 
 int	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)

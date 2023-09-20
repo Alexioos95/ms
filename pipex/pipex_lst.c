@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_lst.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:48:23 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/18 14:02:27 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/20 16:13:41 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_cmd_lst	*ft_pipex_lstnew(char **cmd, char *name, int i)
 	new->name = name;
 	new->redirlst = NULL;
 	new->i = i;
+	new->fd = NULL;
 	new->next = NULL;
 	return (new);
 }
@@ -71,6 +72,8 @@ void	ft_lstclearpipex(t_cmd_lst **lst)
 		exec = (*lst)->next;
 		free((*lst)->tab);
 		free((*lst)->name);
+		if ((*lst)->fd)
+			free((*lst)->fd);
 		while ((*lst)->redirlst)
 		{
 			redir = (*lst)->redirlst->next;
@@ -82,14 +85,16 @@ void	ft_lstclearpipex(t_cmd_lst **lst)
 	}
 }
 
-int	ft_lstsize(t_cmd_lst *lst)
+int	ft_lstsize(t_redir *lst)
 {
-	int	i;
+	int		i;
+	t_redir	*tmp;
 
 	i = 0;
-	while (lst)
+	tmp = lst;
+	while (tmp)
 	{
-		lst = lst->next;
+		tmp = tmp->next;
 		i++;
 	}
 	return (i);
