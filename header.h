@@ -319,7 +319,7 @@ int				ft_start(t_shell *ms);
 // ************************* BUILT-INS ************************* //
 // builtins/builtins_cd.c
 int				ft_cd_home(struct s_shell *ms, char *tmp);
-int				ft_cd_oldpwd(struct s_shell *ms, char *tmp);
+int				ft_cd_oldpwd(struct s_shell *ms, char *tmp, int b);
 int				ft_cd_nothome(struct s_shell *ms, char *str, char *tmp);
 int				ft_cd(struct s_shell *ms, char **tab);
 // builtins/builtins_cd2.c
