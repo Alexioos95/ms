@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/09 13:30:55 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/20 09:36:09 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,47 @@ void	ft_cd_actualizeenv(struct s_shell *ms, char *tmp)
 	free(tmp);
 }
 
+int	ft_cd_removedparent(struct s_shell *ms, char **tab, char *tmp)
+{
+	int		i;
+	char	*pwd;
+
+	pwd = ft_strdup(&ms->pwdpath[4]);
+	if (pwd == NULL)
+		throwerror(ms, "malloc");
+	i = ft_strlen(pwd);
+	while (pwd[i - 2] != '/')
+		i--;
+	pwd[i - 2] = '\0';
+	if (chdir(pwd) == -1)
+	{
+		free(pwd);
+		printf("minishell: cd: %s: %s\n", tab[1], strerror(errno));
+		return (1);
+	}
+	free(pwd);
+	tmp = ft_strdup(&ms->pwdpath[4]);
+	if (tmp == NULL)
+		throwerror(ms, "malloc");
+	ft_cd_actualizeenv(ms, tmp);
+	ft_cd_actualizepwd(ms);
+	return (0);
+}
+
 // Protecte getcwd en cas de fail.
 char	*ft_cd_proteccwd(struct s_shell *ms, char **tab, char *tmp)
 {
 	if (errno == ENOMEM)
 		throwerror(ms, "cd");
-	if (tab[1] != NULL && ft_strncmp(tab[1], "-", 2) != 0)
+	if (tab[1] != NULL && ft_strncmp(tab[1], "..", 3) == 0)
+	{
+		if (chdir(&ms->oldpwdpath[7]) == -1)
+		{
+			printf("minishell: cd: %s: %s\n", tab[1], strerror(errno));
+			return (NULL);
+		}
+	}
+	else if (tab[1] != NULL && ft_strncmp(tab[1], "-", 2) != 0)
 	{
 		printf("minishell: cd: %s: %s\n", tab[1], strerror(errno));
 		return (NULL);

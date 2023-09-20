@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 15:32:17 by apayen            #+#    #+#             */
-/*   Updated: 2023/08/09 10:04:16 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/20 09:42:42 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	ft_cd_home(struct s_shell *ms, char *tmp)
 		printf("minishell: chdir: %s: %s\n", &node->line[5], strerror(errno));
 		return (1);
 	}
+	ft_cd_actualizeenv(ms, tmp);
+	ft_cd_actualizepwd(ms);
 	return (0);
 }
 
@@ -58,6 +60,8 @@ int	ft_cd_oldpwd(struct s_shell *ms, char *tmp)
 		return (1);
 	}
 	printf("%s\n", &ms->oldpwdpath[7]);
+	ft_cd_actualizeenv(ms, tmp);
+	ft_cd_actualizepwd(ms);
 	return (0);
 }
 
@@ -72,6 +76,8 @@ int	ft_cd_nothome(struct s_shell *ms, char *str, char *tmp)
 		printf("minishell: cd: %s: %s\n", str, strerror(errno));
 		return (1);
 	}
+	ft_cd_actualizeenv(ms, tmp);
+	ft_cd_actualizepwd(ms);
 	return (0);
 }
 
@@ -81,10 +87,7 @@ int	ft_cd(struct s_shell *ms, char **tab)
 	char	*tmp;
 
 	if (tab[1] != NULL && tab[2] != NULL)
-	{
-		printf("minishell: cd: too many arguments\n");
-		return (1);
-	}
+		return ((void)printf("minishell: cd: too many arguments\n"), 1);
 	tmp = getcwd(NULL, 0);
 	if (tmp == NULL)
 	{
@@ -92,14 +95,17 @@ int	ft_cd(struct s_shell *ms, char **tab)
 		if (tmp == NULL)
 			return (1);
 	}
-	if (tab[1] == NULL && ft_cd_home(ms, tmp) == 1)
+	if (tmp[0] == '\0' && ft_strncmp(tab[1], "..", 2) == 0 \
+		&& ft_cd_removedparent(ms, tab, tmp) == 1)
 		return (1);
-	else if (tab[1] != NULL && ft_strncmp(tab[1], "-", 2) == 0 \
-		&& ft_cd_oldpwd(ms, tmp) == 1)
-		return (1);
-	else if (tab[1] != NULL && ft_cd_nothome(ms, tab[1], tmp) == 1)
-		return (1);
-	ft_cd_actualizeenv(ms, tmp);
-	ft_cd_actualizepwd(ms);
+	else
+	{
+		if (tab[1] == NULL && ft_cd_home(ms, tmp) == 1)
+			return (1);
+		else if (tab[1] != NULL && ft_strncmp(tab[1], "-", 2) == 0)
+			return (ft_cd_oldpwd(ms, tmp));
+		else if (tab[1] != NULL && ft_strncmp(tab[1], "-", 2) != 0)
+			return (ft_cd_nothome(ms, tab[1], tmp));
+	}
 	return (0);
 }

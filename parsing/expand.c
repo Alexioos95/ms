@@ -69,7 +69,13 @@ void	ft_expand_replace(struct s_expand *exp, char *str)
 // Separe la str 2 parties : L'expand a travailler immediatement, et le reste.
 void	ft_expand_init(struct s_expand *exp, char *str, int i, int j)
 {
+	int	k;
+
+	k = i;
+	if (str[0] == '$' && (str[1] == '"' || str[1] == '\''))
+		i = -1;
 	exp->buff = ft_expand_join(exp, exp->buff, ft_substr(str, 0, i));
+	i = k;
 	if (exp->c == '"')
 		exp->split[0] = ft_substr(str, i + 1, j - i - 1);
 	else
@@ -83,9 +89,13 @@ void	ft_expand_init(struct s_expand *exp, char *str, int i, int j)
 char	*ft_expand_start(struct s_expand *exp, char *str)
 {
 	exp->i = 0;
-	while (str[exp->i] != '\0' && str[exp->i] != '$' \
-		&& str[exp->i] != '\'' && str[exp->i] != '"')
+	while (str[exp->i] != '\0' && str[exp->i] != '\'' && str[exp->i] != '"')
+	{
+		if (str[exp->i] == '$' && str[exp->i + 1] != '"' \
+			&& str[exp->i + 1] != '\'')
+			break ;
 		exp->i++;
+	}
 	if (str[exp->i] == '\0')
 	{
 		exp->buff = ft_expand_join(exp, exp->buff, str);

@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:05:22 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/14 13:05:13 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/20 09:57:06 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*ft_substr(char *s, int start, int len)
 	char	*strmalloc;
 
 	i = 0;
-	if (start >= ft_strlen(s))
+	if (start >= ft_strlen(s) || len == -1)
 	{
 		strmalloc = malloc(sizeof(char) * 1);
 		strmalloc[0] = '\0';

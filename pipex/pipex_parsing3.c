@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_parsing3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 12:43:32 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/19 10:55:06 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/20 10:05:36 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header.h"
+
+int	ft_exitprotection(t_shell *ms, char **tab, int in, int out)
+{
+	if (ft_strncmp(tab[0], "exit", 4) == 0)
+	{
+		if (tab[1] == NULL || (tab[1] != NULL && tab[2] == NULL))
+		{
+			close(in);
+			close(out);
+			close(ms->pex->bhole);
+		}
+		return (1);
+	}
+	return (0);
+}
 
 void	ft_cmd_list(t_pipex *m, t_shell *ms)
 {

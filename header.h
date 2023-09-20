@@ -201,6 +201,7 @@ int				checkorphans(char *line);
 // parsing/checkorphans2.c
 int				checkorphanredir(char *line);
 int				checkorphanpipe(char *line);
+int				checkorphanredir_skip(char *str, int i);
 // parsing/expand_dquote.c
 int				ft_expand_ambiguous(struct s_expand *exp, char *str);
 void			ft_expand_dquotereplace(struct s_expand *exp);
@@ -264,7 +265,7 @@ void			ft_freefds(t_pipex *m);
 // pipex/pipex_init.c
 int				ft_init_cmd(t_pipex *m, t_shell *ms, int nb_cmd);
 void			ft_mallocpipe(t_pipex *m);
-void			ft_which_builtin(char **tab, t_shell *ms, char **built);
+void			ft_which_builtin(char **tab, t_shell *ms);
 char			*ft_isabuiltin(char **tab, t_shell *ms, int state);
 t_pipex			*ft_init(t_pipex *m, int nb_cmd, char **env);
 // pipex/pipex_lst.c
@@ -294,9 +295,9 @@ void			ft_redir_lstadd_back(t_redir **lst, t_redir *new, t_pipex *m);
 void			ft_redir_in_cmd(t_pipex *m, t_lexer **lexer, t_cmd_lst *cmd);
 void			ft_redir_list(t_pipex *m, t_shell *ms);
 // pipex/pipex_parsing3.c
+int				ft_exitprotection(t_shell *ms, char **tab, int in, int out);
 void			ft_cmd_list(t_pipex *m, t_shell *ms);
 void			find_cmd(t_pipex *m, t_shell *ms);
-
 // pipex/pipex_util.c
 void			ft_pipe(t_pipex *m);
 int				ft_fdspipe(t_pipex *m);
@@ -325,6 +326,7 @@ int				ft_cd(struct s_shell *ms, char **tab);
 void			ft_cd_actualizepwd(struct s_shell *ms);
 void			ft_cd_changeenv(struct s_shell *ms, char *tmp, char *str);
 void			ft_cd_actualizeenv(struct s_shell *ms, char *tmp);
+int				ft_cd_removedparent(struct s_shell *ms, char **tab, char *tmp);
 char			*ft_cd_proteccwd(struct s_shell *ms, char **tab, char *tmp);
 // builtins/builtins_echo.c
 int				ft_echo_isfulln(char *str);
