@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/18 12:47:24 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/19 17:46:08 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_openin(t_pipex *m, char *token, char *file, int ambi)
 		m->in[0] = -1;
 	if (m->in[0] >= 0 && m->in_rok != -2)
 		m->in_rok = 0;
-	else if (m->in[0] == -1 && m->in_rok != -2)
+	else if (m->in[0] == -1)
 	{
 		if (ambi == 0)
 		{
@@ -57,13 +57,11 @@ int	ft_openout(t_pipex *m, char *token, char *file, int ambi)
 		else
 		{
 			m->out_rok = errno;
-			ft_error(m->cmd->redirlst->token.file, strerror(m->in_rok), \
-			(int)m->pids[m->count], m);
+			ft_error(file, strerror(m->out_rok), (int)m->pids[m->count], m);
 		}
 	}
 	else if (ambi == 1)
-		ft_error(m->cmd->redirlst->token.file, "ambiguous redirection", \
-		(int)m->pids[m->count], m);
+		ft_error(file, "ambiguous redirection", (int)m->pids[m->count], m);
 	return (m->out);
 }
 
