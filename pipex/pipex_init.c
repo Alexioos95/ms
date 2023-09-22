@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/20 10:37:00 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/21 11:55:33 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,7 @@ char	*ft_isabuiltin(char **tab, t_shell *ms, int state)
 	out = dup(STDOUT_FILENO);
 	built = ft_split("cd echo env exit export pwd unset", ' ');
 	if (built == NULL)
-	{
-		ms->error = 1;
-		return ((void)close(in), (void)close(out), NULL);
-	}
+		return (ms->error = 1, (void)close(in), (void)close(out), NULL);
 	is = ft_tabcmp(tab[0], built);
 	if (is && state == 1 && ft_dup_redir(ms->pex, ms->pex->cmd) >= 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:01:50 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/20 12:15:06 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/21 16:03:34 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	ft_childprocess(t_pipex *m)
 		ft_dupcheck(m->fds[i][0], STDIN_FILENO, m);
 	if (m->ms->error == 0 && m->nb_cmd > 1 && m->out_red != 1)
 		ft_dupcheck(m->fds[m->i][1], STDOUT_FILENO, m);
-	if (m->ms->error == 1)
+	if (m->ms->error != 0)
 		return ;
 	dup_redir = ft_dup_redir(m, m->cmd);
 	if (m->ms->error == 0)

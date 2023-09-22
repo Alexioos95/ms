@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/20 17:46:29 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/21 16:28:05 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,14 @@ int	ft_open_redir(t_cmd_lst *cmd, t_pipex *m)
 
 	i = 0;
 	redir_tmp = cmd->redirlst;
-	cmd->fd = malloc(sizeof(int) * ft_lstsize(redir_tmp));
+	if (!cmd->fd)
+		cmd->fd = malloc(sizeof(int) * ft_lstsize(redir_tmp));
 	if (!cmd->fd)
 		return (-1);
-	while (cmd->fd && i < ft_lstsize(redir_tmp))
+	while (i < ft_lstsize(redir_tmp))
 		cmd->fd[i++] = 0;
 	i = 0;
-	while (redir_tmp && cmd->fd[i] >= 0)
+	while (redir_tmp)
 	{
 		token = redir_tmp->token.token;
 		if (token && (ft_strcmp(token, "<") || ft_strcmp(token, "<<")))
@@ -110,7 +111,6 @@ int	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
 	t_cmd_lst	*tmp;
 	int			i;
 
-	i = 0;
 	tmp = cmd;
 	if (!cmd)
 		return (-1);
