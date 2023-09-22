@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_parsing2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 12:50:02 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/14 15:46:41 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/20 14:31:38 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_redir	*ft_redir_lstnew(t_tokens token)
 		return (0);
 	new->token = token;
 	new->next = NULL;
+	new->back = NULL;
 	return (new);
 }
 
@@ -50,6 +51,7 @@ void	ft_redir_lstadd_back(t_redir **lst, t_redir *new, t_pipex *m)
 	}
 	last = ft_redir_lstlast(*lst);
 	last->next = new;
+	new->back = last;
 }
 
 void	ft_redir_in_cmd(t_pipex *m, t_lexer **lexer, t_cmd_lst *cmd)
