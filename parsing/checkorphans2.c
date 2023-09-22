@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 16:38:16 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/20 10:15:42 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/22 10:56:11 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,10 @@ int	checkorphanpipe(char *line)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
 	while (line[i] != '\0')
 	{
-		while (line[i] == ' ')
-			i++;
+		i = checkorphanredir_skip(line, i);
 		if (line[i] == '\0')
 			return (0);
 		if (line[i] == '|')
