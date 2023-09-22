@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_parsing3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 12:43:32 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/20 17:53:24 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/22 09:38:54 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	ft_exitprotection(t_shell *ms, char **tab, int in, int out)
 	i = 0;
 	if (ft_strncmp(tab[0], "exit", 4) == 0)
 	{
+		if (tab[1] != NULL && (tab[1][0] == '-' || tab[1][0] == '+'))
+			i++;
 		while (tab[1] != NULL && tab[1][i] != '\0' && tab[1][i] >= '0' \
 			&& tab[1][i] <= '9')
 			i++;
