@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:06:19 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/19 13:59:55 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/22 09:35:23 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	ft_heredoc_end(struct s_shell *ms, char *delim, struct s_heredoc *hd)
 		printf("%d delimited by end-of-file (wanted `%s')\n", hd->i, delim);
 		return (1);
 	}
-	else if (ft_strncmp(hd->line, delim, (size_t)ft_strlen(hd->line)) == 0)
+	else if (ft_strncmp(hd->line, delim, (size_t)ft_strlen(delim)) == 0 \
+		&& ft_strlen(hd->line) == ft_strlen(delim))
 	{
 		free(hd->line);
 		close(hd->fd);

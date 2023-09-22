@@ -6,7 +6,7 @@
 /*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 09:39:05 by apayen            #+#    #+#             */
-/*   Updated: 2023/09/20 10:30:26 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/22 09:33:41 by apayen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ void	ft_exit_checktab(struct s_shell *ms, char *str, int i)
 
 	b = 0;
 	ft_atoi(str, &b);
-	if (b == 1)
+	if (b == 1 || ((str[0] == '-' || str[0] == '+') && str[1] == '\0'))
 	{
 		printf("minishell: exit: %s: numeric argument required\n", str);
+		ft_exit_free(ms);
 		frees(ms, 2);
 	}
 	while (str[i] != '\0')
