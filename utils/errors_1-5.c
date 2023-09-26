@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 11:25:41 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/20 16:25:50 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/22 11:44:51 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_errors_redir(t_pipex *m, t_redir *redir, int in_out, t_cmd_lst *cmd)
 
 	file = redir->token.file;
 	ambi = redir->token.ambi;
+	m->red_nok = 1;
 	ft_close_file(cmd);
 	if (in_out == 0 && ambi == 0)
 	{

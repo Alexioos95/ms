@@ -121,6 +121,7 @@ typedef struct s_pipex
 	int					count;
 	int					i;
 	int					eror;
+	int					red_nok;
 	int					in[2];
 	int					out;
 	int					bhole;

@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 18:53:15 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/20 16:27:08 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/22 12:30:18 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	ft_closeoutin(t_pipex *m)
 {
 	if (m->in[0] >= 0)
 		close(m->in[0]);
-	if (m->in[1] >= 0)
-		close(m->in[1]);
 	if (m->out >= 0)
 		close(m->out);
 	if (m->bhole >= 0)

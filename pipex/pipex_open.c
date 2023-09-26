@@ -6,7 +6,7 @@
 /*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 12:03:42 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/20 17:46:29 by eewu             ###   ########.fr       */
+/*   Updated: 2023/09/22 12:29:50 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,19 +87,22 @@ int	ft_open_redir(t_cmd_lst *cmd, t_pipex *m)
 
 	i = 0;
 	redir_tmp = cmd->redirlst;
-	cmd->fd = malloc(sizeof(int) * ft_lstsize(redir_tmp));
+	if (!cmd->fd)
+		cmd->fd = malloc(sizeof(int) * ft_lstsize(redir_tmp));
 	if (!cmd->fd)
 		return (-1);
-	while (cmd->fd && i < ft_lstsize(redir_tmp))
+	while (i < ft_lstsize(redir_tmp))
 		cmd->fd[i++] = 0;
 	i = 0;
-	while (redir_tmp && cmd->fd[i] >= 0)
+	while (redir_tmp)
 	{
 		token = redir_tmp->token.token;
 		if (token && (ft_strcmp(token, "<") || ft_strcmp(token, "<<")))
 			cmd->fd[i++] = ft_openin(m, redir_tmp, cmd);
 		else if (token && (ft_strcmp(token, ">>") || ft_strcmp(token, ">")))
 			cmd->fd[i++] = ft_openout(m, redir_tmp, cmd);
+		if (m->red_nok == 1)
+			return (-1);
 		redir_tmp = redir_tmp->next;
 	}
 	return (1);
@@ -110,16 +113,13 @@ int	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
 	t_cmd_lst	*tmp;
 	int			i;
 
-	i = 0;
 	tmp = cmd;
 	if (!cmd)
 		return (-1);
-	m->bhole = open("/dev/null", O_WRONLY);
+	if (m->bhole < 0)
+		m->bhole = open("/dev/null", O_WRONLY);
 	if (m->bhole == -1)
-	{
-		m->ms->error = 1;
-		return (-1);
-	}
+		return (m->ms->error = 1, -1);
 	i = ft_open_redir(tmp, m);
 	if (m->in_rok > 0 || m->cmd->i != 0)
 		ft_dupcheck(m->bhole, STDIN_FILENO, m);
@@ -127,5 +127,10 @@ int	ft_dup_redir(t_pipex *m, t_cmd_lst *cmd)
 		ft_dupcheck(m->in[0], STDIN_FILENO, m);
 	if (m->out >= 0)
 		ft_dupcheck(m->out, STDOUT_FILENO, m);
+	if (m->bhole >= 0)
+	{
+		close(m->bhole);
+		m->bhole = -1;
+	}
 	return (i);
 }

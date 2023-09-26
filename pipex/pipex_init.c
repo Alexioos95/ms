@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 12:08:14 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/20 10:37:00 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/22 11:48:58 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,14 @@ char	*ft_isabuiltin(char **tab, t_shell *ms, int state)
 	out = dup(STDOUT_FILENO);
 	built = ft_split("cd echo env exit export pwd unset", ' ');
 	if (built == NULL)
-	{
-		ms->error = 1;
-		return ((void)close(in), (void)close(out), NULL);
-	}
+		return (ms->error = 1, (void)close(in), (void)close(out), NULL);
 	is = ft_tabcmp(tab[0], built);
-	if (is && state == 1 && ft_dup_redir(ms->pex, ms->pex->cmd) >= 0)
+	if (is && state == 1)
 	{
 		if (ft_exitprotection(ms, tab, in, out) == 1)
 			freesplit(built);
-		ft_which_builtin(tab, ms);
+		if (ft_dup_redir(ms->pex, ms->pex->cmd) >= 0)
+			ft_which_builtin(tab, ms);
 		ft_dupcheck(in, STDIN_FILENO, ms->pex);
 		ft_dupcheck(out, STDOUT_FILENO, ms->pex);
 	}
@@ -106,7 +104,7 @@ t_pipex	*ft_init(t_pipex *m, int nb_cmd, char **env)
 		return (0);
 	m->count = 0;
 	m->in[0] = -1;
-	m->in[1] = -1;
+	m->red_nok = 0;
 	m->pipe = 0;
 	m->out = -1;
 	m->out_red = 0;
@@ -118,7 +116,6 @@ t_pipex	*ft_init(t_pipex *m, int nb_cmd, char **env)
 	m->limit = NULL;
 	m->ev = env;
 	m->s_ev = NULL;
-	m->av = NULL;
 	m->cmd = NULL;
 	m->nb_cmd = nb_cmd;
 	m->i = m->nb_cmd % 2;

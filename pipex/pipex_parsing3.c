@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_parsing3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: apayen <apayen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eewu <eewu@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 12:43:32 by eewu              #+#    #+#             */
-/*   Updated: 2023/09/22 09:38:54 by apayen           ###   ########.fr       */
+/*   Updated: 2023/09/22 12:19:20 by eewu             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	ft_exitprotection(t_shell *ms, char **tab, int in, int out)
 		{
 			close(in);
 			close(out);
-			close(ms->pex->bhole);
+			if (ms->pex->bhole >= 0)
+				close(ms->pex->bhole);
 		}
 		if (tab[1] != NULL && tab[2] != NULL && tab[1][i] == '\0')
 			return (0);
